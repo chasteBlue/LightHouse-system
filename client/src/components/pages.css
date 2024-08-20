@@ -1,0 +1,615 @@
+/*Login Guest-----------------------------------------------*/
+.login-page, .sign-up-page{
+  position: relative;
+  height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('../images/icons/icon2.png'); 
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: left;
+  z-index: 1; 
+}
+
+.login-container {
+  position: absolute;
+  right: 10%;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.8); 
+  padding: 20px;
+  border-radius: 8px;
+  max-width: 700px;
+  width: 100%;
+  z-index: 3;
+}
+
+.login-container .container-white {
+  background-color: #D7F2F7;
+}
+
+.container-white .login-title {
+  margin-bottom: 20px;
+  color: #0077B7;
+  font-size: larger;
+}
+
+.field {
+  margin-bottom: 3%;
+  flex: 1;
+  min-width: 200px; 
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.auth_space {
+  display: flex;
+  flex-wrap: wrap; 
+  flex-direction: row;
+  width: 100%;
+  gap: 20px;
+  align-items: center;
+}
+
+/*Login Guest-----------------------------------------------*/
+
+
+.is-color{
+  background-color: #D7F2F7;
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  height: 80vh; 
+}
+
+.hero-body {
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  height: 50%;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.floating-container {
+  position: relative;
+  left: 50%;
+  transform: translate(-50%, -50%); 
+  z-index: 2; 
+  width: 90%;
+  max-width: 1000px;
+  margin: 1%;
+}
+
+.search{
+  left: 20%;
+  transform: translate(-50%, -50%); 
+  width: 40%;
+}
+  
+.container-white, .about-white {
+  background-color: #ffffff; 
+  padding: 20px; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+}
+  
+.checkdate, .room_choice  {
+    display: flex;
+    background-color: #D7F2F7;
+    flex-wrap: wrap; 
+    border-radius: 30px 30px 30px 30px;
+    padding: 30px 30px;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin: 5px 10px;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    width: 100%;
+    min-width: 200px; 
+}
+
+input[type="date"],
+input[type="number"],
+input[type="email"],
+input[type="password"],
+input[type="text"]{
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-top: 5px;
+}
+
+.select-gender select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+  appearance: none;
+}
+.select-gender {
+  width: 100%;
+}
+
+.select-gender .select select {
+  width: 100%;
+}
+
+
+/*Services-----------------------------------------------------------------------------------*/
+.property-views-container {
+  width: 100%;
+  height: auto;
+  padding: 24px 64px;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.property-images {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap; 
+}
+
+.property-card {
+  flex: 1;
+  min-width: 150px; 
+  max-width: 100%; 
+  height: auto; 
+  padding: 24px;
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #D9D9D9;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.property-image {
+  width: 100%;
+  max-width: 357px;
+  max-height: 170px;
+  height:100%;
+  background: linear-gradient(0deg, #E3E3E3 0%, #E3E3E3 100%);
+}
+
+.property-description {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  text-align: center; /* Center text for a clean look */
+}
+
+.virtual-tour-button {
+  padding: 12px;
+  background: #00B4D7;
+  border-radius: 8px;
+  border: 1px solid #00B4D7;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.virtual-tour-button .button-text {
+  color: white;
+  line-height: 1;
+  word-wrap: break-word;
+}
+.about-space{
+  padding: 5px 10px;
+}
+.container .h2, .about-space p{
+  line-height: 2.0rem;
+}
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  flex-direction: row;
+  max-width:max-content;
+  justify-content:space-between;
+}
+.card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  width: 30%;
+}
+
+.info {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
+
+.icon {
+  width: 26.67px;
+  height: 26.67px;
+  position: absolute;
+  border: 3px solid #1E1E1E;
+  left: 2.67px;
+  top: 2.67px;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.panel-image-double {
+  width: 100%;
+  max-width: 1440px;
+  padding: 20px;
+  background: #0077B7;
+  opacity: 0.8;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.image-placeholder {
+  flex: 1 1 100%;
+  height: 100px;
+  background: linear-gradient(0deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 100%);
+  border-top-left-radius: 100px;
+  border-top-right-radius: 300px;
+}
+.image {
+
+  height: auto;
+  border-top-left-radius: 100px;
+  border-top-right-radius: 300px;
+  width: 45%;
+}
+.flipped {
+  transform: scaleX(-1);
+}
+
+.about-us-container {
+  width: 100%;
+  padding: 32px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.flex-boxes-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.flex-column{
+  flex-direction: row;
+  gap: 20px;
+  justify-content: space-between;
+  display: flex;
+}
+
+.flex-box {
+  flex: 1;
+  background: #00B4D7;
+  padding: 24px;
+  border-radius: 8px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flex-box-head {
+  flex: 1;
+  background: #D7F2F7;
+  padding: 5% 10%;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.flex-image {
+  width: 100%;
+  max-height:fit-content;
+  height:100%;
+  background: linear-gradient(0deg, #E3E3E3 0%, #E3E3E3 100%);
+}
+
+.flex-box-title {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.flex-box-content {
+  font-size: 16px;
+  color: #333;
+}
+
+.full-width-box {
+  background: #e0e0e0;
+  padding: 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.full-width-title {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.full-width-content {
+  font-size: 16px;
+  color: #333;
+}
+/*Start Contact-----------------------------------------------------------------------------------*/
+.contact-hero-image {
+  width: 100%;
+  height: 10%;
+  background: linear-gradient(0deg, #99DCEB 0%, #99DCEB 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.text-content-title {
+  padding: 4%;
+  display: flex;
+  flex-direction: column;
+  justify-content:left;
+}
+
+.text-content-title h1{
+  line-height: 1.5em;
+}
+
+.contact-details {
+  padding: 1% 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.details {
+  width: 60%;
+  padding: 1% 0% 1% 5%;
+}
+
+.details h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.details ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.details li {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.details li h4, .details li p {
+  margin: 0;
+  margin-left: 1rem;
+}
+
+.map-container {
+  flex: 1;
+  height: 400px; 
+}
+
+/*End Contact-----------------------------------------------------------------------------------*/
+/*Start faq-------------------------------------------------------------------------------------*/
+.faq-column{
+  padding: 2% 0%;
+}
+.menu-list li{
+  margin: 5% 0;;
+}
+/*End faq-------------------------------------------------------------------------------------*/
+/*Start Terms---------------------------------------------------------------------------------*/
+.terms-space{
+  padding: 3%;
+}
+/*End Terms---------------------------------------------------------------------------------*/
+
+
+
+
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+.login-page {
+  height: 100vh;
+}
+.sign-up-page{
+  height: 130vh;
+}
+.login-container {
+  top: 50%;
+}
+  input[type="date"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+  padding: 4px;
+  border-radius: 6px;
+  margin-top: 3px;
+}
+.hero-body {
+  padding: 0.4rem;
+}
+.checkdate {
+    flex-direction: column; 
+    align-items: stretch; 
+}
+.room_choice {
+  flex-direction: column; 
+  align-items: stretch; 
+}
+.input-container {
+    width: 100%; 
+    margin-bottom: 3px; 
+}
+.property-views-container {
+    width: 100%;
+    flex-direction: column;
+    padding: 10px 20px;
+    gap: 5px;
+}
+.container .h2, .about-space p{
+  line-height: 1.3rem;
+}
+.cards {
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.card {
+  width: 100%;
+}
+.property-images {
+  flex-direction:column; 
+  gap: 5px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.property-image {
+  padding: 1%;
+}
+.property-card {
+    width: 100%;
+    padding: 2%;
+}
+.panel-image-double {
+  flex-wrap: nowrap;
+  gap: 24px;
+}
+.image-placeholder, .image {
+  flex: 1 1 auto;
+  max-width: calc(50% - 24px);
+}
+.flex-boxes-container {
+  flex-direction: row;
+}
+.flex-box {
+  flex: 1;
+}
+.flex-column{
+  flex-direction: column;
+  gap: 5px;
+  align-items: center;
+}
+.text-content-title {
+  padding: 1%;
+}
+.contact-details{
+  flex-direction: column;
+}
+.details{
+  width: 100%;
+  margin-bottom: 30px;
+  padding: 1%;
+}
+.contact-details .map-container{
+  width: 100%;
+}
+}
+
+@media (max-width:635px){
+  .login-page {
+    max-height: 100vh;
+  }
+  .sign-up-page{
+    max-height: 150vh;
+  }
+  .login-container {
+    top: 55%;
+    right: 0%;
+  }
+  .auth_space {
+    width: 100%;
+    gap: 5px;
+  }
+  .login-page {
+    height: 100vh;
+  }
+  input[type="date"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+  padding: 2px;
+  border-radius: 3px;
+  margin-top: 3px;
+}
+  .hero {
+    height: 100vh; 
+  }
+  .contact-details .details h3,.text-content-title h1, .container h2{
+    font-size: 14px;
+  }
+  .text-content-title h3, .container h3{
+    font-size: 12px;
+  }
+  
+  .hero-body {
+    padding: 0.2rem;
+  }
+  .floating-container {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+    z-index: 2; 
+    width: 90%;
+    max-width: 1000px;
+    margin: 1%;
+  }
+.text-content-title {
+    padding: 10px;
+  }
+}
+
+
