@@ -1,5 +1,4 @@
 /*TEXT----------------------------------------------------------------------*/
-/* Default Styles for Typography */
 body {
   line-height: 0.5;
   margin: 20px;
@@ -173,13 +172,38 @@ h6 {
   color: #fff; 
   border-color: #007bff; 
 }
+.button.is-dark-blue  {
+  background-color: #010069; 
+  color: #fff; 
+  border-color: #010069; 
+}
+.button.is-red  {
+  background-color: #B70000; 
+  color: #fff; 
+  border-color: #7a0101; 
+}
 
-.button.is-blue:hover {
+.button.is-blue:hover{
   background-color: #036da7; 
   border-color: #0056b3;
 }
+.button.is-red:hover  {
+  background-color: #d80303; 
+  border-color: #a10101; 
+}
 
-.button.is-blue:focus, .button.is-blue:active {
+.button.is-dark-blue:hover {
+  background-color: #0300ad; 
+  border-color: #010069;
+}
+
+.button.is-blue:focus,.button.is-red:focus .button.is-blue:active, .button.is-dark-blue:focus {
   box-shadow: none; 
+}
+
+.icon-button-space{
+  margin-right: 5px;
+  align-items: center;
+  text-align: center;
 }
 /*BUTTONS------------------------------------------------------------------*/

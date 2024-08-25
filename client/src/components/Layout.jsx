@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
         <React.Fragment>
             <Navbar />
             <div className="column">
-                <main style={{ paddingTop: '4rem' }}>{children}</main> {/* Adjust paddingTop as needed */}
+                <main style={{ paddingTop: '4rem' }}>{children}</main>
                 {!hideFooter && <Footer />}
             </div>
         </React.Fragment>

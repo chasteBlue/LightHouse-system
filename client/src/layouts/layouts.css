@@ -83,6 +83,26 @@ li{
     justify-content: center; 
   }
 
+  .aside-space{
+    margin: 0 0 0 40px ;
+    padding: 0 20px 0 0;
+  }
+
+  .menu-list li a, .side-color{
+    background-color: #0369A1;
+    height: 100%;
+  }
+  .menu-list li a:hover{
+    background-color: #0085cc;
+    margin: 5px;
+  }
+  .menu p, .menu li a{
+    color: white;
+  }
+ 
+
+
+
   @media (max-width: 1024px) {
     .navbar-menu {
       display: none; 
@@ -102,4 +122,38 @@ li{
       display: none; 
     }
   }
-  
+@media (max-width: 768px) {
+ 
+  aside {
+    width: 100% !important; 
+  }
+  .aside-space{
+    margin: 0 ;
+    padding: 0;
+  }
+  aside .menu {
+    width: 100%; 
+  }
+}
+
+@media (min-width: 769px) {
+  aside .menu {
+    display: block;
+  }
+
+}
+
+@media (max-width: 768px) {
+  .button-aside.hide-toggle {
+    display: none;
+  }
+
+
+  .menu-list a {
+    justify-content: center;
+  }
+
+  .menu-label {
+    text-align: center;
+  }
+}

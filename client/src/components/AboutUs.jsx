@@ -36,80 +36,80 @@ function AboutUs() {
             <div className="property-views-container">
                 <h4><strong>Services</strong></h4>
                 <h3>Unwind, Dine, and Explore – Luxury Services at Lighthouse Point Hotel</h3>
-            <div className="cards">
-                <div className="card">
-                    <div className="info">
-                        <IoBedSharp style={{ fontSize: '2rem' }} />
-                    </div>
-                    <div className="body">
-                        <div className="text">
-                            <h3><strong>Room Reservation</strong></h3>
-                            <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                <div className="cards">
+                    <div className="card">
+                        <div className="info">
+                            <IoBedSharp style={{ fontSize: '2rem' }} />
+                        </div>
+                        <div className="body">
+                            <div className="text">
+                                <h3><strong>Room Reservation</strong></h3>
+                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="card">
-                    <div className="info">
-                        <IoWalk style={{ fontSize: '2rem' }} />
-                    </div>
-                    <div className="body">
-                        <div className="text">
-                            <h3><strong>Concierge and Laundry</strong></h3>
-                            <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                    <div className="card">
+                        <div className="info">
+                            <IoWalk style={{ fontSize: '2rem' }} />
+                        </div>
+                        <div className="body">
+                            <div className="text">
+                                <h3><strong>Concierge and Laundry</strong></h3>
+                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="card">
-                    <div className="info">
-                        <IoFastFood style={{ fontSize: '2rem' }} />
-                    </div>
-                    <div className="body">
-                        <div className="text">
-                            <h3><strong>Resturant Services</strong></h3>
-                            <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                    <div className="card">
+                        <div className="info">
+                            <IoFastFood style={{ fontSize: '2rem' }} />
+                        </div>
+                        <div className="body">
+                            <div className="text">
+                                <h3><strong>Resturant Services</strong></h3>
+                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="card">
-                    <div className="info">
-                        <IoGlassesSharp style={{ fontSize: '2rem' }} />
-                    </div>
-                    <div className="body">
-                        <div className="text">
-                            <h3><strong>Virtual Tour</strong></h3>
-                            <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                    <div className="card">
+                        <div className="info">
+                            <IoGlassesSharp style={{ fontSize: '2rem' }} />
+                        </div>
+                        <div className="body">
+                            <div className="text">
+                                <h3><strong>Virtual Tour</strong></h3>
+                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="card">
-                    <div className="info">
-                        <IoPeople style={{ fontSize: '2rem' }} />
-                    </div>
-                    <div className="body">
-                        <div className="text">
-                            <h3><strong>Event Services</strong></h3>
-                            <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                    <div className="card">
+                        <div className="info">
+                            <IoPeople style={{ fontSize: '2rem' }} />
+                        </div>
+                        <div className="body">
+                            <div className="text">
+                                <h3><strong>Event Services</strong></h3>
+                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="card">
-                    <div className="info">
-                        <IoWine style={{ fontSize: '2rem' }} />
-                    </div>
-                    <div className="body">
-                        <div className="text">
-                            <h3><strong>Bar Services</strong></h3>
-                            <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                    <div className="card">
+                        <div className="info">
+                            <IoWine style={{ fontSize: '2rem' }} />
+                        </div>
+                        <div className="body">
+                            <div className="text">
+                                <h3><strong>Bar Services</strong></h3>
+                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-      </div>
+                </div>
             </div>
 
             <div className="panel-image-double">

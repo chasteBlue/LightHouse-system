@@ -34,8 +34,8 @@ function Navbar() {
             <Link to = "/"  className="navbar-item">Home</Link>
             <Link to = "/about_us" className="navbar-item">About Us</Link>
             <Link to="/contact_us" className="navbar-item">Contact Us</Link>
-            <a className="navbar-item" href="#contact">Resturant</a>
-            <a className="navbar-item" href="#about">Events</a>
+            <Link to="/resturant_filtering" className="navbar-item" href="#contact">Resturant</Link>
+            <Link to="/event_filtering" className="navbar-item">Events</Link>
             <a className="navbar-item" href="#contact">Virtual Tour</a>
           </div>
           <div className="navbar-end">
@@ -56,8 +56,8 @@ function Navbar() {
             <Link to = "/"  className="sidebar-item">Home</Link>
             <Link to = "/about_us" className="sidebar-item">About Us</Link>
             <Link to="/contact_us" className="sidebar-item">Contact Us</Link>
-            <a className="sidebar-item" href="#contact">Resturant</a>
-            <a className="sidebar-item" href="#about">Events</a>
+            <Link to="/resturant_filtering" className="sidebar-item">Resturant</Link>
+            <Link to="/event_filtering" className="sidebar-item" >Events</Link>
             <a className="sidebar-item" href="#contact">Virtual Tour</a>
           <div className="navbar-end">
             <div className="sidebar-item">
