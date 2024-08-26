@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
 import './pages.css';
 import '../App.css';
+import { Link } from 'react-router-dom';
 import banner from '../images/guest_home/1.png';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -129,9 +130,9 @@ function Resturant_First() {
                       </div> 
 
                       <div className="buttons is-centered">
-                        <button className="button is-blue search-reservation" type="submit">
+                        <Link to="/resturant_tables"><button className="button is-blue search-reservation" type="submit">
                           SELECT FOR BOOKING DATE
-                        </button>
+                        </button></Link>
                       </div>
                     </div>
 

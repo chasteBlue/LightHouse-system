@@ -503,7 +503,32 @@ input[type="text"]{
 
 .event-bg-style{
   background-color: #00B4D7;
+  padding: 1%;
+}
+
+.event-padding-style{
   padding: 2%;
+}
+.event-color-table{
+  background-color: #001fac;
+  border-radius: 3% 3%;
+}
+.event-inside-style{
+  padding: 2% 0;
+  margin: 1% 0 1% 1%;
+  background-color: #0392df;
+  width: 40%;
+}
+.event-inside-inside-style{
+  padding: 20%;
+  margin: 2%;
+  background-color: #001fac;
+}
+.event-justify-style{
+  padding: "2% ";
+  justify-content: space-between;
+  display: "flex";
+  flex-direction: "row";
 }
 
 .time-slot-button {
@@ -529,8 +554,8 @@ input[type="text"]{
 }
 
 .table-circle {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   border-radius: 30%;
   overflow: hidden;
   position: relative;
@@ -541,8 +566,8 @@ input[type="text"]{
 }
 
 .is-circle {
-  width: 100px;
-  height: 100px;
+  width: 120px;
+  height: 120px;
   align-items: center;
   justify-content: center;
   flex-direction: column;
@@ -583,6 +608,7 @@ input[type="text"]{
 
 .bottom-center-left-chair { bottom: calc(50% - 5px); left: 10px; }
 .bottom-center-right-chair { bottom: calc(50% - 5px); right: 10px; }
+
 
 
 

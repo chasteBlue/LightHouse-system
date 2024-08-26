@@ -41,28 +41,27 @@ function Restaurant_Second() {
                     </div>
                 </div>
 
-                <div className="container event-bg-style" style={{ margin: '2% 0' }}>
-                    <div className='columns is-vcentered'>
-                        <div style={{padding:'2% 0', margin:'1% 0 1% 1%', backgroundColor:'black', width:'60%'}}>
-                            <p className='subtitle' style={{color:'white'}}>Restaurant (3rd Floor - Inside)</p>
-                            <div style={{padding:'30%', margin:'2%', backgroundColor:'green'}}>
-                            <p className='subtitle' style={{color:'white'}}>Restaurant Tables (3rd Floor - Inside)</p>
-                           
+                <div className="container event-bg-style" style={{marginBottom:'3%'}}>
+                <p className='subtitle has-text-white'>LightHouse Point Hotel (Captain Galley's) - 3rd Floor</p>
+                    <div className='columns is-vcentered event-padding-style'>
+                        <div className='event-inside-style'>
+                        <p className="subtitle has-text-white event-padding-style" >Restaurant (Inside)</p>
+                            <div className='event-inside-inside-style'>
+                            <p className='subtitle has-text-white'>Restaurant Tables (Inside)</p>
                             </div>
-                            <div style={{ padding:'5% 0', justifyContent:'space-between', display:"flex", flexDirection:'row'}}>
-                                <div style={{padding:'2%',width:'60%', backgroundColor:'violet'}}>
-                                    <p className='subtitle' style={{color:'white'}}>Restaurant Reception Desk</p>
+                            <div className='event-justify-style is-flex is-justify-content-space-between'>
+                                <div className='event-padding-style event-color-table'>
+                                    <p className='subtitle has-text-white'>Restaurant Reception Desk</p>
                             
                                 </div>
-                                <div style={{padding:'2%',width:'20%', backgroundColor:'violet'}}>
-                                    <p className='subtitle' style={{color:'white'}}>Entrance</p>
+                                <div className='event-padding-style event-color-table'>
+                                    <p className='subtitle has-text-white'>Entrance</p>
                             
                                 </div>
                             </div>
-
                         </div>
-                        <div style={{ padding: '2%', backgroundColor: 'blue' }}>
-                            <p className='subtitle' style={{color:'white'}}> Restaurant Tables (3rd Floor - Open Area)</p>
+                        <div className='event-padding-style event-color-table' >
+                            <p className='subtitle has-text-white'> Restaurant Tables (3rd Floor - Open Area)</p>
                             <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
                                 <div className="columns is-multiline section-p1">
                                     {tables.map((table, index) => {
@@ -99,7 +98,7 @@ function Restaurant_Second() {
                     </div>
                     <div className="buttons is-centered">
                         <button className="button is-blue search-reservation" type="submit">
-                          SELECT FOR BOOKING DATE
+                          PROCEED TO RESERVATION
                         </button>
                       </div>
                     
