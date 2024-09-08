@@ -1,10 +1,9 @@
-// backend/functions/registerGuest.js
 const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
 // Initialize Supabase client
 const supabaseUrl = 'https://cayfvgjakympxwknatco.supabase.co';
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNheWZ2Z2pha3ltcHh3a25hdGNvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM3ODAyNzAsImV4cCI6MjAzOTM1NjI3MH0.5Q3n5m3b1XN4EkBTpidqc0XwWQJJDLC2m48xh6GsDKk";
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNheWZ2Z2pha3ltcHh3a25hdGNvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTcyMzc4MDI3MCwiZXhwIjoyMDM5MzU2MjcwfQ.Wr1jpEbcUhAhfoWz4bH2FYvlz8kIgIKEcDIK7mjGq78';
 
 if (!supabaseKey) {
     console.error("Supabase key is missing!");

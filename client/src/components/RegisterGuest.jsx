@@ -31,7 +31,7 @@ function RegisterGuest() {
         e.preventDefault();
 
         try {
-            const response = await fetch('http://localhost:3000/api/registerGuest', {
+            const response = await fetch('http://localhost:3001/api/registerGuest', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
