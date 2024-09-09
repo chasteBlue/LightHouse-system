@@ -18,3 +18,4 @@ app.use('/api', guestRoutes); // Routes are mounted under /api
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
+console.log("Supabase URL:", process.env.SUPABASE_URL);  // Debug line to check if URL is loaded
