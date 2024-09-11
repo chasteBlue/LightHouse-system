@@ -56,7 +56,7 @@ function Resturant_First() {
                     </div>
                 </div>
 
-                <div className="container event-bg-style" style={{margin:'2% 0'}}>
+                <div className="container event-bg-style" style={{marginBottom:'2%'}}>
                   <div className="columns">
                     <div className="column is-half">
                       <div className="carousel">

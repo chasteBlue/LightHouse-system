@@ -3,9 +3,14 @@ import 'bulma/css/bulma.min.css';
 import './pages.css';
 import '../App.css';
 import banner from '../images/guest_home/1.png';
+import AddTableReservation from '../guest_modals/AddTableReservation';
 
 function Restaurant_Second() {
     const [selectedTable, setSelectedTable] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const toggleModal = () => {
+        setIsModalOpen(!isModalOpen);
+    };
 
     const tables = [
         { id: 1, chairs: 4 },
@@ -97,13 +102,15 @@ function Restaurant_Second() {
                         </div>
                     </div>
                     <div className="buttons is-centered">
-                        <button className="button is-blue search-reservation" type="submit">
+                        <button className="button is-blue search-reservation" type="submit" onClick={toggleModal}>
                           PROCEED TO RESERVATION
                         </button>
                       </div>
                     
                 </div>
             </div>
+            <AddTableReservation isOpen={isModalOpen} toggleModal={toggleModal} />
+
         </section>
     );
 }

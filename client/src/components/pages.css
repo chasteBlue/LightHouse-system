@@ -166,7 +166,7 @@ input[type="text"]{
 .property-views-container {
   width: 100%;
   height: auto;
-  padding: 24px 64px;
+  padding: 3% 10%;
   background: white;
   display: flex;
   flex-direction: column;
@@ -517,7 +517,7 @@ input[type="text"]{
   padding: 2% 0;
   margin: 1% 0 1% 1%;
   background-color: #0392df;
-  width: 40%;
+  width: 60%;
 }
 .event-inside-inside-style{
   padding: 20%;

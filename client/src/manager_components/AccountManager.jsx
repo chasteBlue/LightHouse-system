@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
 import '../App.css';
 import './components_m.css';
-import { IoAdd } from 'react-icons/io5';
+import { IoAdd , IoSearchCircle} from 'react-icons/io5';
 import AddStaffModal from '../manager_modals/AddStaffModal';
 
 
@@ -28,49 +28,57 @@ const AccountManager = () => {
     <section className='section-p1'>
          <div className="columns" style={{minHeight:"100vh"}}>
             <div className="column is-3">
-                <div className='columns is-vcentered'>
-                    <div className='column'>
-                        <h1 className='subtitle'>
-                        <strong>All Staff Accounts</strong>
-                        </h1>
-                    </div>
-                    <div className='column is-narrow'>
-                        <button className='button is-blue' onClick={toggleModal}>
-                        <IoAdd style={{ marginRight: '5px', textAlign: 'center' }} />
-                        Add
-                        </button>
-                    </div>
-                </div>
-
-                <div style={{marginBottom:"5px"}}>
-                    <div className='staff-space'>
-                        <div className='columns is-vcentered'style={{paddingLeft:"5px"}}>
-                            <div className='column'>
-                                <h3 >Allison Mendez</h3>
-                            </div>
-
-                            <div className='column is-narrow'>
-                                <div className='status-circle' ></div>
-                            </div>
+                <div className="column">
+                    <div className='columns is-vcentered tablet-column-layout'>
+                        <div className='column'>
+                            <h1 className='subtitle'>
+                                <strong>Staffs</strong>
+                            </h1>
+                        </div>
+                        <div className='column is-narrow'>
+                            <button className='button is-blue' onClick={toggleModal}>
+                                <IoAdd style={{ marginRight: '5px' }} /> Add
+                            </button>
                         </div>
                     </div>
                 </div>
 
-                <div style={{marginBottom:"5px"}}>
-                    <div className='staff-space'>
-                        <div className='columns is-vcentered'style={{paddingLeft:"5px"}}>
-                            <div className='column'>
-                                <h3 >Allison Mendez</h3>
-                            </div>
-
-                            <div className='column is-narrow'>
-                                <div className='status-circle' ></div>
-                            </div>
+                <div className="column is-hidden-tablet-only custom-hide-tablet is-fullwidth" style={{ padding: '0', margin: '0' }}>
+                    <div className="field has-addons is-flex is-flex-direction-row is-fullwidth-mobile">
+                        <div className="control is-expanded is-fullwidth">
+                            <input className="input is-fullwidth-mobile" type="text" style={{ margin: '0' }} placeholder="Search..."/>
+                        </div>
+                        <div className="control is-fullwidth">
+                            <button className="button is-blue is-fullwidth-mobile" style={{ height: '100%' }} >
+                                <IoSearchCircle className="is-white" />
+                            </button>
                         </div>
                     </div>
+                </div>
+
+                <div style={{ marginBottom: "5px" }}>
+                <div className="staff-space">
+                    <div className="columns is-vcentered is-mobile" style={{ paddingLeft: "5px" }}>
+                    <div className="column is-flex is-align-items-center">
+                        <h3 style={{ marginRight: "8px" }}>Allison Mendez</h3>
+                        <div className="status-circle"></div>
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+
+                <div style={{ marginBottom: "5px" }}>
+                <div className="staff-space">
+                    <div className="columns is-vcentered is-mobile" style={{ paddingLeft: "5px" }}>
+                    <div className="column is-flex is-align-items-center">
+                        <h3 style={{ marginRight: "8px" }}>Allison Mendez</h3>
+                        <div className="status-circle"></div>
+                    </div>
+                    </div>
+                </div>
                 </div>
             </div>
-
 
             <div className="column" style={{backgroundColor:"white"}}>
                 <main className="section-p1">
@@ -80,12 +88,12 @@ const AccountManager = () => {
                         </h1>
                     </div>
 
-                    <div className="section-m1">
+                    <div>
                         <div className="columns is-vcentered">
                             {/* First Column */}
                             <div className="column is-narrow">
                                 <div>
-                                    <div className="columns is-vcentered">
+                                    <div className="column is-one-half">
                                         <div className="staff-space">
                                             {guestPhoto && (
                                                 <div className="field">
@@ -118,7 +126,7 @@ const AccountManager = () => {
                             </div>
 
                             {/* Second Column */}
-                            <div className="column is-narrow">
+                            <div className="column is-one-half">
                                 <div className="columns is-multiline is-mobile">
                                     <div className="staff-space">
                                         <div className="control-form">
@@ -273,8 +281,10 @@ const AccountManager = () => {
 
                     </div>
                 </main>
-            </div> {/* Add the modal component */}
-          <AddStaffModal isOpen={isModalOpen} toggleModal={toggleModal} />
+            </div> 
+
+            {/* Add the modal component */}
+            <AddStaffModal isOpen={isModalOpen} toggleModal={toggleModal} />
         </div>
 
          

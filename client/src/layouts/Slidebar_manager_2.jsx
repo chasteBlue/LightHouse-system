@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IoHome, IoPerson, IoChevronBack, IoChevronForward, IoPeople, IoBed, IoFastFood, IoWalk, IoBag, IoWine, IoLocate } from 'react-icons/io5';
+import { IoHome, IoPerson, IoChevronBack, IoChevronForward, IoBed, IoFastFood, IoCloud, IoCash } from 'react-icons/io5';
 import 'bulma/css/bulma.min.css';
 import './layouts.css';
 import '../App.css';
@@ -64,28 +64,28 @@ const SidebarManager = () => {
             <ul className="menu-list">
                 <li>
                     <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <IoCash style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Sales'}
                     </Link>
                 </li>
 
                 <li>
                     <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <IoBed style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Room Occupancy Rate'}
                     </Link>
                 </li>
 
                 <li>
                     <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <IoFastFood style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Menu Optimization'}
                     </Link>
                 </li>
 
                 <li>
                     <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <IoCloud style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Forecast'}
                     </Link>
                 </li>

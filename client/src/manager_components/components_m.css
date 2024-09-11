@@ -15,4 +15,42 @@
     background-color: yellow;
     border-radius: 50%;
 }
+.tablet-column-layout {
+    flex-direction: row; 
+}
+
+
+/* Custom class to hide on larger tablet-like screens such as iPad Pro */
+@media screen and (min-width: 769px) and (max-width: 1366px) and (orientation: landscape),
+       screen and (min-width: 769px) and (max-width: 1024px) and (orientation: portrait) {
+  .custom-hide-tablet {
+    display: none !important;
+  }
+  .tablet-column-layout {
+    flex-direction: column;
+    }
+    .tablet-column-layout .is-blue{
+        width: 100%;
+    }
+}
+
+
+
+
+@media (max-width: 768px) {
+    .field.has-addons {
+        flex-direction: column;
+    }
+    
+    .field.has-addons .control {
+        width: 100%;
+    }
+    .is-fullwidth-mobile .input {
+      width: 100%;
+    }
+
+}
+
+
+  
 

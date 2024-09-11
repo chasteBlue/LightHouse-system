@@ -1,138 +1,181 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { IoHome, IoPerson, IoChevronBack, IoChevronForward, IoPeople, IoBed, IoFastFood, IoWalk, IoBag, IoWine, IoLocate } from 'react-icons/io5';
+import {
+  IoHome,
+  IoPerson,
+  IoChevronBack,
+  IoChevronForward,
+  IoPeople,
+  IoBed,
+  IoFastFood,
+  IoWalk,
+  IoBag,
+  IoWine,
+  IoLocate,
+} from 'react-icons/io5';
 import 'bulma/css/bulma.min.css';
 import './layouts.css';
 import '../App.css';
 
 const SidebarManager = () => {
   const [isSidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobileOrTablet, setIsMobileOrTablet] = useState(false);
+
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobileTablet =
+        window.innerWidth <= 1024; 
+      setIsMobileOrTablet(isMobileTablet);
+      if (isMobileTablet) {
+        setSidebarOpen(true); 
+      }
+    };
+
+    handleResize(); 
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const toggleSidebar = () => {
-    setSidebarOpen(!isSidebarOpen);
+    if (!isMobileOrTablet) {
+      setSidebarOpen(!isSidebarOpen);
+    }
   };
 
   return (
     <section className='section-p1 side-color'>
-      <div className="columns" >
+      <div className='columns'>
         {/* Sidebar */}
-        <aside className='aside-space' style={{ transition: 'width 0.3s', position: 'relative' }}>
+        <aside
+          className='aside-space'
+          style={{ transition: 'width 0.3s', position: 'relative' }}
+        >
           {/* Floating Toggle Button */}
-          <button 
-            className={`button is-blue button-float button-aside ${isSidebarOpen ? 'hide-toggle' : ''}`}
-            onClick={toggleSidebar}
-            style={{
-              position: 'absolute',
-              top: '10px',
-              right: '-20px',
-              width: '40px',
-              height: '40px',
-              textAlign: 'center',
-              transition: 'right 0.3s',
-              zIndex: '1',
-            }}
-          >
-            {isSidebarOpen ? <IoChevronBack /> : <IoChevronForward />}
-          </button>
+          {!isMobileOrTablet && (
+            <button
+              className={`button button-float button-aside ${
+                isSidebarOpen ? 'hide-toggle' : ''
+              }`}
+              onClick={toggleSidebar}
+              style={{
+                position: 'absolute',
+                top: '10px',
+                right: '-20px',
+                width: '40px',
+                height: '40px',
+                textAlign: 'center',
+                transition: 'right 0.3s',
+                zIndex: '1',
+                boxShadow: '2px 2px 0px blue'
+              }}
+            >
+              {isSidebarOpen ? <IoChevronBack /> : <IoChevronForward/>}
+            </button>
+          )}
 
-          <nav className="menu">
+          <nav className='menu'>
             {/* Menu List */}
-            <p className="subtitle" style={{ display: isSidebarOpen ? 'block' : 'none', paddingTop: '50px' }}>
-              Manager</p>
-            
-            <p className="menu-label" style={{ display: isSidebarOpen ? 'block' : 'none' }}>
+            <p
+              className='subtitle'
+              style={{ display: isSidebarOpen ? 'block' : 'none', paddingTop: '50px' }}
+            >
+              Manager
+            </p>
+
+            <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}>
               General
             </p>
-            <ul className="menu-list">
+            <ul className='menu-list'>
               <li>
-                <Link to="/manager_home">
+                <Link to='/manager_home'>
                   <IoHome style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Home'}
                 </Link>
               </li>
               <li>
-                <a>
+                <Link to="/manager_dashboard">
                   <IoPerson style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Dashboard'}
-                </a>
+                </Link>
               </li>
             </ul>
 
-            <p className="menu-label" style={{ display: isSidebarOpen ? 'block' : 'none' }}>
+            <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}>
               Accounts
             </p>
-            <ul className="menu-list">
+            <ul className='menu-list'>
               <li>
-                <Link to="/manager_accounts">
+                <Link to='/manager_accounts'>
                   <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Staff Accounts'}
                 </Link>
               </li>
             </ul>
 
-            <p className="menu-label" style={{ display: isSidebarOpen ? 'block' : 'none' }}>
+            <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}>
               Room Maintenance
             </p>
-            <ul className="menu-list">
+            <ul className='menu-list'>
               <li>
-                <a>
+                <Link to='/manager_room'>
                   <IoBed style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Rooms'}
-                </a>
+                </Link>
               </li>
             </ul>
 
-            <p className="menu-label" style={{ display: isSidebarOpen ? 'block' : 'none' }}>
+            <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}>
               Menu Maintenance
             </p>
-            <ul className="menu-list">
+            <ul className='menu-list'>
               <li>
-                <a>
+                <Link to='/manager_food'>
                   <IoFastFood style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Food Menu'}
-                </a>
+                </Link>
               </li>
               <li>
-                <a>
+                <Link to='/manager_drink'>
                   <IoWine style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Drink Menu'}
-                </a>
+                </Link>
               </li>
             </ul>
 
-            <p className="menu-label" style={{ display: isSidebarOpen ? 'block' : 'none' }}>
+            <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}>
               Additional Services Maintenance
             </p>
-            <ul className="menu-list">
+            <ul className='menu-list'>
               <li>
-                <a>
+                <Link to='/manager_concierge'>
                   <IoWalk style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Concierge'}
-                </a>
+                </Link>
               </li>
               <li>
-                <a>
+                <Link to='/manager_laundry'>
                   <IoBag style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Laundry'}
-                </a>
+                </Link>
               </li>
             </ul>
 
-            <p className="menu-label" style={{ display: isSidebarOpen ? 'block' : 'none' }}>
+            <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}>
               Event Maintenance
             </p>
-            <ul className="menu-list">
+            <ul className='menu-list'>
               <li>
-                <a>
+                <Link to='/manager_venue'>
                   <IoLocate style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Venue Package'}
-                </a>
+                </Link>
               </li>
               <li>
-                <a>
+                <Link to="/manager_food_package">
                   <IoFastFood style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Food Package'}
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
