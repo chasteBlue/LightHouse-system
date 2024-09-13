@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import home_hero from '../images/hero.png';
 import one from '../images/guest_home/1.png';
@@ -44,8 +45,8 @@ function Home() {
             </div>
           </div>
           <div className="buttons is-centered ">
-            <a className="button is-blue search" href='#search'>SEARCH
-            </a>
+            <Link to="/room_search" className="button is-blue search" >SEARCH
+            </Link>
           </div>
         </div>
       </div>

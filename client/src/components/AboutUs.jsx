@@ -14,7 +14,7 @@ function AboutUs() {
                 <div className="floating-container">
                      <div className='about-white'>
                         <div className="container is-centered">
-                            <h2 className='title has-text-centered'>About LightHouse Point Hotel</h2>
+                            <h2 className='title has-text-centered m-3'>About LightHouse Point Hotel</h2>
                         </div>
                         <h3 className="about-space"><strong>Beacon of Luxury, Stay Enlightened Here.</strong></h3>
                         <div className='about-space'>

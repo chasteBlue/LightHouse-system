@@ -31,10 +31,10 @@ const Faq = () => {
   return (
     <section className='section-m1'>
         <div className="contact-hero-image">
-            <div className="text-content-title">
-                <h1 className='title'>Frequently Asked Questions</h1>
-                <h3 className='subtitle'>Need help? We’re here for you!</h3>
-            </div>
+          <div className="text-content-title">
+            <h1 className='title'>Frequently Asked Questions</h1>
+            <h3 className='subtitle'>Need help? We’re here for you!</h3>
+          </div>
         </div>
 
         <div className='faq-column'>

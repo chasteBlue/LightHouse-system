@@ -3,8 +3,8 @@
     padding-left: 7%;
 }
 .navbar-logo {
-    height: 90px; 
-    width: 100px;
+    width: 5rem;
+    padding: 0;
 }
 .header{
   line-height: 1.9rem;
@@ -12,12 +12,16 @@
 li{
   color: rgb(26, 22, 22);
 }
+.contact-hero-image{
+  border-radius: 0 15rem 0 0;
+}
 
 .sidebar {
-    position: relative;
+    position: absolute;
     top: 0;
     left: -250px; 
     width: 250px;
+    height:100%;
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
     transition: left 0.3s ease;
@@ -25,10 +29,13 @@ li{
     overflow-y: auto;
     display: none; 
   }
+
+
   
   .sidebar.is-active {
     left: 0; 
     display: block; 
+    
   }
   
   .sidebar-content {
@@ -120,6 +127,7 @@ li{
   font-size: 1.5rem;
   z-index: 1000;
 }
+
 
 @media (orientation: portrait) and (min-width: 768px) and (max-width: 1024px) {
   .landscape-warning  {

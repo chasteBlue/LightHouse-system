@@ -12,6 +12,7 @@ import GProfile from "./pages/G_Profile";
 import GEvent_1 from "./pages/G_Event_1";
 import GResturant_1 from "./pages/G_Resturant_1";
 import GResturant_2 from "./pages/G_Resturant_2";
+import GRoomSearch from "./pages/G_RoomSearch";
 
 import ALogin from "./manager_pages/A_Login";
 
@@ -54,6 +55,10 @@ function App() {
         <Route path="/login" element={<GLogin/>}/>
         <Route path="/register" element={<GRegister/>}/>
         <Route path="/profile_guest" element={<GProfile/>}/>
+
+        <Route path="/room_search" element={<GRoomSearch/>}/>
+
+
 
         <Route path="/faq" element={<GFaq/>}/>
         <Route path="/terms_and_conditions" element={<GTerms/>}/>
