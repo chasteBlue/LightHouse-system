@@ -13,6 +13,7 @@ import GEvent_1 from "./pages/G_Event_1";
 import GResturant_1 from "./pages/G_Resturant_1";
 import GResturant_2 from "./pages/G_Resturant_2";
 import GRoomSearch from "./pages/G_RoomSearch";
+import GRoomDetails from "./pages/G_RoomDetails";
 
 import ALogin from "./manager_pages/A_Login";
 
@@ -57,6 +58,7 @@ function App() {
         <Route path="/profile_guest" element={<GProfile/>}/>
 
         <Route path="/room_search" element={<GRoomSearch/>}/>
+        <Route path="/room_search/room_details" element={<GRoomDetails/>}/>
 
 
 

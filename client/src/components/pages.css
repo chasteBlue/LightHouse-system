@@ -291,16 +291,19 @@ input[type="text"]{
   border-top-left-radius: 100px;
   border-top-right-radius: 300px;
 }
-.image {
 
+.image {
   height: auto;
   border-top-left-radius: 100px;
   border-top-right-radius: 300px;
   width: 45%;
 }
+
 .flipped {
   transform: scaleX(-1);
 }
+
+
 
 .about-us-container {
   width: 100%;
@@ -326,6 +329,7 @@ input[type="text"]{
 
 .flex-box {
   flex: 1;
+  color: #D9D9D9;
   background: #00B4D7;
   padding: 24px;
   border-radius: 8px;
@@ -343,10 +347,25 @@ input[type="text"]{
 
 .flex-image {
   width: 100%;
-  max-height:fit-content;
   height:100%;
+  max-height:300px;
+  transition: transform 0.5s ease-in-out;
   background: linear-gradient(0deg, #E3E3E3 0%, #E3E3E3 100%);
 }
+
+.flex-image-bottom {
+  width: 100%;
+  height:100%;
+  max-height:fit-content;
+  transition: transform 0.5s ease-in-out;
+  background: linear-gradient(0deg, #E3E3E3 0%, #E3E3E3 100%);
+}
+
+.flex-image:hover,.flex-image-bottom:hover {
+  transform: scale(1.1); 
+}
+
+
 
 .flex-box-title {
   margin: 0 0 16px;
@@ -403,6 +422,8 @@ input[type="text"]{
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
+  background-color: #d6f7ff;
+  border-radius: 0 0 15rem 0;
 }
 
 .details {
@@ -444,10 +465,34 @@ input[type="text"]{
 .menu-list li{
   margin: 5% 0;
 }
+.faq-list {
+  list-style-type: disc; 
+  padding-left: 20px;
+  margin-top: 10px; 
+}
+
+.faq-list li {
+  margin-bottom: 5px;
+  padding: 5px 10px; 
+  border-radius: 4px; 
+}
+
+
 /*End faq-------------------------------------------------------------------------------------*/
 /*Start Terms---------------------------------------------------------------------------------*/
 .terms-space{
   padding: 3%;
+}
+.data-web-list {
+  list-style-type: disc; 
+  padding-left: 20px;
+  margin-top: 3px; 
+}
+
+.data-web-list li {
+  margin-bottom: 2px;
+  padding: 0 10px; 
+  font-size: smaller; 
 }
 /*End Terms---------------------------------------------------------------------------------*/
 /*Start Event 1---------------------------------------------------------------------------------*/
@@ -680,6 +725,64 @@ input[type="text"]{
 .thumbnail-img:hover {
   transform: scale(1.1); 
 }
+
+/*Room Search End-----------------------------------------------------------------------------------------------------------------------------*/
+.room-details-container {
+  padding: 0; /* Remove padding around the entire container */
+  border-radius: 10px; /* Rounded corners for container */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for elevation */
+  background-color: #fff; /* Background color for container */
+  overflow: hidden; /* Ensure content doesn't overflow */
+  max-width: 1024px; /* Maximum width for the container */
+  margin: 0 auto; /* Center the container */
+}
+
+/* Image Container to Cover the Whole Top */
+.room-image-container {
+  width: 100%; /* Full width */
+  max-width: 1524px; /* Ensure container does not exceed 1024px */
+  height: 300px; /* Fixed height for the container */
+  overflow: hidden; /* Hide overflow */
+  position: relative; /* Position relative for absolute positioning */
+  border-top-left-radius: 10px; /* Match container's rounded corners */
+  border-top-right-radius: 10px; /* Match container's rounded corners */
+}
+
+.image-room-details{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.room-info {
+  text-align: center; /* Center-align the room information */
+  margin-bottom: 2rem; /* Space below room info */
+}
+
+.room-info .title,
+.room-info .subtitle,
+.room-info .price {
+  margin-bottom: 0.5rem; /* Margin below each detail */
+}
+
+.room-features {
+  margin-top: 1.5rem; /* Space above room features */
+}
+
+.room-details-list {
+  list-style-type: disc; /* Bulleted list style */
+  padding-left: 1.5rem; /* Indent bullets */
+  margin-bottom: 1.5rem; /* Space below each column */
+}
+
+.room-details-list li {
+  line-height: 1.5em; /* Adjust line height */
+  margin-bottom: 0.5em; /* Space between list items */
+}
+
+
+
 
 
 
