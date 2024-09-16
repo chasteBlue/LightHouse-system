@@ -4,7 +4,7 @@ import logo from '../images/logo.png';
 import '../App.css';
 import '../manager_components/components_m.css'
 import { Link } from 'react-router-dom';
-import { IoFastFoodOutline, IoGridSharp, IoSettings, IoTabletLandscapeOutline } from 'react-icons/io5';
+import { IoFastFoodOutline, IoTabletLandscapeOutline } from 'react-icons/io5';
 
 
 const HomeRestaurant = () => {

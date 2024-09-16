@@ -13,7 +13,10 @@ const SidebarFrontDesk= () => {
   };
 
   return (
-    <section className='section-p1 side-color'>
+    <section className='section-p1 side-color'style={{
+      transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-20%)',
+      transition: 'transform 0.5s ease-in', 
+    }}>
       <div className="columns" >
         {/* Sidebar */}
         <aside className='aside-space' style={{ transition: 'width 0.3s', position: 'relative' }}>
@@ -45,7 +48,7 @@ const SidebarFrontDesk= () => {
             </p>
             <ul className="menu-list">
               <li>
-                <Link to="/frontdesk_home">
+                <Link to="/frontdesk_home" title="Front Desk Home">
                   <IoHome style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Home'}
                 </Link>
@@ -63,13 +66,13 @@ const SidebarFrontDesk= () => {
             </p>
             <ul className="menu-list">
               <li>
-                <Link to="/frontdesk_room_walk_in">
+                <Link to="/frontdesk_room_walk_in" title='Walk-In Room Reservation'>
                   <IoBed style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Walk-In Room Reservation'}
                 </Link>
               </li>
               <li>
-                <Link to="/frontdesk_event_walk_in">
+                <Link to="/frontdesk_event_walk_in" title="Walk-In Event Reservation">
                   <IoWine style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Walk-In Event Reservation'}
                 </Link>
@@ -81,13 +84,13 @@ const SidebarFrontDesk= () => {
             </p>
             <ul className="menu-list">
               <li>
-                <Link to="/frontdesk_room_reservation">
+                <Link to="/frontdesk_room_reservation" title='Rooms'>
                   <IoBed style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Rooms'}
                 </Link>
               </li>
               <li>
-                <a>
+                <a title="Events">
                   <IoWine style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Events'}
                 </a>
@@ -99,13 +102,13 @@ const SidebarFrontDesk= () => {
             </p>
             <ul className="menu-list">
               <li>
-                <a>
+                <a title="Check-In Guest">
                   <IoCheckmarkCircle style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Check-In Guest'}
                 </a>
               </li>
               <li>
-                <a>
+                <a title="Checked-Out History">
                   <IoHappy style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Checked-Out History'}
                 </a>
@@ -117,13 +120,13 @@ const SidebarFrontDesk= () => {
             </p>
             <ul className="menu-list">
               <li>
-                <Link to="/frontdesk_concierge_and_laundry">
+                <Link to="/frontdesk_concierge_and_laundry" title='Concierge & Laundry'>
                   <IoWalk style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Concierge & Laundry'}
                 </Link>
               </li>
               <li>
-                <Link to="/frontdesk_additional_item">
+                <Link to="/frontdesk_additional_item" title='Additional Services'>
                   <IoAddCircle style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Additional Services'}
                 </Link>
@@ -135,7 +138,7 @@ const SidebarFrontDesk= () => {
             </p>
             <ul className="menu-list">
               <li>
-                <Link to ="/frontdesk_maintenance_and_housekeeping">
+                <Link to ="/frontdesk_maintenance_and_housekeeping" title='Maintenance & Housekeeping'>
                   <IoStar style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Maintenance & Housekeeping'}
                 </Link>

@@ -32,7 +32,10 @@ const SidebarRestaurant_1 = () => {
   };
 
   return (
-    <section className='section-p1 side-color'>
+    <section className='section-p1 side-color'style={{
+      transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-20%)',
+      transition: 'transform 0.5s ease-in', 
+    }}>
         <div className='columns'>
         {/* Sidebar */}
         <aside className='aside-space' style={{ transition: 'width 0.3s', position: 'relative' }}>
@@ -64,14 +67,14 @@ const SidebarRestaurant_1 = () => {
                 <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}> General</p>
                     <ul className='menu-list'>
                         <li>
-                            <Link to='/restaurant_home'>
+                            <Link to='/restaurant_home' title="Restaurant Home">
                                 <IoHome style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                                 {isSidebarOpen && 'Home'}
                             </Link>
                         </li>
               
                         <li>
-                            <Link to="/restaurant_dashboard">
+                            <Link to="/restaurant_dashboard" title='Restaurant Dashboard'>
                             <IoPerson style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                             {isSidebarOpen && 'Dashboard'}
                             </Link>
@@ -81,21 +84,21 @@ const SidebarRestaurant_1 = () => {
                 <p className='menu-label' style={{ display: isSidebarOpen ? 'block' : 'none' }}> Orders </p>
                     <ul className='menu-list'>
                         <li>
-                            <Link to="/restaurant_all_orders">
+                            <Link to="/restaurant_all_orders" title='Restaurant All Orders'>
                             <IoListOutline style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                             {isSidebarOpen && 'All Orders'}
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="/restaurant_order">
+                            <Link to="/restaurant_order" title='Restaurant Add Order'>
                             <IoFastFoodOutline style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                             {isSidebarOpen && 'Order'}
                             </Link>
                         </li>
 
                         <li>
-                            <Link to="/restaurant_incoming_orders">
+                            <Link to="/restaurant_incoming_orders" title='Restaurant Incoming Orders'>
                             <IoWalkOutline style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                             {isSidebarOpen && 'Incoming Orders'}
                             </Link>

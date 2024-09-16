@@ -1,28 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'bulma/css/bulma.min.css';
 import '../App.css';
 import '../manager_components/components_m.css';
-import { IoAdd , IoSearchCircle} from 'react-icons/io5';
+import { IoSearchCircle} from 'react-icons/io5';
 
 
 
 const TableMainRestaurant = () => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [guestPhoto, setGuestPhoto] = useState(null);
-
-    const handlePhotoChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setGuestPhoto(reader.result);
-        };
-        reader.readAsDataURL(file);
-        }
-    };
-    const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
-    };
   return (
     <section className='section-p1'>
         <div className="columns" style={{minHeight:"100vh"}}>
@@ -72,6 +56,7 @@ const TableMainRestaurant = () => {
                     </div>
                 </div>
                 </div>
+
             </div>
 
             <div className="column" style={{backgroundColor:"white"}}>
@@ -88,48 +73,49 @@ const TableMainRestaurant = () => {
                             <div className="column">
                                 <div className="staff-space">
                                     <h3 className='subtitle'>Table ID : </h3>
-                                        <div className="field">
-                                            <label className="label">Table Name</label>
-                                            <div className="control">
-                                                <input className="input" type="text" placeholder="Enter first name" />
-                                            </div>
-                                        </div>
                                         <div className='columns is-multiline'>
                                             <div className="column is-6">
-                                                <div className="field">
-                                                    <label className="label">Food Description</label>
-                                                    <div className="control">
-                                                        <textarea className="textarea" placeholder="Enter room description"></textarea>
-                                                    </div>
+                                            <div className="field">
+                                                <label className="label">Table Name</label>
+                                                <div className="control">
+                                                    <input className="input" type="text" placeholder="Enter table name" />
                                                 </div>
+                                            </div>
                                             </div>
                                     
                                             <div className="column is-6">
                                                 <div className="field">
-                                                    <label className="label">Food Final Price</label>
+                                                    <label className="label">Pax Mininum</label>
                                                     <div className="control">
-                                                        <input className="input" type="number" placeholder="Enter final price" />
+                                                        <input className="input" type="number" placeholder="Enter mininum people" />
                                                     </div>
                                                 </div>
                                             </div> 
 
                                             <div className="column is-6">
                                                 <div className="field">
-                                                    <label className="label">Food Description</label>
+                                                    <label className="label">Pax Maxinum</label>
                                                     <div className="control">
-                                                        <textarea className="textarea" placeholder="Enter room description"></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    
-                                            <div className="column is-6">
-                                                <div className="field">
-                                                    <label className="label">Food Final Price</label>
-                                                    <div className="control">
-                                                        <input className="input" type="number" placeholder="Enter final price" />
+                                                        <input className="input" type="number" placeholder="Enter maxinum people" />
                                                     </div>
                                                 </div>
                                             </div> 
+
+                                            <div className="column is-6">
+                                                <div className="field">
+                                                    <label className="label">Status</label>
+                                                    <div className="control">
+                                                        <div className="select is-fullwidth">
+                                                            <select>
+                                                                <option>ACTIVE</option>
+                                                                <option>INACTIVE</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div> 
+
+                                           
 
                                         </div>      
                                 </div> 

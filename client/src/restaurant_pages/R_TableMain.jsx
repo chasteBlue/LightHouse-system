@@ -1,10 +1,10 @@
-import RestaurantLayout from "../layouts/Restaurant_Layout";
+import RestaurantLayout2 from "../layouts/Restaurant_Layout2";
 import TableMainRestaurant from "../restaurant_components/TableMainRestaurant";
 const RTableMain = () => {
     return (
-        <RestaurantLayout>
+        <RestaurantLayout2>
             <TableMainRestaurant />      
-        </RestaurantLayout>
+        </RestaurantLayout2>
       )
 }
 export default RTableMain;

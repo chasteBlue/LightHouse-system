@@ -6,13 +6,13 @@ import { IoArrowUndo, IoPrintOutline } from 'react-icons/io5';
 
 
 const OrderSummary = ({ isOpen, toggleModal }) => {
-  const [foodOrders, setFoodOrders] = useState([
+  const [foodOrders] = useState([
     { id: 1, name: 'Pizza Margherita', price: 8.0, image: 'https://via.placeholder.com/150', quantity: 1 },
     { id: 2, name: 'Burger', price: 5.5, image: 'https://via.placeholder.com/150', quantity: 1 },
     { id: 3, name: 'Pasta Carbonara', price: 7.25, image: 'https://via.placeholder.com/150', quantity: 1 },
   ]);
-  const [numberOfItems, setNumberOfItems] = useState(foodOrders.length);
-  const [total, setTotal] = useState(foodOrders.reduce((sum, item) => sum + item.price * item.quantity, 0));
+  const [numberOfItems] = useState(foodOrders.length);
+  const [total] = useState(foodOrders.reduce((sum, item) => sum + item.price * item.quantity, 0));
   return (
     <section className="section-p1">
       {/* Modal for Order Summary */}

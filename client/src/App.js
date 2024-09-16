@@ -47,6 +47,14 @@ import ROrder from "./restaurant_pages/R_Order";
 import RIncomingOrder from "./restaurant_pages/R_IncomingOrder";
 import RProceedRestaurant from "./restaurant_pages/R_ProceedOrder";
 import RTableMain from "./restaurant_pages/R_TableMain";
+import RTablReservations from "./restaurant_pages/R_TableRevservation";
+
+import BHomeBar from "./bar_pages/B_Home";
+import BDashboard from "./bar_pages/B_Dashboard";
+import BAllOrders from "./bar_pages/B_AllOrders";
+import BOrder from "./bar_pages/B_Order";
+import BIncomingOrder from "./bar_pages/B_IncomingOrder";
+import BProceedBarOrder from "./bar_pages/B_ProceedBar";
 
 function App() {
   return (
@@ -107,7 +115,14 @@ function App() {
         <Route path = "/restaurant_incoming_orders" element ={<RIncomingOrder/>}/>
         <Route path ="/restaurant_order/proceed_order" element={<RProceedRestaurant/>}/>
         <Route path = "/restaurant_table_maintenance" element ={<RTableMain/>}/>
+        <Route path = "/restaurant_table_reservations" element ={<RTablReservations/>}/>
 
+        <Route path = "/bar_home" element ={<BHomeBar/>}/>
+        <Route path = "/bar_dashboard" element ={<BDashboard/>}/>
+        <Route path = "/bar_all_orders" element ={<BAllOrders/>}/>
+        <Route path = "/bar_order" element ={<BOrder/>}/>
+        <Route path = "/bar_incoming_orders" element ={<BIncomingOrder/>}/>
+        <Route path = "/bar_order/proceed_order" element ={<BProceedBarOrder/>}/>
 
       </Routes>
       </BrowserRouter>

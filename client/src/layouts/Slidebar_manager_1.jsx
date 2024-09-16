@@ -44,7 +44,10 @@ const SidebarManager = () => {
   };
 
   return (
-    <section className='section-p1 side-color'>
+    <section className='section-p1 side-color' style={{
+      transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-20%)',
+      transition: 'transform 0.5s ease-in', 
+    }}>
       <div className='columns'>
         {/* Sidebar */}
         <aside
@@ -88,13 +91,13 @@ const SidebarManager = () => {
             </p>
             <ul className='menu-list'>
               <li>
-                <Link to='/manager_home'>
+                <Link to='/manager_home' title='Manager Home'>
                   <IoHome style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Home'}
                 </Link>
               </li>
               <li>
-                <Link to="/manager_dashboard">
+                <Link to="/manager_dashboard" title='Manager Dashboard'>
                   <IoPerson style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Dashboard'}
                 </Link>
@@ -106,7 +109,7 @@ const SidebarManager = () => {
             </p>
             <ul className='menu-list'>
               <li>
-                <Link to='/manager_accounts'>
+                <Link to='/manager_accounts' title="Staff Accounts">
                   <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Staff Accounts'}
                 </Link>
@@ -118,7 +121,7 @@ const SidebarManager = () => {
             </p>
             <ul className='menu-list'>
               <li>
-                <Link to='/manager_room'>
+                <Link to='/manager_room' title="Rooms">
                   <IoBed style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Rooms'}
                 </Link>
@@ -130,13 +133,13 @@ const SidebarManager = () => {
             </p>
             <ul className='menu-list'>
               <li>
-                <Link to='/manager_food'>
+                <Link to='/manager_food' title="Food Menu">
                   <IoFastFood style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Food Menu'}
                 </Link>
               </li>
               <li>
-                <Link to='/manager_drink'>
+                <Link to='/manager_drink' title="Drink Menu">
                   <IoWine style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Drink Menu'}
                 </Link>
@@ -148,13 +151,13 @@ const SidebarManager = () => {
             </p>
             <ul className='menu-list'>
               <li>
-                <Link to='/manager_concierge'>
+                <Link to='/manager_concierge' title="Concierge">
                   <IoWalk style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Concierge'}
                 </Link>
               </li>
               <li>
-                <Link to='/manager_laundry'>
+                <Link to='/manager_laundry' title='Laundry'>
                   <IoBag style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Laundry'}
                 </Link>
@@ -166,13 +169,13 @@ const SidebarManager = () => {
             </p>
             <ul className='menu-list'>
               <li>
-                <Link to='/manager_venue'>
+                <Link to='/manager_venue' title='Venue Package'>
                   <IoLocate style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Venue Package'}
                 </Link>
               </li>
               <li>
-                <Link to="/manager_food_package">
+                <Link to="/manager_food_package" title='Food Package'>
                   <IoFastFood style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                   {isSidebarOpen && 'Food Package'}
                 </Link>

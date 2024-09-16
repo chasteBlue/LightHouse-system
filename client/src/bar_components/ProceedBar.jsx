@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
-import './components_r.css';
+import "../restaurant_components/components_r.css";
 import { Link } from 'react-router-dom';
 import {  TextField } from '@mui/material';
 
 
-const ProceedRestaurant = () => {
+const ProceedBar = () => {
   const initialFoodItems = [
     { id: 1, name: 'Pizza Margherita', price: 8.0, image: 'https://via.placeholder.com/150', quantity: 1 },
     { id: 2, name: 'Burger', price: 5.5, image: 'https://via.placeholder.com/150', quantity: 1 },
@@ -110,7 +110,7 @@ const ProceedRestaurant = () => {
                 </tbody>
               </table>
             </div>
-            <Link to="/restaurant_order">
+            <Link to="/bar_order">
                 <button className="button is-blue"> Back
                 </button>
                 </Link>
@@ -143,4 +143,4 @@ const ProceedRestaurant = () => {
   );
 };
 
-export default ProceedRestaurant;
+export default ProceedBar;
