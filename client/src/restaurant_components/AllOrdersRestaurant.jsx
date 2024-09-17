@@ -4,7 +4,8 @@ import '../App.css';
 import './components_r.css';
 import { IoPencilOutline,  IoSearchCircle,  IoCloseSharp, IoTrashBinOutline, IoReaderOutline } from 'react-icons/io5';
 import OrderSummary from '../restaurant_modals/OrderSummary';
-
+import ErrorMsg from '../messages/errorMsg';
+import SuccessMsg from '../messages/successMsg';
 
 
 const AllOrdersRestaurant = () => {
@@ -17,11 +18,13 @@ const AllOrdersRestaurant = () => {
   
   return (
     <section className='section-p1'>
+        <ErrorMsg/>
+        <SuccessMsg/>
         <header>
             <div style={{backgroundColor:'white', borderRadius:'10px 10px'}}>
                     <div className='column is-multiline is-mobile'  >
                         <h1 className='subtitle'>
-                            <strong>All Orders</strong>
+                            <strong>All Food Orders</strong>
                         </h1>
                         
                     </div>

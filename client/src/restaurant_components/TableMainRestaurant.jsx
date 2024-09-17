@@ -130,25 +130,6 @@ const TableMainRestaurant = () => {
                         {/* Separator Line */}
                         <hr />
 
-                        <div className="columns">
-                            <div className="column">
-                                <div className="columns">
-                                    <h1 className="subtitle">
-                                        <strong>Archive Data</strong>
-                                    </h1>
-                                </div>
-                                <div className="columns is-multiline is-mobile">
-                                    <div className="column">
-                                        <p>To ensure data integrity and maintain a clear historical record, all user accounts that are no longer active shall be archived. Archiving an account involves securely storing all associated data, including user information and transaction history, in a read-only format. Archiving does not delete the account or its data but instead preserves it in its current state, safeguarding the integrity of the information while freeing up active account management resources.</p>
-                                    </div>
-                                    <div className="column is-12 is-left">
-                                        <button className="button is-red">Archive</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {/* Separator Line */}
-                        <hr />
 
 
                     </div>
