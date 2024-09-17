@@ -19,3 +19,9 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 console.log("Supabase URL:", process.env.SUPABASE_URL);  // Debug line to check if URL is loaded
+const checkInRoutes = require('./routes/checkInRoutes'); // Import the check-in routes
+app.use('/api', checkInRoutes); // Routes are mounted under /api
+const staffRoutes = require('./routes/staffRoutes'); // Import the staff routes
+
+// Use the staff routes
+app.use('/api', staffRoutes); // Routes are mounted under /api
