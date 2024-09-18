@@ -22,7 +22,7 @@ function ErrorMsg() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!visible) return null; // Hide the component when not visible
+  if (!visible) return null; 
 
   return (
     <div className="notification is-flex is-align-items-start is-flex-direction-column">

@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import 'bulma/css/bulma.min.css';
 import './pages.css';
 import '../App.css';
-import banner from '../images/guest_home/1.png';
+import bar from '../images/guest_home/restaurant.jpg';
 import AddTableReservation from '../guest_modals/AddTableReservation';
+import Breadcrumbs from '../layouts/Breadcrumbs';
 
 function Restaurant_Second() {
     const [selectedTable, setSelectedTable] = useState(null);
@@ -37,13 +38,23 @@ function Restaurant_Second() {
         }
     };
 
+    const breadcrumbItems = [
+        { label: 'Home', link: '/' },
+        { label: 'Restaurant Date Reservation', link:'/resturant_filtering'},
+        { label: 'Restaurant Booking'},
+    ];
+
     return (
         <section className='section-m1'>
             <div>
-                <div className="hero-body" style={{ backgroundImage: `url(${banner})`, margin: '2%' }}>
+                <div className="hero-body" style={{ backgroundImage: `url(${bar})`, margin: '2%' }}>
                     <div className="container has-text-centered" style={{ padding: '5%' }}>
                         <h1 className="title has-text-white">Restaurant Table Reservation</h1>
                     </div>
+                </div>
+
+                <div>
+                    <Breadcrumbs items={breadcrumbItems} />
                 </div>
 
                 <div className="container event-bg-style" style={{marginBottom:'3%'}}>

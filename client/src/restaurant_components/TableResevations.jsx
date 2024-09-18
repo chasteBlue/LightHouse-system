@@ -49,7 +49,7 @@ const TablReservations = () => {
         },
     ];
 
-    // List of tables
+    
     const tables = [
         { id: 1, chairs: 4, name: 'Table A' },
         { id: 2, chairs: 4, name: 'Table B' },

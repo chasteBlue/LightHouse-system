@@ -14,6 +14,8 @@ import GResturant_1 from "./pages/G_Resturant_1";
 import GResturant_2 from "./pages/G_Resturant_2";
 import GRoomSearch from "./pages/G_RoomSearch";
 import GRoomDetails from "./pages/G_RoomDetails";
+import GReservations from "./pages/G_Reservations";
+import GVirtualTour from "./pages/G_VirtualTour";
 
 import ALogin from "./manager_pages/A_Login";
 
@@ -67,7 +69,8 @@ function App() {
 
         <Route path="/room_search" element={<GRoomSearch/>}/>
         <Route path="/room_search/room_details" element={<GRoomDetails/>}/>
-
+        <Route path="/reservations" element={<GReservations/>}/>
+        <Route path = "/virtual_tour" element ={<GVirtualTour/>}/>
 
 
         <Route path="/faq" element={<GFaq/>}/>

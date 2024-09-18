@@ -1,7 +1,6 @@
 import React from 'react';
 import 'bulma/css/bulma.min.css';
 
-
 const AddTableReservation = ({ isOpen, toggleModal }) => {
     return (
         <div className={`modal ${isOpen ? 'is-active' : ''}`}>
@@ -12,130 +11,63 @@ const AddTableReservation = ({ isOpen, toggleModal }) => {
                     <button className="delete" aria-label="close" onClick={toggleModal}></button>
                 </header>
                 <section className="modal-card-body">
-                <div className="columns">
+                    <div className="columns">
+                        {/* Left Column */}
+                        <div className="column is-half">
+                            <div className="field">
+                                <label className="subtitle">Guest Information</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Name:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Address:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Country:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Contact Number:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Gender:</label>
+                            </div>
+                        </div>
 
-                    <div className="column is-8">
-                        <div className="columns is-multiline">
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">First Name</label>
-                                        <div className="control">
-                                            <input className="input" type="text" placeholder="Enter first name" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Last Name</label>
-                                        <div className="control">
-                                            <input className="input" type="text" placeholder="Enter last name" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Address</label>
-                                        <div className="control">
-                                            <input className="input" type="text" placeholder="Enter address" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Gender</label>
-                                        <div className="control">
-                                            <input className="input" type="text" placeholder="Enter gender" />
-                                        </div>
-                                    </div>
-                                </div>
-                                {/* Continue for other fields */}
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Email</label>
-                                        <div className="control">
-                                            <input className="input" type="email" placeholder="Enter email" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Phone Number</label>
-                                        <div className="control">
-                                            <input className="input" type="email" placeholder="Enter email" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Account Role</label>
-                                        <div className="control">
-                                            <input className="input" type="email" placeholder="Enter email" />
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <div className="column is-6">
-                                        <div className="field">
-                                            <label className="label">Department</label>
-                                            <div className="control">
-                                                <input className="input" type="text" placeholder="Enter department" />
-                                            </div>
-                                        </div>
-                                </div>
-
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Hire Date</label>
-                                        <div className="control">
-                                            <input className="input" type="text" placeholder="Enter username" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="column is-6">
-                                <label className="label">Shift Time</label>
-                                    <div className="columns">
-                                        <div className="column is-6">
-                                            <input className="input" type="time" placeholder="Start Time" />
-                                        </div>
-                                        <div className="column is-6">
-                                            <input className="input" type="time" placeholder="End Time" />
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div className="column is-6">
-                                    <div className="field">
-                                        <label className="label">Username</label>
-                                        <div className="control">
-                                            <input className="input" type="text" placeholder="Enter username" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                            <div className="column is-6">
-                                <div className="field">
-                                    <label className="label">New Password</label>
-                                    <div className="control">
-                                        <input className="input" type="text" placeholder="Enter new password" />
-                                    </div>
-                                </div>
+                        {/* Right Column */}
+                        <div className="column is-half">
+                        <div className="field">
+                                <label className="subtitle">Table Reservation Information</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Reservation Date:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Reservation Time:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Reserved Table:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Number of Guests:</label>
+                            </div>
+                            <div className="field">
+                                <label className="label">Notes</label>
+                                <textarea className="textarea" placeholder="Enter notes"></textarea>
                             </div>
                         </div>
                     </div>
 
-                    <div className="column is-4">
-                        {/* Second Column with image preview and file input */}
-                        <div className="staff-space">
-                           
+                    {/* Terms and Conditions */}
+                    <div className="field mt-5">
+                        <label className="label">
+                            Please review and agree to our Terms and Conditions, Data Policy, and Cancellation Policy before proceeding with your reservation. Your agreement is required to confirm your booking.
+                        </label>
+                        <div className="control">
+                            <label className="checkbox">
+                                <input type="checkbox" /> I agree to the terms and conditions
+                            </label>
                         </div>
-                    </div>
                     </div>
                 </section>
 
@@ -143,7 +75,6 @@ const AddTableReservation = ({ isOpen, toggleModal }) => {
                     <button className="button is-blue mr-2">Save</button>
                     <button className="button is-red" onClick={toggleModal}>Cancel</button>
                 </footer>
-
             </div>
         </div>
     );
