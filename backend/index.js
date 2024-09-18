@@ -7,6 +7,7 @@ const staffRoutes = require('./routes/staffRoutes'); // Import staff routes
 const roomRoutes = require('./routes/roomRoutes'); // Import the room routes
 const roomReservationRoutes = require('./routes/roomReservationRoutes');
 const foodRoutes = require('./routes/foodRoutes'); // Import food routes
+const barRoutes = require('./routes/barRoutes'); // Import the bar routes
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -29,7 +30,7 @@ app.use('/api', roomRoutes); // Routes are mounted under /api
 
 app.use('/api', roomReservationRoutes); // Routes are mounted under /api
 app.use('/api', foodRoutes); // Routes are mounted under /api
-
+app.use('/api', barRoutes); // Mount the bar routes under /api
 
 
 app.listen(port, () => {
