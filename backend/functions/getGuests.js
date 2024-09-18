@@ -20,4 +20,4 @@ const getGuests = async (req, res) => {
     }
 };
 
-module.exports = { getGuests };
+module.exports = { getGuests }; 

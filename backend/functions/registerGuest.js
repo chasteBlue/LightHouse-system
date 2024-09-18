@@ -14,7 +14,7 @@ const registerGuest = async (req, res) => {
         guest_gender,
         guest_photo
     } = req.body;
-
+  
     try {
         const { data, error } = await supabase
             .from('GUEST')

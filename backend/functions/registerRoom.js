@@ -16,7 +16,7 @@ const registerRoom = async (req, res) => {
     } = req.body;
 
     const room_id = uuidv4(); // Generate a new unique UUID for room_id
-
+ 
     try {
         // Insert into the ROOM table
         const { data: roomData, error: roomError } = await supabase
