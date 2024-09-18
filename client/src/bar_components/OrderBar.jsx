@@ -4,7 +4,6 @@ import 'bulma/css/bulma.min.css';
 import '../App.css';
 import '../restaurant_components/components_r.css';
 import { IconButton, TextField } from '@mui/material';
-import ProceedBar from './ProceedBar';
 import {IoRemoveOutline,  IoAddOutline, IoTrashBinOutline, IoPencil } from 'react-icons/io5';
 
 
