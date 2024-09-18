@@ -2,6 +2,13 @@ import React from 'react';
 import 'bulma/css/bulma.min.css';
 import { IoBedSharp, IoFastFood, IoGlassesSharp, IoPeople, IoWalk, IoWine } from "react-icons/io5";
 import home_hero from '../images/hero.png';
+import garden from '../images/guest_home/garden.jpg';
+import garden2 from '../images/guest_home/garden 2.jpg';
+import lobby from '../images/guest_home/lobby.jpg';
+import lobby2 from '../images/guest_home/lobby design.webp';
+import outside from '../images/guest_home/outside view.webp';
+import pool from '../images/guest_home/pool.webp';
+import parking from '../images/guest_home/parking.jpg';
 import './pages.css';
 import '../App.css';
 
@@ -14,7 +21,7 @@ function AboutUs() {
                 <div className="floating-container">
                      <div className='about-white'>
                         <div className="container is-centered">
-                            <h2 className='title has-text-centered'>About LightHouse Point Hotel</h2>
+                            <h2 className='title has-text-centered m-3'>About LightHouse Point Hotel</h2>
                         </div>
                         <h3 className="about-space"><strong>Beacon of Luxury, Stay Enlightened Here.</strong></h3>
                         <div className='about-space'>
@@ -44,7 +51,7 @@ function AboutUs() {
                         <div className="body">
                             <div className="text">
                                 <h3><strong>Room Reservation</strong></h3>
-                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                                <div className="body-text">Book your ideal stay effortlessly - choose from our cozy and thoughtfully  designed rooms that guarantees a memorable experience.</div>
                             </div>
                         </div>
                     </div>
@@ -56,7 +63,7 @@ function AboutUs() {
                         <div className="body">
                             <div className="text">
                                 <h3><strong>Concierge and Laundry</strong></h3>
-                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                                <div className="body-text">Elevate your experience with our dedicated concierge services and convenient laundry options, ensuring your visit is tailored to your needs.</div>
                             </div>
                         </div>
                     </div>
@@ -68,7 +75,7 @@ function AboutUs() {
                         <div className="body">
                             <div className="text">
                                 <h3><strong>Resturant Services</strong></h3>
-                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                                <div className="body-text">Savor the flavors of our on-site restaurant, where each dish is made to delight your taste buds.</div>
                             </div>
                         </div>
                     </div>
@@ -80,7 +87,7 @@ function AboutUs() {
                         <div className="body">
                             <div className="text">
                                 <h3><strong>Virtual Tour</strong></h3>
-                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                                <div className="body-text">Take a virtual tour of our cozy hotel rooms and amenities from the comfort of your device, giving you a sneak peek of your upcoming stay.</div>
                             </div>
                         </div>
                     </div>
@@ -92,7 +99,7 @@ function AboutUs() {
                         <div className="body">
                             <div className="text">
                                 <h3><strong>Event Services</strong></h3>
-                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                                <div className="body-text">Mark your milestone with us and let our professional event services turn your special occasions into truly memorable experiences.</div>
                             </div>
                         </div>
                     </div>
@@ -104,49 +111,52 @@ function AboutUs() {
                         <div className="body">
                             <div className="text">
                                 <h3><strong>Bar Services</strong></h3>
-                                <div className="body-text">Body text for whatever you’d like to say. Add main takeaway points, quotes, anecdotes, or even a very very short story.</div>
+                                <div className="body-text">Raise a toast and enjoy our accommodating bar services, where every drink is prepared to make your unwind session even more enjoyable.</div>
                             </div>
                         </div>
                     </div>
 
+                    
                 </div>
             </div>
 
             <div className="panel-image-double">
                 <div className="image-placeholder"></div>
-                    <img className="image" src="https://via.placeholder.com/357x170" alt="Placeholder" />
-                    <img className="image flipped" src="https://via.placeholder.com/357x170" alt="Placeholder" />
+                    <img className="image " src={garden} alt="Garden At Night" />
+                    <img className="image flipped " src={garden2} alt="Garden At Day" />
                 <div className="image-placeholder"></div>
             </div>
 
             <div className="about-us-container">
                 <div className="flex-boxes-container">
                     <div className="flex-box-head">
-                    <h2 className="flex-box-title">A bit more about us...</h2>
+                    <h2 className="flex-box-title">A bit more about the hotel...</h2>
                         <div className='flex-column'>
+
                             <div className="flex-box">
-                                <h3>A bit more about us...</h3>
-                                    <img className="flex-image" src="https://via.placeholder.com/357x170" alt="Reception Desk" />
+                                <h3 className='has-text-white m-2'>Opened on 2023.</h3>
+                                    <img className="flex-image " src={lobby} alt="Lobby"/>
                             </div>
                             <div className="flex-box">
-                                <h3 >A bit more about us...</h3>
-                                    <img className="flex-image" src="https://via.placeholder.com/357x170" alt="Reception Desk" />
+                                <h3 className='has-text-white m-2'>There are 15 active rooms.</h3>
+                                    <img className="flex-image" src={lobby2} alt="Lobby"/>
                             </div>
                         </div>
 
                         <div className='flex-column'>
                             <div className="flex-box">
-                                <h3>A bit more about us...</h3>
-                                    <img className="flex-image" src="https://via.placeholder.com/357x170" alt="Reception Desk" />
+                                <h3 className='has-text-white m-2' > This hotel also features complimentary wireless internet access.</h3>
+                                    <img className="flex-image" src={parking} alt="Parking Lot" />
                             </div>
                             <div className="flex-box">
-                                <h3>A bit more about us...</h3>
-                                    <img className="flex-image" src="https://via.placeholder.com/357x170" alt="Reception Desk" />
+                                <h3 className='has-text-white m-2'>Has a Relaxing Garden.</h3>
+                                    <img className="flex-image" src={outside} alt="Outside Terrance" />
                             </div>
                         </div>
+
                         <div className="flex-box">
-                                <h3>A bit more about us...</h3>
-                                <img className="flex-image" src="https://via.placeholder.com/357x170" alt="Reception Desk" />
+                                <h3 className='has-text-white m-2'>Enjoy a satisfying meal at Captain's Galley and outdoor pool.</h3>
+                                <img className="flex-image-bottom" src={pool} alt="Pool on 3rd floor" />
                         </div>
 
                     </div>

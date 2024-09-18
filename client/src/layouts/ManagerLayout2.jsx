@@ -5,7 +5,7 @@ import Navbar_manager from './Navbar_manager';
 
 const ManagerLayout2 = ({children}) => {
     const location = useLocation();
-    const hideFooter = location.pathname === '/login' || location.pathname === '/register'|| location.pathname === '/manager_home';
+    const hideFooter = location.pathname === '/staff_login' || location.pathname === '/manager_home';
     
   return (
     <React.Fragment>

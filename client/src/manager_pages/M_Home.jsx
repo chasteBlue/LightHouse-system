@@ -4,8 +4,7 @@ import HomeManager from "../manager_components/HomeManager";
 const MHome = () => {
     return (
         <ManagerLayout>
-            <HomeManager />
-            
+            <HomeManager />            
         </ManagerLayout>
       )
 }

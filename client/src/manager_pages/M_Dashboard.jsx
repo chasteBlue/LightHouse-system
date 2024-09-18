@@ -1,10 +1,10 @@
 import ManagerLayout from "../layouts/Manager_Layout";
-import Home from "../components/Home";
+import DashboardManager from "../manager_components/DashboardManager";
 
 const MDashboard = () => {
     return (
         <ManagerLayout>
-            <Home/>
+            <DashboardManager/>
             
         </ManagerLayout>
       )

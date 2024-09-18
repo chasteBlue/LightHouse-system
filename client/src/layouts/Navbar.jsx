@@ -36,7 +36,7 @@ function Navbar() {
             <Link to="/contact_us" className="navbar-item">Contact Us</Link>
             <Link to="/resturant_filtering" className="navbar-item" href="#contact">Resturant</Link>
             <Link to="/event_filtering" className="navbar-item">Events</Link>
-            <a className="navbar-item" href="#contact">Virtual Tour</a>
+            <Link to ="/virtual_tour" className="navbar-item">Virtual Tour</Link>
           </div>
           <div className="navbar-end">
             <div className="navbar-item">
@@ -58,7 +58,7 @@ function Navbar() {
             <Link to="/contact_us" className="sidebar-item">Contact Us</Link>
             <Link to="/resturant_filtering" className="sidebar-item">Resturant</Link>
             <Link to="/event_filtering" className="sidebar-item" >Events</Link>
-            <a className="sidebar-item" href="#contact">Virtual Tour</a>
+            <Link to="/virtual_tour" className="sidebar-item">Virtual Tour</Link>
           <div className="navbar-end">
             <div className="sidebar-item">
               <div className="buttons">

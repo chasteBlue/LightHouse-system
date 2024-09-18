@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { IoHome, IoPerson, IoChevronBack, IoChevronForward, IoPeople, IoBed, IoFastFood, IoWalk, IoBag, IoWine, IoLocate } from 'react-icons/io5';
+import { IoHome, IoPerson, IoChevronBack, IoChevronForward, IoBed, IoFastFood, IoCloud, IoCash } from 'react-icons/io5';
 import 'bulma/css/bulma.min.css';
 import './layouts.css';
 import '../App.css';
@@ -13,7 +13,10 @@ const SidebarManager = () => {
   };
 
   return (
-    <section className='section-p1 side-color'>
+    <section className='section-p1 side-color' style={{
+      transform: isSidebarOpen ? 'translateX(0)' : 'translateX(-20%)',
+      transition: 'transform 0.5s ease-in', 
+    }}>
       <div className="columns" >
         {/* Sidebar */}
         <aside className='aside-space' style={{ transition: 'width 0.3s', position: 'relative' }}>
@@ -45,13 +48,13 @@ const SidebarManager = () => {
             </p>
             <ul className="menu-list">
                 <li>
-                    <Link to="/manager_home">
+                    <Link to="/manager_home" title='Manager Home'>
                     <IoHome style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Home'}
                     </Link>
                 </li>
                 <li>
-                    <a>
+                    <a title='Manager Data Dashboard'>
                     <IoPerson style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Dashboard'}
                     </a>
@@ -63,29 +66,29 @@ const SidebarManager = () => {
             </p>
             <ul className="menu-list">
                 <li>
-                    <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <Link to="/manager_accounts" title="Sales">
+                    <IoCash style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Sales'}
                     </Link>
                 </li>
 
                 <li>
-                    <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <Link to="/manager_accounts" title="Room Occupancy Rate">
+                    <IoBed style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Room Occupancy Rate'}
                     </Link>
                 </li>
 
                 <li>
-                    <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <Link to="/manager_accounts" title="Menu Optimization">
+                    <IoFastFood style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Menu Optimization'}
                     </Link>
                 </li>
 
                 <li>
-                    <Link to="/manager_accounts">
-                    <IoPeople style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
+                    <Link to="/manager_accounts" title="Forecast">
+                    <IoCloud style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Forecast'}
                     </Link>
                 </li>

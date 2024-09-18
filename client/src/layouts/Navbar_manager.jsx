@@ -31,7 +31,7 @@ function Navbar_manager() {
           <div className="navbar-end">
             <div className="navbar-item">
               <div className="buttons">
-                <Link to = "/register"  className="button is-blue"><strong><IoLogOut className='icon-button-space'/> Log out</strong></Link>
+                <Link to = '/staff_login'  className="button is-blue"><strong><IoLogOut className='icon-button-space'/> Log out</strong></Link>
               </div>
             </div>
           </div>

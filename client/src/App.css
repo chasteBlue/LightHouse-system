@@ -1,4 +1,8 @@
 /*TEXT----------------------------------------------------------------------*/
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
 body {
   line-height: 0.5;
   margin: 20px;
@@ -72,6 +76,7 @@ h6 {
   padding: 20px;
 }
 
+
 /*--------------------------------------------------------------------------*/
 
 /*LINK----------------------------------------------------------------------*/
@@ -114,8 +119,11 @@ h6 {
 
 /*FOOTER--------------------------------------------------------------------*/
 .footer-section {
-  background-color: #99DCEB;
-  padding: 40px 30px;
+  background-color: #b0f1ff;
+  padding: 50px 20px; 
+  text-align: left;
+  position: relative;
+  z-index: 2;
 }
 
 .footer-container {
@@ -148,29 +156,39 @@ h6 {
 }
 
 .footer-col .footer-link {
-  text-decoration: none; /* Removes default underline */
-  color: inherit; /* Keeps the text color unchanged */
-  position: relative; /* Allows for positioning the pseudo-element */
+  text-decoration: none; 
+  color: inherit; 
+  position: relative; 
 }
 
 
 .footer-copyright {
   text-align: center;
   padding: 20px 0;
-  background-color: #e3e3e3;
+  background-color: #ffffff;
   color: #333;
   font-size: 14px;
+  border-radius: 0 10rem 0 10rem;
 }
 
 
 /*FOOTER--------------------------------------------------------------------*/
-
+/*TABLE---------------------------------------------------------------------*/
+.is-table-blue{
+  background-color: #0077B7; 
+  color: #fff;
+}
 
 /*BUTTONS------------------------------------------------------------------*/
 .button.is-blue {
   background-color: #0077B7; 
   color: #fff; 
   border-color: #007bff; 
+}
+.button.is-inverted-blue{
+  background-color: #fff;  
+  color: #0077B7;
+  border-color: #007bff;
 }
 .button.is-dark-blue  {
   background-color: #010069; 
@@ -182,7 +200,10 @@ h6 {
   color: #fff; 
   border-color: #7a0101; 
 }
-
+.button.is-inverted-blue:hover{
+  background-color: #ebebeb; 
+  border-color: #0056b3;
+}
 .button.is-blue:hover{
   background-color: #036da7; 
   border-color: #0056b3;
@@ -197,7 +218,7 @@ h6 {
   border-color: #010069;
 }
 
-.button.is-blue:focus,.button.is-red:focus .button.is-blue:active, .button.is-dark-blue:focus {
+.button.is-inverted-blue:focus,.button.is-blue:focus,.button.is-red:focus .button.is-blue:active, .button.is-dark-blue:focus {
   box-shadow: none; 
 }
 
@@ -207,3 +228,34 @@ h6 {
   text-align: center;
 }
 /*BUTTONS------------------------------------------------------------------*/
+/*BREADCRUMBS--------------------------------------------------------------*/
+.breadcrumbs {
+  display: flex; 
+  align-items: center; 
+  font-size: 16px; 
+  padding: 10px 0; 
+}
+
+.breadcrumb-item {
+  display: flex; 
+  align-items: center; 
+}
+
+.breadcrumb-item a {
+  color: #007bff; 
+  text-decoration: none; 
+  transition: color 0.3s; 
+}
+
+.breadcrumb-item a:hover {
+  color: #0056b3; 
+  text-decoration: underline;
+}
+
+.breadcrumb-separator {
+  margin: 0 8px; 
+  color: #6c757d; 
+}
+
+/*BREADCRUMBS--------------------------------------------------------------*/
+

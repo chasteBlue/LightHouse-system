@@ -1,0 +1,41 @@
+.container-white-space{
+    background-color: white;
+    border-radius: 10px;
+    padding: 1rem;
+}
+
+.container-blue-space{
+    background-color: #99DCEB;
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.button-gap-mui{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.textarea-appear{
+    width: 100%;
+    min-width: 100px;
+    padding: 0.5rem;
+    border-radius: 1rem;
+}
+
+.card-circle-order{
+    position: absolute;
+    top:-10px;
+    left: -10px;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #007792;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+}
