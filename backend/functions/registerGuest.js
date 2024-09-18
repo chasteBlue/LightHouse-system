@@ -2,7 +2,7 @@ const { supabase } = require('../supabaseClient'); // Import from supabaseClient
 
 const registerGuest = async (req, res) => {
     const {
-        guest_id,
+        guest_id, //550e8400-e29b-41d4-a716-446655440000
         guest_fname,
         guest_lname,
         guest_birthdate,

@@ -1,7 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors'); // Import CORS middleware
 const guestRoutes = require('./routes/guestRoutes');
-require('dotenv').config();
+const checkInRoutes = require('./routes/checkInRoutes'); // Import check-in routes
+const staffRoutes = require('./routes/staffRoutes'); // Import staff routes
+const roomRoutes = require('./routes/roomRoutes'); // Import the room routes
+const roomReservationRoutes = require('./routes/roomReservationRoutes');
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -19,9 +23,12 @@ app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
 console.log("Supabase URL:", process.env.SUPABASE_URL);  // Debug line to check if URL is loaded
-const checkInRoutes = require('./routes/checkInRoutes'); // Import the check-in routes
+
 app.use('/api', checkInRoutes); // Routes are mounted under /api
-const staffRoutes = require('./routes/staffRoutes'); // Import the staff routes
 
 // Use the staff routes
 app.use('/api', staffRoutes); // Routes are mounted under /api
+
+app.use('/api', roomRoutes); // Routes are mounted under /api
+
+app.use('/api', roomReservationRoutes); // Routes are mounted under /api

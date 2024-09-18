@@ -30,6 +30,7 @@ const registerCheckIn = async (req, res) => {
             ]);
 
         if (checkInError) {
+            console.error('Error inserting into CHECK_IN:', checkInError.message);
             return res.status(400).json({ error: checkInError.message });
         }
 
@@ -45,12 +46,13 @@ const registerCheckIn = async (req, res) => {
             ]);
 
         if (nameListError) {
-            return res.status(400).json({ error: nameListError.message });
+            console.error('Error inserting into CHECK_IN_NAME_LIST:', nameListError.message); // Log error
+            return res.status(400).json({ error: nameListError.message }); // Return the error
         }
 
         res.status(201).json({ message: "Check-in registered successfully and name list updated!", checkInData, nameListData });
     } catch (err) {
-        console.error('Registration error:', err);
+        console.error('Registration error:', err); // Log any other errors
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
