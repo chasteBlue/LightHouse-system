@@ -66,7 +66,7 @@ const RoomSearch = () => {
                 <div className="card-content">
                     <h2 className="title">Room Number: 101</h2>
                     <p className="subtitle">Price: $100 per night</p>
-                    <button className="button is-blue is-fullwidth">Book Now</button>
+                    <Link to="/room_search/book_room_reservations"><button className="button is-blue is-fullwidth">Book Now</button></Link>
                 </div>
                 <div className="card-content section-p1">
                     <ul className="limited-bullet-list">

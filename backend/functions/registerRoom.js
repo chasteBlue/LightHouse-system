@@ -1,5 +1,5 @@
-const { supabase } = require('../supabaseClient'); // Import Supabase client
-const { v4: uuidv4 } = require('uuid'); // Import UUID library
+const { supabase } = require('../supabaseClient'); 
+const { v4: uuidv4 } = require('uuid'); 
 
 const registerRoom = async (req, res) => {
     const {
@@ -15,15 +15,14 @@ const registerRoom = async (req, res) => {
         room_breakfast_availability
     } = req.body;
 
-    const room_id = uuidv4(); // Generate a new unique UUID for room_id
+    const room_id = uuidv4(); 
  
     try {
-        // Insert into the ROOM table
         const { data: roomData, error: roomError } = await supabase
             .from('ROOM')
             .insert([
                 {
-                    room_id, //650e8400-e29b-41d4-a716-446655440111
+                    room_id,
                     room_type_name,
                     room_description,
                     room_pax_min,
@@ -44,7 +43,7 @@ const registerRoom = async (req, res) => {
 
         res.status(201).json({ message: "Room registered successfully!", roomData });
     } catch (err) {
-        console.error('Registration error:', err); // Log any other errors
+        console.error('Registration error:', err); 
         res.status(500).json({ error: "Internal Server Error" });
     }
 };

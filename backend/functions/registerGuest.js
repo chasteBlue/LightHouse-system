@@ -1,4 +1,4 @@
-const { supabase } = require('../supabaseClient'); // Import from supabaseClient.js
+const { supabase } = require('../supabaseClient'); 
 
 const registerGuest = async (req, res) => {
     const {

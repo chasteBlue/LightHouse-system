@@ -33,7 +33,7 @@ function RegisterGuest() {
                                 <div className="field">
                                     <label className="label">Gender</label>
                                     <div className="control">
-                                        <div className="select">
+                                        <div className="select is-fullwidth">
                                             <select>
                                                 <option>Male</option>
                                                 <option>Female</option>

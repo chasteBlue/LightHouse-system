@@ -18,7 +18,6 @@ const Reservations = () => {
     const [activeSection, setActiveSection] = useState(null);
 
     // Function to render the right side details based on the active section
-    // Function to render the right side details based on the active section
     const renderActiveSection = () => {
         switch (activeSection) {
             case 'room':
@@ -26,9 +25,9 @@ const Reservations = () => {
             case 'table':
                 return <ReservationsTable />;
             case 'event':
-                return <ReservationsEvent />; // Correct this part
+                return <ReservationsEvent />; 
             default:
-                return <p>Select a reservation type to view the details.</p>;
+                return <ReservationsRoom />;
         }
     };
 
@@ -47,6 +46,9 @@ const Reservations = () => {
             </div>
 
             <div className='m-2'>
+                <div className='m-1'>
+                    <h1 className='subtitle'>My Reservations</h1>
+                </div>
 
             <div className="columns">
                 {/* Sidebar Accordion */}

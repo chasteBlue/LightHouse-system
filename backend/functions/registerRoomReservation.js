@@ -1,5 +1,5 @@
-const { supabase } = require('../supabaseClient'); // Import Supabase client
-const { v4: uuidv4 } = require('uuid'); // Import UUID library
+const { supabase } = require('../supabaseClient'); 
+const { v4: uuidv4 } = require('uuid'); 
 
 const registerRoomReservation = async (req, res) => {
     const {
