@@ -1,1 +1,45 @@
+# Node.js dependencies
+node_modules/
+
+# Build outputs
+build/
+dist/
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment variables
+.env
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE and Editor settings
+.vscode/
+.idea/
+
+# Firebase service account credentials (sensitive)
 backend/config/lighthousehotel-firebase-adminsdk-vywmp-33b1bba55d.json
+
+# Temporary files
+*.tmp
+*.temp
+
+# Specific exclusions for client folder
+client/node_modules/
+client/build/
+client/.env
+
+# Specific exclusions for backend folder
+backend/node_modules/
+backend/dist/
+backend/.env
+
+# Miscellaneous
+*.bak
+*.swp
