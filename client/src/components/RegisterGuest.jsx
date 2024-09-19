@@ -1,129 +1,155 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import 'bulma/css/bulma.min.css';
-import './pages.css';
-import '../App.css';
+import React, { useState } from 'react';
+import axios from 'axios';
+import '../App.css'; // Import your global styles
 
-function RegisterGuest() {
+const RegisterGuest = () => {
+    const [guest, setGuest] = useState({
+        guest_fname: '',
+        guest_lname: '',
+        guest_birthdate: '',
+        guest_address: '',
+        guest_email: '',
+        guest_country: '',
+        guest_phone_no: '',
+        guest_gender: '',
+        guest_photo: '',
+        guest_password: '' // Added password field
+    });
+
+    // Handle input change
+    const handleChange = (e) => {
+        setGuest({ ...guest, [e.target.name]: e.target.value });
+    };
+
+    // Check if email is a valid Gmail address
+    const isValidGmail = (email) => {
+        return email.endsWith('@gmail.com');
+    };
+
+    // Handle form submission
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (!isValidGmail(guest.guest_email)) {
+            alert("Please use a valid Gmail address.");
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:3001/api/registerGuest', guest);
+            if (response.status === 201) {
+                alert('Guest registered successfully!');
+            }
+        } catch (error) {
+            console.error('Error registering guest:', error);
+            alert('Failed to register guest');
+        }
+    };
+
     return (
-        <section>
-            <div className="sign-up-page">
-                <div className="background-image">                   
-                        <div className="login-container">
-                            <form>
-                            <div className="container-white">
-                                <h1 className='login-title'><strong>Sign-up</strong></h1>
-                                <div className='auth_space'>
-                                    <div className="field">
-                                        <label className="label" htmlFor="text">First name:</label>
-                                            <div className="control">
-                                                <input className="input" type="text" id="fname" name="fname" placeholder="Enter your first name" />
-                                            </div>
-                                    </div>
-
-                                    <div className="field">
-                                        <label className="label" htmlFor="text">Last name:</label>
-                                            <div className="control">
-                                                <input className="input" type="text" id="lname" name="lname" placeholder="Enter your last name" />
-                                            </div>
-                                    </div>
-                                </div>
-
-                                <div className='auth_space'>
-                                <div className="field">
-                                    <label className="label">Gender</label>
-                                    <div className="control">
-                                        <div className="select">
-                                            <select>
-                                                <option>Male</option>
-                                                <option>Female</option>
-                                                <option>Non-Binary</option>
-                                                <option>Other</option>
-                                                <option>Prefer Not To Say</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div> 
-
-                                    <div className="field">
-                                    <label className="label" htmlFor="text">Birthdate:</label>
-                                        <div className="control">
-                                            <input className="input" type="date" id="bdate" name="bdate" placeholder="Enter your birth date" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className='auth_space'>
-                                    <div className="field">
-                                    <label className="label" htmlFor="text">Address:</label>
-                                        <div className="control">
-                                            <input className="input" type="text" id="lname" name="lname" placeholder="Enter your last name" />
-                                        </div>
-                                    </div>
-
-                                    <div className="field">
-                                    <label className="label" htmlFor="text">Country:</label>
-                                        <div className="control">
-                                            <input className="input" type="text" id="bdate" name="bdate" placeholder="Enter your birth date" />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className='auth_space'>
-                                    <div className="field">
-                                    <label className="label" htmlFor="text">Username:</label>
-                                        <div className="control">
-                                            <input className="input" type="text" id="lname" name="lname" placeholder="Enter your last name" />
-                                        </div>
-                                    </div>
-
-                                    <div className="field">
-                                    <label className="label" htmlFor="text">Contact Number:</label>
-                                        <div className="control">
-                                            <input className="input" type="text" id="bdate" name="bdate" placeholder="Enter your birth date" />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="auth_space">
-                                    <div className="field">
-                                    <label className="label" htmlFor="email">Email:</label>
-                                        <div className="control">
-                                            <input className="input" type="email" id="email" name="email" placeholder="Enter your email" />
-                                        </div>
-                                </div>
-
-                                <div className="field">
-                                    <label className="label" htmlFor="password">Password:</label>
-                                        <div className="control">
-                                            <input className="input" type="password" id="password" name="password" placeholder="Enter your password" />
-                                        </div>
-                                </div>
-                                </div>
-
-                                
-
-                                
-
-                                
-
-                                
-
-                                <div className="field">
-                                    <label >Already have an account? <Link to="/login">Log in</Link></label>
-                                </div>
-
-                            </div>
-                            
-                            <div className="buttons is-centered ">
-                                <button className="button is-blue search" type="submit">SIGN UP
-                                </button>
-                            </div>
-                            </form>
-                        </div>   
+        <div className="register-container">
+            <h1>Register as a Guest</h1>
+            <form onSubmit={handleSubmit} className="register-form">
+                <div className="form-group">
+                    <label>First Name:</label>
+                    <input
+                        name="guest_fname"
+                        placeholder="First Name"
+                        value={guest.guest_fname}
+                        onChange={handleChange}
+                        required
+                    />
                 </div>
-            </div>
-        </section>
+                <div className="form-group">
+                    <label>Last Name:</label>
+                    <input
+                        name="guest_lname"
+                        placeholder="Last Name"
+                        value={guest.guest_lname}
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Birthdate:</label>
+                    <input
+                        name="guest_birthdate"
+                        type="date"
+                        placeholder="Birthdate"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Address:</label>
+                    <input
+                        name="guest_address"
+                        placeholder="Address"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Email:</label>
+                    <input
+                        name="guest_email"
+                        type="email"
+                        value={guest.guest_email}
+                        placeholder="Email"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Country:</label>
+                    <input
+                        name="guest_country"
+                        placeholder="Country"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Phone Number:</label>
+                    <input
+                        name="guest_phone_no"
+                        placeholder="Phone Number"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Gender:</label>
+                    <input
+                        name="guest_gender"
+                        placeholder="Gender"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Photo URL:</label>
+                    <input
+                        name="guest_photo"
+                        value={guest.guest_photo}
+                        placeholder="Photo URL"
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="form-group">
+                    <label>Password:</label> {/* Added password field */}
+                    <input
+                        name="guest_password"
+                        type="password"
+                        placeholder="Password"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <button type="submit" className="submit-btn">Register</button>
+            </form>
+        </div>
     );
-  }
-  
-  export default RegisterGuest;
+};
+
+export default RegisterGuest;
