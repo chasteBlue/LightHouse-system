@@ -1,38 +1,72 @@
-const { supabase } = require('../supabaseClient'); 
+const { v4: uuidv4 } = require('uuid');
+const { supabase } = require('../supabaseClient');
+const admin = require('firebase-admin');
+const bcrypt = require('bcrypt'); 
 
+const serviceAccount = require('../config/lighthousehotel-firebase-adminsdk-vywmp-7e7396bb73.json');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+// Middleware to verify Firebase token
+const verifyFirebaseToken = async (req, res, next) => {
+    const idToken = req.headers.authorization;
+
+    if (!idToken) {
+        return res.status(401).json({ error: 'Unauthorized, token required.' });
+    }
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        req.user = decodedToken; 
+        next();
+    } catch (error) {
+        return res.status(401).json({ error: 'Invalid token.' });
+    }
+};
+
+// Register Guest Route with token verification
 const registerGuest = async (req, res) => {
     const {
-        guest_id, //550e8400-e29b-41d4-a716-446655440000
         guest_fname,
         guest_lname,
         guest_birthdate,
         guest_address,
-        created_at,
         guest_email,
         guest_country,
         guest_phone_no,
         guest_gender,
-        guest_photo
+        guest_photo,
+        guest_password 
     } = req.body;
-  
+
+    const guest_id = uuidv4(); 
+
+    if (!guest_fname || !guest_email || !guest_phone_no || !guest_password) {
+        return res.status(400).json({ error: "Required fields are missing." });
+    }
+
     try {
+        // Hash the password before storing it
+        const hashedPassword = await bcrypt.hash(guest_password, 10); // 10 is the salt rounds
+
+        // Insert guest data into the GUEST table
         const { data, error } = await supabase
             .from('GUEST')
-            .insert([
-                {
-                    guest_id,
-                    guest_fname,
-                    guest_lname,
-                    guest_birthdate,
-                    guest_address,
-                    created_at,
-                    guest_email,
-                    guest_country,
-                    guest_phone_no,
-                    guest_gender,
-                    guest_photo
-                }
-            ]);
+            .insert([{
+                guest_id,
+                guest_fname,
+                guest_lname,
+                guest_birthdate,
+                guest_address,
+                guest_email,
+                guest_country,
+                guest_phone_no,
+                guest_gender,
+                guest_photo,
+                guest_password: hashedPassword // Store the hashed password
+            }]);
 
         if (error) {
             return res.status(400).json({ error: error.message });
@@ -45,4 +79,4 @@ const registerGuest = async (req, res) => {
     }
 };
 
-module.exports = { registerGuest };
+module.exports = { registerGuest, verifyFirebaseToken };

@@ -2,15 +2,14 @@ import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 import { IoWarningOutline } from 'react-icons/io5';
 
-function ErrorMsg() {
+function ErrorMsg({ message }) {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
-  // Progress bar and hiding the message after 10 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((oldProgress) => {
-        if (oldProgress === 100) {
+        if (oldProgress === 30) {
           clearInterval(interval);
           setVisible(false); // Hide the error message after 10 seconds
           return oldProgress;
@@ -22,7 +21,7 @@ function ErrorMsg() {
     return () => clearInterval(interval);
   }, []);
 
-  if (!visible) return null; 
+  if (!visible) return null;
 
   return (
     <div className="notification is-flex is-align-items-start is-flex-direction-column">
@@ -30,9 +29,9 @@ function ErrorMsg() {
         <span>
           <IoWarningOutline size="24px" />
         </span>
-        <p className="ml-3">This is an error message. Please check the details!</p>
+        <p className="ml-3">{message}</p>
       </div>
-      <progress className="progress is-danger mt-2" value={progress} max="100">
+      <progress className="progress is-danger mt-2" value={progress} max="20">
         {progress}%
       </progress>
     </div>

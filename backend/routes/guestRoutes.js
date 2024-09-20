@@ -8,7 +8,6 @@ const router = express.Router();
 // Route for guest registration
 router.post('/registerGuest', registerGuest);
 
-// Route for retrieving all guests (GET)
 router.get('/getGuests', getGuests);
 
 router.post('/loginGuest', loginGuest);

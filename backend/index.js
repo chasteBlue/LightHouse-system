@@ -1,36 +1,43 @@
 require('dotenv').config();
 const express = require('express');
-const cors = require('cors'); // Import CORS middleware
+const cors = require('cors');
 const guestRoutes = require('./routes/guestRoutes');
-const checkInRoutes = require('./routes/checkInRoutes'); // Import check-in routes
-const staffRoutes = require('./routes/staffRoutes'); // Import staff routes
-const roomRoutes = require('./routes/roomRoutes'); // Import the room routes
+const checkInRoutes = require('./routes/checkInRoutes');
+const staffRoutes = require('./routes/staffRoutes');
+const roomRoutes = require('./routes/roomRoutes');
 const roomReservationRoutes = require('./routes/roomReservationRoutes');
-const foodRoutes = require('./routes/foodRoutes'); // Import food routes
+const foodRoutes = require('./routes/foodRoutes');
 
 const app = express();
 const port = process.env.PORT || 3001;
 
 // Middleware to enable CORS
-app.use(cors()); // Use CORS middleware
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
+// Handle preflight requests for all routes
+app.options('*', (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+    res.sendStatus(200);
+});
 
 // Middleware to parse JSON
 app.use(express.json());
 
 // Guest routes
-app.use('/api', guestRoutes); // Routes are mounted under /api
-
-app.use('/api', checkInRoutes); // Routes are mounted under /api
-
-// Use the staff routes
-app.use('/api', staffRoutes); // Routes are mounted under /api
-
-app.use('/api', roomRoutes); // Routes are mounted under /api
-
-app.use('/api', roomReservationRoutes); // Routes are mounted under /api
-app.use('/api', foodRoutes); // Routes are mounted under /api
-
-
+app.use('/api', guestRoutes);
+app.use('/api', checkInRoutes);
+app.use('/api', staffRoutes);
+app.use('/api', roomRoutes);
+app.use('/api', roomReservationRoutes);
+app.use('/api', foodRoutes);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
