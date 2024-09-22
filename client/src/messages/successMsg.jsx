@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
 
-function SuccessMsg({ message, duration = 5000 }) { // Accept message and duration as props
+function SuccessMsg({ message, duration = 5000 }) { 
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
 
@@ -11,17 +11,17 @@ function SuccessMsg({ message, duration = 5000 }) { // Accept message and durati
       setProgress((oldProgress) => {
         if (oldProgress >= 20) {
           clearInterval(interval);
-          setVisible(false); // Hide the message after the progress completes
+          setVisible(false);
           return 100;
         }
-        return oldProgress + 100 / (duration / 100); // Adjust increment based on duration
+        return oldProgress + 100 / (duration / 100);
       });
     }, 100);
 
     return () => clearInterval(interval);
   }, [duration]);
 
-  if (!visible) return null; // Hide the component when not visible
+  if (!visible) return null; 
 
   return (
     <div className="notification is-flex is-align-items-start is-flex-direction-column">

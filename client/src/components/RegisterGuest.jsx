@@ -3,10 +3,9 @@ import { Link } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import './pages.css';
 import '../App.css';
-import axios from 'axios'; // Make sure axios is imported for making API calls
+import axios from 'axios'; 
 
 function RegisterGuest() {
-    // State to manage guest data
     const [guest, setGuest] = useState({
         guest_fname: '',
         guest_lname: '',
@@ -17,16 +16,14 @@ function RegisterGuest() {
         guest_phone_no: '',
         guest_gender: '',
         guest_photo: '',
-        guest_password: '' 
+        guest_password: ''
     });
 
-    // Handle input change
+ 
     const handleChange = (e) => {
-        const { name, value } = e.target;
-        setGuest({ ...guest, [name]: value });
+        setGuest({ ...guest, [e.target.name]: e.target.value });
     };
 
-    // Check if email is a valid Gmail address
     const isValidGmail = (email) => {
         return email.endsWith('@gmail.com');
     };
@@ -34,12 +31,14 @@ function RegisterGuest() {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
-        console.log('Guest data being sent:', guest); // Log the guest data
-    
+
+        if (!isValidGmail(guest.guest_email)) {
+            alert("Please use a valid Gmail address.");
+            return;
+        }
+
         try {
             const response = await axios.post('http://localhost:3001/api/registerGuest', guest);
-    
             if (response.status === 201) {
                 alert('Guest registered successfully!');
             }
@@ -99,8 +98,8 @@ function RegisterGuest() {
                                             <div className="select is-fullwidth">
                                                 <select name="guest_gender" value={guest.guest_gender} onChange={handleChange} required>
                                                     <option value="">Select Gender</option>
-                                                    <option value="Male">Male</option>
-                                                    <option value="Female">Female</option>
+                                                    <option value="MALE">Male</option>
+                                                    <option value="FEMALE">Female</option>
                                                     <option value="Non-Binary">Non-Binary</option>
                                                     <option value="Other">Other</option>
                                                     <option value="Prefer Not To Say">Prefer Not To Say</option>
@@ -205,6 +204,24 @@ function RegisterGuest() {
                                                 name="guest_password"
                                                 placeholder="Enter your password"
                                                 value={guest.guest_password}
+                                                onChange={handleChange}
+                                                required
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="auth_space">
+                                    <div className="field">
+                                        <label className="label" htmlFor="guest_photo">Password:</label>
+                                        <div className="control">
+                                            <input
+                                                className="input"
+                                                type="text"
+                                                id="guest_photo"
+                                                name="guest_photo"
+                                                placeholder="Enter your password"
+                                                value={guest.guest_photo}
                                                 onChange={handleChange}
                                                 required
                                             />

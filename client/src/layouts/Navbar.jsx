@@ -13,7 +13,7 @@ function Navbar() {
     setIsActive(!isActive);
   };
 
-  return (
+return (
     <>
       <nav className="navbar is-white is-fixed-top has-shadow" role="navigation" aria-label="main navigation">
         <div className="navbar-brand">
@@ -59,6 +59,7 @@ function Navbar() {
               <div className="navbar-dropdown is-right">
                 <Link to="/profile_guest" className="navbar-item">Profile</Link>
                 <Link to="/reservations" className="navbar-item">Reservations</Link>
+                <Link to="/" className="navbar-item">Log Out</Link>
               </div>
             </div>
           </div>
@@ -85,6 +86,7 @@ function Navbar() {
               <div>
                 <Link to="/profile_guest" className="sidebar-item">Profile</Link>
                 <Link to="/reservations" className="sidebar-item">Reservations</Link>
+                <Link to="/" className="sidebar-item">Log Out</Link>
               </div>
               <div className="buttons">
                 <Link to="/register" className="button is-blue"><strong>Sign-up</strong></Link>

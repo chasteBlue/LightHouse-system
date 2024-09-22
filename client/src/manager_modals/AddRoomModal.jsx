@@ -1,217 +1,290 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 import './modals_m.css';
+import axios from 'axios';
+import ErrorMsg from '../messages/errorMsg'; 
+import SuccessMsg from '../messages/successMsg'; 
 
 const AddRoomModal = ({ isOpen, toggleModal }) => {
-    const [guestPhoto, setGuestPhoto] = useState(null);
+    const [room, setRoom] = useState({
+        room_number:'',
+        room_type_name: '',
+        room_description: '',
+        room_pax_min: 0,
+        room_pax_max: 0,
+        extra_bed_max: 0,
+        room_rate: 0,
+        room_disc_percentage: 0,
+        room_final_rate: 0,
+        room_status: 'AVAILABLE', 
+        room_breakfast_availability: 'NOT AVAILABLE', 
+        driveLink: ''
+    });
 
-    const handlePhotoChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            setGuestPhoto(reader.result);
-        };
-        reader.readAsDataURL(file);
+    const [roomPhoto, setRoomPhoto] = useState(null); 
+    const [error, setError] = useState(''); 
+    const [success, setSuccess] = useState(''); 
+    const [erroredFields, setErroredFields] = useState({}); 
+
+    useEffect(() => {
+        const calculatedFinalRate = room.room_rate * (1 - room.room_disc_percentage / 100);
+        setRoom((prevRoom) => ({ ...prevRoom, room_final_rate: calculatedFinalRate }));
+    }, [room.room_rate, room.room_disc_percentage]);
+
+    // Clear error and success messages when modal opens
+    useEffect(() => {
+        if (isOpen) {
+            setError('');
+            setSuccess('');
+            setErroredFields({});
+        }
+    }, [isOpen]);
+
+    const handleClose = () => {
+        setRoom({
+            room_number:'',
+            room_type_name: '',
+            room_description: '',
+            room_pax_min: 0,
+            room_pax_max: 0,
+            extra_bed_max: 0,
+            room_rate: 0,
+            room_disc_percentage: 0,
+            room_final_rate: 0,
+            room_status: 'AVAILABLE', 
+            room_breakfast_availability: 'NOT AVAILABLE', 
+            driveLink: ''
+        });
+        setRoomPhoto(null);
+        setError('');
+        setSuccess('');
+        setErroredFields({});
+        toggleModal(); // Close the modal
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setRoom({ ...room, [name]: parseFloat(value) || value });
+        setErroredFields((prev) => ({ ...prev, [name]: false }));
+    };
+
+    const handleSubmit = async () => {
+        try {
+            setError('');
+            setSuccess('');
+            setErroredFields({});
+            
+            const response = await axios.post('http://localhost:3001/api/registerRoom', room);
+            if (response.status === 201) {
+                setSuccess('Room registered successfully!'); 
+                setError(''); 
+                setErroredFields({}); 
+
+                setTimeout(() => {
+                    handleClose(); // Close the modal after success message
+                }, 3000); // 3 seconds delay to display the success message
+            }
+        } catch (error) {
+            console.error('Error registering room:', error.response?.data || error.message);
+            setError('Failed to register room: ' + (error.response?.data?.error || error.message)); 
+            setSuccess(''); 
+            
+            if (error.response?.data?.erroredFields) {
+                const fields = error.response.data.erroredFields.reduce((acc, field) => {
+                    acc[field] = true;
+                    return acc;
+                }, {});
+                setErroredFields(fields); 
+            }
         }
     };
+
     return (
         <div className={`modal ${isOpen ? 'is-active' : ''}`}>
-            <div className="modal-background" onClick={toggleModal}></div>
+            <div className="modal-background" onClick={handleClose}></div> {/* Close modal on background click */}
             <div className="modal-card custom-modal-card">
                 <header className="modal-card-head">
                     <p className="modal-card-title">Add New Room</p>
-                    <button className="delete" aria-label="close" onClick={toggleModal}></button>
+                    <button className="delete" aria-label="close" onClick={handleClose}></button> {/* Close modal */}
                 </header>
-                <section className="modal-card-body">
+                <section className="modal-card-body">                
+                    {error && <ErrorMsg message={error} />}
+                    {success && <SuccessMsg message={success} />}
+                    <div className='column'></div>
                     <div className="columns">
-                        {/* First Column - Adjusted to span 8 out of 12 columns */}
-                        <div className="column is-16">
-                        <div className="columns is-multiline">
-                            {/* Room Number */}
-                            <div className="column is-6">
-                            <div className="field">
-                                <label className="label">Room Number</label>
-                                <div className="control">
-                                <input className="input" type="text" placeholder="Enter room number" />
-                                </div>
-                            </div>
-                            </div>
-
-                            {/* Room Type */}
-                            <div className="column is-6">
+                        {/* First Column - General Information */}
+                        <div className="column is-4">
                             <div className="field">
                                 <label className="label">Room Type</label>
                                 <div className="control">
-                                <input className="input" type="text" placeholder="Enter room type" />
-                                </div>
-                            </div>
-                            </div>
-
-                            {/* Guest Photo */}
-                            <div className="column is-6">
-                            {guestPhoto && (
-                                <div className="field">
-                                <figure className="image is-128x128">
-                                    <img
-                                    src={guestPhoto}
-                                    alt="Guest Preview"
-                                    style={{
-                                        width: "128px",
-                                        height: "128px",
-                                    }}
+                                    <input
+                                        className={`input ${erroredFields.room_type_name ? 'is-danger' : ''}`} 
+                                        type="text"
+                                        name="room_type_name"
+                                        placeholder="Enter room type"
+                                        value={room.room_type_name}
+                                        onChange={handleChange}
+                                        required
                                     />
-                                </figure>
+                                    {erroredFields.room_type_name && <p className="help is-danger">Please enter a valid room type.</p>}
                                 </div>
-                            )}
+                            </div>
+
                             <div className="field">
-                                <label className="label">Photo Main</label>
+                                <label className="label">Room Number</label>
                                 <div className="control">
-                                <input className="input" type="file" accept="image/*" onChange={handlePhotoChange} />
+                                    <input
+                                        className={`input ${erroredFields.room_number ? 'is-danger' : ''}`} 
+                                        type="text"
+                                        name="room_number"
+                                        placeholder="Enter room number"
+                                        value={room.room_number}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    {erroredFields.room_number && <p className="help is-danger">Please enter a valid room type.</p>}
                                 </div>
                             </div>
-                            </div>
 
-                            {/* Photo URL 1 */}
-                            <div className="column is-6">
-                            <div className="field">
-                                <label className="label">Photo URL 1</label>
-                                <div className="control">
-                                <input className="input" type="text" placeholder="Enter URL" />
-                                </div>
-                            </div>
-                            </div>
-
-                            {/* Photo URL 2 */}
-                            <div className="column is-6">
-                            <div className="field">
-                                <label className="label">Photo URL 2</label>
-                                <div className="control">
-                                <input className="input" type="text" placeholder="Enter URL" />
-                                </div>
-                            </div>
-                            </div>
-
-                            {/* Photo URL 3 */}
-                            <div className="column is-6">
-                            <div className="field">
-                                <label className="label">Photo URL 3</label>
-                                <div className="control">
-                                <input className="input" type="text" placeholder="Enter URL" />
-                                </div>
-                            </div>
-                            </div>
-
-                            <div className="column is-12">
-                                <hr style={{ border: '1px solid grey' }} />
-                            </div>
-
-
-                            
-
-                            {/* Room Description */}
-                            <div className="column is-6">
                             <div className="field">
                                 <label className="label">Room Description</label>
                                 <div className="control">
-                                <textarea className="textarea" placeholder="Enter room description"></textarea>
+                                    <textarea
+                                        className={`textarea ${erroredFields.room_description ? 'is-danger' : ''}`}
+                                        name="room_description"
+                                        placeholder="Enter room description"
+                                        value={room.room_description}
+                                        onChange={handleChange}
+                                        required
+                                    ></textarea>
+                                    {erroredFields.room_description && <p className="help is-danger">Please enter a valid room description.</p>}
                                 </div>
                             </div>
+                        </div>
+
+                        {/* Second Column - PAX and Bed Information */}
+                        <div className="column is-4">
+                            <div className="field">
+                                <label className="label">PAX Minimum</label>
+                                <div className="control">
+                                    <input
+                                        className={`input ${erroredFields.room_pax_min ? 'is-danger' : ''}`}
+                                        type="number"
+                                        name="room_pax_min"
+                                        min="1"
+                                        value={room.room_pax_min}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    {erroredFields.room_pax_min && <p className="help is-danger">Please enter a valid minimum PAX.</p>}
+                                </div>
                             </div>
 
-                            {/* Room Breakfast Availability */}
-                            <div className="column is-6">
+                            <div className="field">
+                                <label className="label">PAX Maximum</label>
+                                <div className="control">
+                                    <input
+                                        className={`input ${erroredFields.room_pax_max ? 'is-danger' : ''}`}
+                                        type="number"
+                                        name="room_pax_max"
+                                        min="1"
+                                        value={room.room_pax_max}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    {erroredFields.room_pax_max && <p className="help is-danger">Please enter a valid maximum PAX.</p>}
+                                </div>
+                            </div>
+
+                            <div className="field">
+                                <label className="label">Extra Bed Maximum</label>
+                                <div className="control">
+                                    <input
+                                        className={`input ${erroredFields.extra_bed_max ? 'is-danger' : ''}`}
+                                        type="number"
+                                        name="extra_bed_max"
+                                        min="0"
+                                        value={room.extra_bed_max}
+                                        onChange={handleChange}
+                                    />
+                                    {erroredFields.extra_bed_max && <p className="help is-danger">Please enter a valid extra bed maximum.</p>}
+                                </div>
+                            </div>
+
                             <div className="field">
                                 <label className="label">Room Breakfast Availability</label>
                                 <div className="control">
-                                <div className="select is-fullwidth">
-                                    <select>
-                                    <option>AVAILABLE</option>
-                                    <option>NOT AVAILABLE</option>
-                                    </select>
-                                </div>
+                                    <div className={`select is-fullwidth ${erroredFields.room_breakfast_availability ? 'is-danger' : ''}`}>
+                                        <select
+                                            name="room_breakfast_availability"
+                                            value={room.room_breakfast_availability}
+                                            onChange={handleChange}
+                                            required
+                                        >
+                                            <option value="AVAILABLE">Available</option>
+                                            <option value="NOT AVAILABLE">Not Available</option>
+                                        </select>
+                                    </div>
+                                    {erroredFields.room_breakfast_availability && <p className="help is-danger">Please select a valid breakfast availability.</p>}
                                 </div>
                             </div>
-                            </div>
+                        </div>
 
-                            {/* Room PAX Maximum */}
-                            <div className="column is-6">
-                            <div className="field">
-                                <label className="label">Room PAX Maximum</label>
-                                <div className="control">
-                                <input className="input" type="number" min="1" />
-                                </div>
-                            </div>
-                            </div>
-
-                            {/* Room PAX Minimum */}
-                            <div className="column is-6">
-                            <div className="field">
-                                <label className="label">Room PAX Minimum</label>
-                                <div className="control">
-                                <input className="input" type="number" min="1" />
-                                </div>
-                            </div>
-                            </div>
-
-                            {/* Room Rate */}
-                            <div className="column is-6">
+                        {/* Third Column - Rate and Discount Information */}
+                        <div className="column is-4">
                             <div className="field">
                                 <label className="label">Room Rate</label>
                                 <div className="control">
-                                <input className="input" type="text" placeholder="Enter room rate" />
+                                    <input
+                                        className={`input ${erroredFields.room_rate ? 'is-danger' : ''}`}
+                                        type="number"
+                                        name="room_rate"
+                                        placeholder="Enter room rate"
+                                        value={room.room_rate}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    {erroredFields.room_rate && <p className="help is-danger">Please enter a valid room rate.</p>}
                                 </div>
-                            </div>
                             </div>
 
-                            {/* Room Discount */}
-                            <div className="column is-6">
                             <div className="field">
-                                <label className="label">Room Discount</label>
+                                <label className="label">Discount Percentage</label>
                                 <div className="control">
-                                <input className="input" type="text" placeholder="Enter discount" />
+                                    <input
+                                        className={`input ${erroredFields.room_disc_percentage ? 'is-danger' : ''}`}
+                                        type="number"
+                                        name="room_disc_percentage"
+                                        placeholder="Enter discount percentage"
+                                        value={room.room_disc_percentage}
+                                        onChange={handleChange}
+                                    />
+                                    {erroredFields.room_disc_percentage && <p className="help is-danger">Please enter a valid discount percentage.</p>}
                                 </div>
-                            </div>
                             </div>
 
-                            {/* Room Final Rate */}
-                            <div className="column is-6">
                             <div className="field">
-                                <label className="label">Room Final Rate</label>
+                                <label className="label">Final Rate</label>
                                 <div className="control">
-                                <input className="input" type="number" />
+                                    <input
+                                        className={`input ${erroredFields.room_final_rate ? 'is-danger' : ''}`}
+                                        type="number"
+                                        name="room_final_rate"
+                                        placeholder="Enter final rate"
+                                        value={room.room_final_rate.toFixed(2)} // Display final rate with 2 decimal places
+                                        readOnly // Make the field read-only as it is auto-calculated
+                                    />
+                                    {erroredFields.room_final_rate && <p className="help is-danger">Please enter a valid final rate.</p>}
                                 </div>
-                            </div>
-                            </div>
-
-                            {/* Status */}
-                            <div className="column is-6">
-                            <div className="field">
-                                <label className="label">Status</label>
-                                <div className="control">
-                                <div className="select is-fullwidth">
-                                    <select>
-                                    <option>ACTIVE</option>
-                                    <option>INACTIVE</option>
-                                    </select>
-                                </div>
-                                </div>
-                            </div>
                             </div>
                         </div>
-                        </div>
-
-                        {/* Separator Line */}
-                        <hr />
                     </div>
                 </section>
 
-
                 <footer className="modal-card-foot is-flex is-justify-content-flex-end is-align-items-center">
-                    <button className="button is-blue mr-2">Save</button>
-                    <button className="button is-red" onClick={toggleModal}>Cancel</button>
+                    <button className="button is-blue mr-2" onClick={handleSubmit}>Save</button>
+                    <button className="button is-red" onClick={handleClose}>Cancel</button> {/* Ensure modal is closed properly */}
                 </footer>
-
             </div>
         </div>
     );

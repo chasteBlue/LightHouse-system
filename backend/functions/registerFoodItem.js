@@ -14,7 +14,7 @@ const registerFoodItem = async (req, res) => {
         food_service_category
     } = req.body;
 
-    const food_id = uuidv4(); // Generate a new unique UUID for food_id
+    const food_id = uuidv4(); 
 
     try {
         // Insert into the FOOD_ITEM table

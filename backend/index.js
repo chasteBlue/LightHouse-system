@@ -7,6 +7,11 @@ const staffRoutes = require('./routes/staffRoutes');
 const roomRoutes = require('./routes/roomRoutes');
 const roomReservationRoutes = require('./routes/roomReservationRoutes');
 const foodRoutes = require('./routes/foodRoutes');
+const drinkRoutes = require('./routes/drinkRoutes');
+const conciergeRoutes = require('./routes/conciergeRoutes');
+const laundryRoutes = require('./routes/laundryRoutes');
+const eventsRoutes = require('./routes/eventsRoutes');
+const getCountsDashboardManager = require('./routes/getCountsDashboardManager'); 
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -38,8 +43,13 @@ app.use('/api', staffRoutes);
 app.use('/api', roomRoutes);
 app.use('/api', roomReservationRoutes);
 app.use('/api', foodRoutes);
+app.use('/api', drinkRoutes);
+app.use('/api', laundryRoutes);
+app.use('/api', conciergeRoutes);
+app.use('/api', eventsRoutes);
+app.use('/api', getCountsDashboardManager);
 
 app.listen(port, () => {
     console.log(`Server running on port ${port}`);
 });
-console.log("Supabase URL:", process.env.SUPABASE_URL);  // Debug line to check if URL is loaded
+console.log("Supabase URL:", process.env.SUPABASE_URL);  

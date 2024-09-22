@@ -3,6 +3,7 @@ const { v4: uuidv4 } = require('uuid');
 
 const registerRoom = async (req, res) => {
     const {
+        room_number,
         room_type_name,
         room_description,
         room_pax_min,
@@ -23,6 +24,7 @@ const registerRoom = async (req, res) => {
             .insert([
                 {
                     room_id,
+                    room_number,
                     room_type_name,
                     room_description,
                     room_pax_min,

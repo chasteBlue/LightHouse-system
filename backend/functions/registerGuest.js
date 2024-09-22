@@ -1,8 +1,9 @@
 const { v4: uuidv4 } = require('uuid');
 const { supabase } = require('../supabaseClient');
 const admin = require('firebase-admin');
-const bcrypt = require('bcrypt'); 
+const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
 
+// Correct path to the Firebase Admin SDK JSON file
 const serviceAccount = require('../config/lighthousehotel-firebase-adminsdk-vywmp-7e7396bb73.json');
 
 admin.initializeApp({
@@ -38,10 +39,10 @@ const registerGuest = async (req, res) => {
         guest_phone_no,
         guest_gender,
         guest_photo,
-        guest_password 
+        guest_password // Adding password to the request body
     } = req.body;
 
-    const guest_id = uuidv4(); 
+    const guest_id = uuidv4(); // Generate unique guest ID
 
     if (!guest_fname || !guest_email || !guest_phone_no || !guest_password) {
         return res.status(400).json({ error: "Required fields are missing." });
@@ -65,7 +66,7 @@ const registerGuest = async (req, res) => {
                 guest_phone_no,
                 guest_gender,
                 guest_photo,
-                guest_password: hashedPassword // Store the hashed password
+                guest_password: hashedPassword 
             }]);
 
         if (error) {
