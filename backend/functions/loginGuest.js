@@ -25,6 +25,7 @@ const loginGuest = async (req, res) => {
         if (!isPasswordValid) {
             return res.status(400).json({ error: "Invalid email or password." });
         }
+
         const token = jwt.sign({ guest_id: guest.guest_id, guest_email: guest.guest_email }, 'your_jwt_secret', {
             expiresIn: '1h', 
         });

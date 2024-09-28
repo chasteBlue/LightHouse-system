@@ -22,7 +22,7 @@ const AddStaffModal = ({ isOpen, toggleModal }) => {
         staff_password: ''
     });
 
-    const [guestPhoto, setGuestPhoto] = useState(null);
+    const [staffPhoto, setStaffPhoto] = useState(null); 
     const [error, setError] = useState(''); 
     const [success, setSuccess] = useState(''); 
     const [erroredFields, setErroredFields] = useState({}); 
@@ -51,29 +51,45 @@ const AddStaffModal = ({ isOpen, toggleModal }) => {
             staff_status: 'ACTIVE',
             staff_password: ''
         });
-        setGuestPhoto(null);
+        setStaffPhoto(null);
         setError('');
         setSuccess('');
         setErroredFields({});
         toggleModal();
     };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setStaff({ ...staff, [name]: value });
-        setErroredFields((prev) => ({ ...prev, [name]: false }));
-    };
-
     const handlePhotoChange = (event) => {
         const file = event.target.files[0];
+    
         if (file) {
+            // Check file type
+            const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+            if (!allowedTypes.includes(file.type)) {
+                setError('Please upload a valid image file (PNG, JPEG, JPG).');
+                return;
+            }
+    
+            // Check file size (max 3 MB)
+            const maxSize = 3 * 1024 * 1024; // 3 MB in bytes
+            if (file.size > maxSize) {
+                setError('File size should not exceed 5 MB.');
+                return;
+            }
+    
+            // If valid, read the file as a base64 string
             const reader = new FileReader();
             reader.onloadend = () => {
-                setGuestPhoto(reader.result);
+                setStaffPhoto(reader.result);
                 setStaff({ ...staff, staff_photo: reader.result });
             };
             reader.readAsDataURL(file);
         }
+    };
+
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setStaff({ ...staff, [name]: value });
+        setErroredFields((prev) => ({ ...prev, [name]: false }));
     };
 
     const handleSubmit = async () => {
@@ -225,6 +241,24 @@ const AddStaffModal = ({ isOpen, toggleModal }) => {
                                     {erroredFields.staff_phone_no && <p className="help is-danger">Please enter a valid phone number.</p>}
                                 </div>
                             </div>
+
+                            <div className="field">
+                                <label className="label">Password</label>
+                                <div className="control">
+                                <input
+                                    className={`input ${erroredFields.staff_password ? 'is-danger' : ''}`}
+                                    type="password"
+                                    name="staff_password"
+                                    placeholder="Enter new password"
+                                    value={staff.staff_password}
+                                    onChange={handleChange}
+                                    required
+                                    disabled={false} 
+                                />
+
+                                    {erroredFields.staff_password&& <p className="help is-danger">Please enter a valid password.</p>}
+                                </div>
+                            </div>
                         </div>
 
                         {/* Third Column */}
@@ -297,12 +331,12 @@ const AddStaffModal = ({ isOpen, toggleModal }) => {
                             </div>
 
                             <div className="field">
-                                <label className="label">Photo</label>
-                                {guestPhoto && (
+                
+                                {staffPhoto && (
                                     <figure className="image is-128x128">
                                         <img
-                                            src={guestPhoto}
-                                            alt="Guest Preview"
+                                            src={staffPhoto}
+                                            alt="Staff Preview"
                                             style={{
                                                 width: "128px",
                                                 height: "128px",
@@ -312,6 +346,8 @@ const AddStaffModal = ({ isOpen, toggleModal }) => {
                                     </figure>
                                 )}
                                 <div className="control">
+                                <label className="label"> Staff Photo</label>
+                                <p>Only 3 MB photos in file types JPEG, JPG, and PNG</p>
                                     <input
                                         className="input"
                                         type="file"

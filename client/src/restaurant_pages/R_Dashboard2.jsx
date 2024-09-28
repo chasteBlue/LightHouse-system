@@ -1,10 +1,10 @@
 import RestaurantLayout2 from "../layouts/Restaurant_Layout2";
-import DashboardRestaurant from "../restaurant_components/DashboardRestaurant";
+import DashboardRestaurant2 from "../restaurant_components/DashboardRestaurant2";
 
 const RDashboard2 = () => {
     return (
         <RestaurantLayout2>
-            <DashboardRestaurant/>      
+            < DashboardRestaurant2 />      
         </RestaurantLayout2>
       )
 }

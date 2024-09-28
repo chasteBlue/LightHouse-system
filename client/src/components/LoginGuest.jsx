@@ -25,7 +25,7 @@ function LoginGuest() {
 
             if (response.status === 200) {
                 setMessage('Login successful!');
-                setIsSuccess(true); // Set success message
+                setIsSuccess(true); 
                 localStorage.setItem('token', response.data.token);
 
                 setTimeout(() => {

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const bodyParser = require('body-parser'); 
 const guestRoutes = require('./routes/guestRoutes');
 const checkInRoutes = require('./routes/checkInRoutes');
 const staffRoutes = require('./routes/staffRoutes');
@@ -11,7 +12,11 @@ const drinkRoutes = require('./routes/drinkRoutes');
 const conciergeRoutes = require('./routes/conciergeRoutes');
 const laundryRoutes = require('./routes/laundryRoutes');
 const eventsRoutes = require('./routes/eventsRoutes');
-const getCountsDashboardManager = require('./routes/getCountsDashboardManager'); 
+const verifyTokenRoute = require('./routes/token/verifyToken');
+const restaurantRoutes = require ('./routes/restaurantRoutes');
+
+//counts for dashboard
+const getCountsDashboardManager = require('./routes/count/getCountsDashboardManager'); 
 
 const app = express();
 const port = process.env.PORT || 3001;
@@ -33,8 +38,13 @@ app.options('*', (req, res) => {
     res.sendStatus(200);
 });
 
-// Middleware to parse JSON
-app.use(express.json());
+app.use((req, res, next) => {
+    console.log(`Request Method: ${req.method}, Request URL: ${req.url}`);
+    next();
+});
+// Increase the payload size limit for JSON
+app.use(bodyParser.json({ limit: '10mb' })); 
+app.use(bodyParser.urlencoded({ limit: '10mb', extended: true })); 
 
 // Guest routes
 app.use('/api', guestRoutes);
@@ -47,6 +57,10 @@ app.use('/api', drinkRoutes);
 app.use('/api', laundryRoutes);
 app.use('/api', conciergeRoutes);
 app.use('/api', eventsRoutes);
+
+app.use('/api', verifyTokenRoute);
+app.use('/api', restaurantRoutes);
+
 app.use('/api', getCountsDashboardManager);
 
 app.listen(port, () => {

@@ -1,18 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import 'bulma/css/bulma.min.css';
 import '../manager_modals/modals_m.css';
-import {  TextField } from '@mui/material';
 import { IoArrowUndo, IoPrintOutline } from 'react-icons/io5';
 
+const OrderSummary = ({ isOpen, toggleModal, order }) => {
+  if (!order) return null; // Return null if no order is selected
 
-const OrderSummary = ({ isOpen, toggleModal }) => {
-  const [foodOrders] = useState([
-    { id: 1, name: 'Pizza Margherita', price: 8.0, image: 'https://via.placeholder.com/150', quantity: 1 },
-    { id: 2, name: 'Burger', price: 5.5, image: 'https://via.placeholder.com/150', quantity: 1 },
-    { id: 3, name: 'Pasta Carbonara', price: 7.25, image: 'https://via.placeholder.com/150', quantity: 1 },
-  ]);
-  const [numberOfItems] = useState(foodOrders.length);
-  const [total] = useState(foodOrders.reduce((sum, item) => sum + item.price * item.quantity, 0));
+  const { foodItems = [], guest_fname, guest_lname, room_number, f_order_date, f_notes, STAFF } = order;
+  const numberOfItems = foodItems.length;
+  const total = foodItems.reduce((sum, item) => sum + item.f_order_subtotal, 0);
+
   return (
     <section className="section-p1">
       {/* Modal for Order Summary */}
@@ -25,72 +22,62 @@ const OrderSummary = ({ isOpen, toggleModal }) => {
           </header>
           <section className="modal-card-body">
             <div className="columns is-multiline">
-              {/* Two Columns for Inputs */}
+              {/* First Column for Order Details */}
               <div className="column is-6">
                 <div className="field">
-                  <div className="control">
                   <label className="label">Order ID</label>
-                  </div>
+                  <p>{order.food_order_id}</p>
                 </div>
                 <div className="field">
-                  <div className="control">
-                    <label className="label">Charged To</label>
-                  </div>
+                  <label className="label">Charged To</label>
+                  <p>{`${guest_fname} ${guest_lname}`}</p>
+                </div>
+                <div className="field">
+                  <label className="label">Order Date</label>
+                  <p>{new Date(f_order_date).toLocaleDateString()}</p>
                 </div>
               </div>
 
+              {/* Second Column for Additional Details */}
               <div className="column is-6">
                 <div className="field">
-                  <div className="control">
-                    <label className="label">Order Status</label>
-                  </div>
+                  <label className="label">Order Status</label>
+                  <p>{order.f_order_status}</p>
                 </div>
                 <div className="field">
-                  <div className="control">
                   <label className="label">Room Number</label>
-                  </div>
+                  <p>{room_number || 'N/A'}</p>
+                </div>
+                <div className="field">
+                  <label className="label">Staff Username</label>
+                  <p>{STAFF?.staff_id || 'N/A'} : {STAFF?.staff_username || 'Unknown'}</p>
                 </div>
               </div>
 
-              {/* Table Container */}
+              {/* Table Container for Food Items */}
               <div className="column is-12">
                 <hr style={{ border: '1px solid grey' }} />
-                <div className='container-blue-space'>
+                <div className="container-blue-space">
                   <h1 className="subtitle">
                     <strong>Total Order</strong>
                   </h1>
-                  <div className='columns'>
-                    <div className='column is-8'>
+                  <div className="columns">
+                    <div className="column is-8">
                       <div className="table-container">
                         <table className="table is-fullwidth is-striped is-hoverable">
                           <thead>
                             <tr>
-                              <th className="has-text-centered">Image</th>
                               <th className="has-text-centered">Food Name</th>
                               <th className="has-text-centered">Quantity</th>
                               <th className="has-text-centered">Subtotal</th>
                             </tr>
                           </thead>
                           <tbody>
-                            {foodOrders.map((item) => (
-                              <tr key={item.id}>
-                                <td>
-                                  <figure className="image is-64x64">
-                                    <img src={item.image} alt={item.name} />
-                                  </figure>
-                                </td>
-                                <td>{item.name}</td>
-                                <td style={{ verticalAlign: 'middle', textAlign: 'center' }}>
-                                  <TextField
-                                    type="number"
-                                    value={item.quantity}
-                                    InputProps={{
-                                      readOnly: true,
-                                      style: { textAlign: 'center', width: '60px' }
-                                    }}
-                                  />
-                                </td>
-                                <td>${(item.price * item.quantity).toFixed(2)}</td>
+                            {foodItems.map((item, index) => (
+                              <tr key={index}>
+                                <td>{item.food_name}</td>
+                                <td className="has-text-centered">{item.f_order_qty}</td>
+                                <td>₱{item.f_order_subtotal.toFixed(2)}</td>
                               </tr>
                             ))}
                           </tbody>
@@ -98,18 +85,21 @@ const OrderSummary = ({ isOpen, toggleModal }) => {
                       </div>
                     </div>
 
-                    <div className='column is-4'>
+                    {/* Summary and Notes */}
+                    <div className="column is-4">
                       <div style={{ marginBottom: '1rem' }}>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                          <p className='title is-6'>Number of Items: {numberOfItems}</p>
-                          <p className='title is-6'>Total: ${total.toFixed(2)}</p>
+                          <p className="title is-6">Number of Items: {numberOfItems}</p>
+                          <p className="title is-6">Total: ₱{total.toFixed(2)}</p>
                         </div>
                       </div>
 
                       <div style={{ marginBottom: '1rem' }}>
+                        <label className="label"><strong>Notes:</strong></label>
                         <textarea
-                          placeholder="Enter your notes here..."
-                          className='textarea'
+                          placeholder="No additional notes."
+                          className="textarea"
+                          value={f_notes || ''}
                           readOnly
                           style={{ width: '100%', minHeight: '100px' }}
                         />
@@ -137,4 +127,3 @@ const OrderSummary = ({ isOpen, toggleModal }) => {
 };
 
 export default OrderSummary;
-

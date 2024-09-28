@@ -12,13 +12,13 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
         food_price: 0,
         food_status: 'ACTIVE',
         food_description: '',
-        food_photo: '',
+        food_photo: '', // Base64 photo will be stored here
         food_final_price: 0,
         food_disc_percentage: 0,
         food_service_category: ''
     });
 
-    const [foodPhoto, setFoodPhoto] = useState(null);
+    const [foodPhoto, setFoodPhoto] = useState(null); // For image preview
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
     const [erroredFields, setErroredFields] = useState({});
@@ -54,10 +54,8 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
         const { name, value } = e.target;
         setFood({ ...food, [name]: value });
 
-        // Remove the errored field once user starts typing again
         setErroredFields((prev) => ({ ...prev, [name]: false }));
 
-        // Automatically calculate the final price when food price or discount changes
         if (name === 'food_price' || name === 'food_disc_percentage') {
             const price = name === 'food_price' ? parseFloat(value) : food.food_price;
             const discount = name === 'food_disc_percentage' ? parseFloat(value) : food.food_disc_percentage;
@@ -68,7 +66,23 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
 
     const handlePhotoChange = (event) => {
         const file = event.target.files[0];
+    
         if (file) {
+            // Check file type
+            const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+            if (!allowedTypes.includes(file.type)) {
+                setError('Please upload a valid image file (PNG, JPEG, JPG).');
+                return;
+            }
+    
+            // Check file size (max 3 MB)
+            const maxSize = 3 * 1024 * 1024; // 3 MB in bytes
+            if (file.size > maxSize) {
+                setError('File size should not exceed 5 MB.');
+                return;
+            }
+    
+            // If valid, read the file as a base64 string
             const reader = new FileReader();
             reader.onloadend = () => {
                 setFoodPhoto(reader.result);
@@ -77,33 +91,36 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
             reader.readAsDataURL(file);
         }
     };
+    
 
     const handleSubmit = async () => {
         try {
-            // Reset any previous error or success messages
             setError('');
             setSuccess('');
             setErroredFields({});
-    
+
+            if (!food.food_photo) {
+                setError('Please upload a food photo.');
+                return;
+            }
+
             const response = await axios.post('http://localhost:3001/api/registerFoodItem', food);
-    
+
             if (response.status === 201) {
                 setSuccess('Food item registered successfully!');
                 setError('');
                 setErroredFields({});
-    
-                // Reset the form after a successful registration
+
                 setTimeout(() => {
                     handleClose(); // Close the modal after success message
-                }, 3000); // 3 seconds delay to display the success message
+                }, 3000);
             }
         } catch (error) {
             console.error('Error registering food item:', error.response?.data || error.message);
-            
-            // If the request fails, show the error message and allow resubmission
+
             setError('Failed to register food item: ' + (error.response?.data?.error || error.message));
-            setSuccess(''); 
-    
+            setSuccess('');
+
             if (error.response?.data?.erroredFields) {
                 const fields = error.response.data.erroredFields.reduce((acc, field) => {
                     acc[field] = true;
@@ -113,15 +130,14 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
             }
         }
     };
-    
 
     return (
         <div className={`modal ${isOpen ? 'is-active' : ''}`}>
-            <div className="modal-background" onClick={handleClose}></div> {/* Close modal on background click */}
+            <div className="modal-background" onClick={handleClose}></div>
             <div className="modal-card custom-modal-card">
                 <header className="modal-card-head">
                     <p className="modal-card-title">Add New Food</p>
-                    <button className="delete" aria-label="close" onClick={handleClose}></button> {/* Close modal */}
+                    <button className="delete" aria-label="close" onClick={handleClose}></button>
                 </header>
                 <section className="modal-card-body">
                     {error && <ErrorMsg message={error} />}
@@ -208,6 +224,7 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
                             )}
                             <div className="field">
                                 <label className="label">Food Photo</label>
+                                <p>Only 3 MB photos in file types JPEG, JPG, and PNG</p>
                                 <div className="control">
                                     <input
                                         className="input"
@@ -217,6 +234,7 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
                                     />
                                 </div>
                             </div>
+                            
                             <div className="field">
                                 <label className="label">Food Description</label>
                                 <div className="control">
@@ -285,7 +303,7 @@ const AddFoodModal = ({ isOpen, toggleModal }) => {
 
                 <footer className="modal-card-foot is-flex is-justify-content-flex-end is-align-items-center">
                     <button className="button is-blue mr-2" onClick={handleSubmit}>Save</button>
-                    <button className="button is-red" onClick={handleClose}>Cancel</button> {/* Ensure modal is closed properly */}
+                    <button className="button is-red" onClick={handleClose}>Cancel</button>
                 </footer>
             </div>
         </div>

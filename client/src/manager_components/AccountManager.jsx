@@ -10,7 +10,8 @@ import axios from 'axios';
 
 const AccountManager = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [guestPhoto, setGuestPhoto] = useState(null);
+    const [staffPhoto, setStaffPhoto] = useState(null);
+    const [staffPhotoPreview, setStaffPhotoPreview] = useState(null); 
     const [staffList, setStaffList] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedStaff, setSelectedStaff] = useState(null);
@@ -38,9 +39,11 @@ const AccountManager = () => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setGuestPhoto(reader.result);
+                setStaffPhoto(reader.result); // Update photo state
+                setStaffPhotoPreview(reader.result); // Update photo preview state
+                setSelectedStaff((prev) => ({ ...prev, staff_photo: reader.result })); // Update selected food object
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file); // Convert image to base64
         }
     };
 
@@ -49,29 +52,66 @@ const AccountManager = () => {
     };
 
     const handleStaffClick = (staff) => {
-        setSelectedStaff(staff);
+        setStaffPhoto(null);
+        setStaffPhotoPreview(null);
+        // Check and set all fields to avoid undefined
+        setSelectedStaff({
+            staff_id: staff.staff_id || '',
+            staff_fname: staff.staff_fname || '',
+            staff_lname: staff.staff_lname || '',
+            staff_username: staff.staff_username || '',
+            staff_email: staff.staff_email || '',
+            staff_phone_no: staff.staff_phone_no || '',
+            staff_gender: staff.staff_gender || '',
+            shift_start_time: staff.shift_start_time || '',
+            shift_end_time: staff.shift_end_time || '',
+            staff_hire_date: staff.staff_hire_date || '',
+            staff_photo: staff.staff_photo || '',
+            staff_acc_role: staff.staff_acc_role || '',
+            staff_status: staff.staff_status || ''
+        });
         setError('');
         setSuccess('');
     };
+    
 
     const handleSaveChanges = async () => {
         try {
             setError('');
             setSuccess('');
-
-            const response = await axios.put(`http://localhost:3001/api/updateStaff/${selectedStaff.staff_id}`, selectedStaff);
-
+    
+            // Check if all fields are populated before sending
+            const updatedStaff = {
+                ...selectedStaff,
+                staff_fname: selectedStaff.staff_fname || '',
+                staff_lname: selectedStaff.staff_lname || '',
+                staff_username: selectedStaff.staff_username || '',
+                staff_email: selectedStaff.staff_email || '',
+                staff_phone_no: selectedStaff.staff_phone_no || '',
+                staff_gender: selectedStaff.staff_gender || '',
+                shift_start_time: selectedStaff.shift_start_time || '',
+                shift_end_time: selectedStaff.shift_end_time || '',
+                staff_hire_date: selectedStaff.staff_hire_date || '',
+                staff_photo: selectedStaff.staff_photo || '',
+                staff_acc_role: selectedStaff.staff_acc_role || '',
+                staff_status: selectedStaff.staff_status || ''
+            };
+    
+            console.log('Updating staff with data:', updatedStaff); // Log the updated data
+    
+            const response = await axios.put(`http://localhost:3001/api/updateStaff/${selectedStaff.staff_id}`, updatedStaff);
+    
             if (response.status === 200) {
                 setSuccess('Staff details updated successfully!');
                 setError('');
-
+    
                 // Update the staff list with the new data
-                setStaffList(prevStaffList => 
-                    prevStaffList.map(staff => 
-                        staff.staff_id === selectedStaff.staff_id ? { ...staff, ...selectedStaff } : staff
+                setStaffList(prevStaffList =>
+                    prevStaffList.map(staff =>
+                        staff.staff_id === selectedStaff.staff_id ? { ...staff, ...updatedStaff } : staff
                     )
                 );
-
+    
                 setTimeout(() => {
                     setSuccess('');
                 }, 3000);
@@ -82,30 +122,30 @@ const AccountManager = () => {
             setSuccess('');
         }
     };
+    
 
     const handleChangePassword = async () => {
         if (newPassword.trim() === '') {
             setError('New password cannot be empty.');
             return;
         }
-
+    
         try {
             setError('');
             setSuccess('');
-
+    
             const response = await axios.put(
                 `http://localhost:3001/api/updateStaff/${selectedStaff.staff_id}`, 
                 { 
-                    staff_id: selectedStaff.staff_id, 
-                    newPassword
+                    staff_password: newPassword // Use 'staff_password' as key
                 }
             );
-
+    
             if (response.status === 200) {
                 setSuccess('Password updated successfully!');
                 setError('');
                 setNewPassword('');
-
+    
                 setTimeout(() => {
                     setSuccess('');
                 }, 3000);
@@ -116,6 +156,7 @@ const AccountManager = () => {
             setSuccess('');
         }
     };
+    
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -274,22 +315,22 @@ const AccountManager = () => {
                                     <div className="column is-narrow">
                                         <div className="column is-one-half">
                                             <div className="staff-space">
-                                                {guestPhoto && (
-                                                    <div className="field">
-                                                        <figure className="image is-128x128">
-                                                            <img 
-                                                                src={guestPhoto} 
-                                                                alt="Guest Preview"
-                                                                style={{
-                                                                    width: "128px",
-                                                                    height: "128px",
-                                                                    borderRadius: "50%"
-                                                                }}
-                                                            />
-                                                        </figure>
-                                                    </div>
+                                                {staffPhotoPreview ? (
+                                                    <img
+                                                        src={staffPhotoPreview}
+                                                        alt={selectedStaff.staff_lname && selectedStaff.staff_fname}
+                                                        style={{ width: '150px', height: '150px', borderRadius: '8px' }}
+                                                    />
+                                                ) : selectedStaff.staff_photo && (
+                                                    <img
+                                                        src={selectedStaff.staff_photo}
+                                                        alt={selectedStaff.staff_lname}
+                                                        style={{ width: '150px', height: '150px', borderRadius: '8px' }}
+                                                    />
                                                 )}
                                                 <div className='field'>
+                                                <label className="label">Staff Photo</label>
+                                                <p>Only 3 MB photos in file types JPEG, JPG, and PNG</p>
                                                     <div className="control">
                                                         <input
                                                             className="input"

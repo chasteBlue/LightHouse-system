@@ -1,12 +1,14 @@
 import ManagerLayout from "../layouts/Manager_Layout";
 import VenueManager from "../manager_components/VenueManager";
+import ProtectedRoute from "../auth/protectedRoute";
 
 const MVenue = () => {
     return (
-        <ManagerLayout>
-            <VenueManager/>
-            
-        </ManagerLayout>
+        <ProtectedRoute allowedRoles={['manager']}>
+            <ManagerLayout>
+                <VenueManager/>
+            </ManagerLayout>
+        </ProtectedRoute>
       )
 }
 export default MVenue;

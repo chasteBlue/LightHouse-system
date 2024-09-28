@@ -74,7 +74,7 @@ const SidebarRestaurant_2 = () => {
                         </li>
               
                         <li>
-                            <Link to="/restaurant_dashboard" title='Restaurant Dashboard'>
+                            <Link to="/restaurant_dashboard_table" title='Restaurant Dashboard'>
                             <IoPerson style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                             {isSidebarOpen && 'Dashboard'}
                             </Link>

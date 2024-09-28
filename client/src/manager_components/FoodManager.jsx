@@ -13,25 +13,27 @@ const FoodManager = () => {
     const [foods, setFoods] = useState([]); // State to store food items
     const [selectedFood, setSelectedFood] = useState(null); // State to manage selected food
     const [searchTerm, setSearchTerm] = useState(''); // State to handle search term
-    const [guestPhoto, setGuestPhoto] = useState(null);
+    const [foodPhoto, setFoodPhoto] = useState(null);
+    const [foodPhotoPreview, setFoodPhotoPreview] = useState(null); 
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
-    const [isArchiving, setIsArchiving] = useState(false); // State to manage the archiving confirmation
+    const [isArchiving, setIsArchiving] = useState(false); 
 
     const handlePhotoChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                setGuestPhoto(reader.result);
-                setSelectedFood((prev) => ({ ...prev, food_photo: reader.result }));
+                setFoodPhoto(reader.result); // Update photo state
+                setFoodPhotoPreview(reader.result); // Update photo preview state
+                setSelectedFood((prev) => ({ ...prev, food_photo: reader.result })); // Update selected food object
             };
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(file); // Convert image to base64
         }
     };
 
-     // Function to calculate the final price based on price and discount percentage
-     const calculateFinalPrice = (price, discount) => {
+    // Function to calculate the final price based on price and discount percentage
+    const calculateFinalPrice = (price, discount) => {
         const discountAmount = price * (discount / 100);
         return price - discountAmount;
     };
@@ -59,11 +61,13 @@ const FoodManager = () => {
         return status === 'ACTIVE' ? 'green' : 'red';
     };
 
-    // Handle food item click
     const handleFoodClick = (food) => {
-        setSelectedFood(food); // Set the clicked food as selected
-        setError('');
-        setSuccess('');
+        // Reset all states related to food details
+        setFoodPhoto(null);
+        setFoodPhotoPreview(null);
+        setSelectedFood({ ...food }); // Set the clicked food as selected
+        setError(''); // Clear error
+        setSuccess(''); // Clear success
     };
 
     // Handle input change in the detail view
@@ -83,6 +87,7 @@ const FoodManager = () => {
             return updatedFood;
         });
     };
+
     // Handle save changes
     const handleSaveChanges = async () => {
         try {
@@ -96,8 +101,8 @@ const FoodManager = () => {
                 setError('');
 
                 // Update the food list with the new data
-                setFoods(prevFoods =>
-                    prevFoods.map(food =>
+                setFoods((prevFoods) =>
+                    prevFoods.map((food) =>
                         food.food_id === selectedFood.food_id ? { ...food, ...selectedFood } : food
                     )
                 );
@@ -134,7 +139,7 @@ const FoodManager = () => {
                 setError('');
 
                 // Remove the archived food from the list
-                setFoods(prevFoods => prevFoods.filter(food => food.food_id !== selectedFood.food_id));
+                setFoods((prevFoods) => prevFoods.filter((food) => food.food_id !== selectedFood.food_id));
                 setSelectedFood(null);
 
                 setTimeout(() => {
@@ -149,7 +154,7 @@ const FoodManager = () => {
     };
 
     // Filter food items based on search term
-    const filteredFoods = foods.filter(food =>
+    const filteredFoods = foods.filter((food) =>
         food.food_name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
@@ -199,8 +204,11 @@ const FoodManager = () => {
                                 key={food.food_id}
                                 className={`staff-space ${selectedFood && selectedFood.food_id === food.food_id ? 'is-active' : ''}`} // Highlight selected food
                                 onClick={() => handleFoodClick(food)} // Handle food item click
-                                style={{ cursor: 'pointer', padding: '1rem', backgroundColor: selectedFood?.food_id === food.food_id ? '#e8f4ff' : 'transparent' 
-                                 }} 
+                                style={{
+                                    cursor: 'pointer',
+                                    padding: '1rem',
+                                    backgroundColor: selectedFood?.food_id === food.food_id ? '#e8f4ff' : 'transparent'
+                                }}
                             >
                                 <div className="columns is-vcentered is-mobile" style={{ paddingLeft: "5px" }}>
                                     <IoFastFoodOutline style={{ marginRight: '5px', textAlign: 'center' }} />
@@ -295,24 +303,23 @@ const FoodManager = () => {
                                     {/* Second Column - Photo */}
                                     <div className="column is-one-half">
                                         <div className="staff-space">
-                                            {guestPhoto ? (
-                                                <div className="field">
-                                                    <figure className="image is-128x128">
-                                                        <img
-                                                            src={guestPhoto}
-                                                            alt="Guest Preview"
-                                                            style={{
-                                                                width: "128px",
-                                                                height: "128px"
-                                                            }}
-                                                        />
-                                                    </figure>
-                                                </div>
-                                            ) : (
-                                                <p>No photo available.</p>
+                                            {foodPhotoPreview ? (
+                                                <img
+                                                    src={foodPhotoPreview}
+                                                    alt={selectedFood.food_name}
+                                                    style={{ width: '150px', height: '150px', borderRadius: '8px' }}
+                                                />
+                                            ) : selectedFood.food_photo && (
+                                                <img
+                                                    src={selectedFood.food_photo}
+                                                    alt={selectedFood.food_name}
+                                                    style={{ width: '150px', height: '150px', borderRadius: '8px' }}
+                                                />
                                             )}
+                                           
                                             <div className='field'>
                                                 <label className="label">Food Photo</label>
+                                                <p>Only 3 MB photos in file types JPEG, JPG, and PNG</p>
                                                 <div className="control">
                                                     <input className="input" type="file" accept="image/*" onChange={handlePhotoChange} />
                                                 </div>

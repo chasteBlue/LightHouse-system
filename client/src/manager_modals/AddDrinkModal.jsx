@@ -194,6 +194,7 @@ const AddDrinkModal = ({ isOpen, toggleModal }) => {
 
                             <div className="field">
                                 <label className="label">Drink Photo</label>
+                                <p>Only 3 MB photos in file types JPEG, JPG, and PNG</p>
                                 <div className="control">
                                     <input
                                         className={`input ${erroredFields.drink_photo ? 'is-danger' : ''}`} 

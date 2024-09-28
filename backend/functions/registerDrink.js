@@ -1,6 +1,8 @@
 const { supabase } = require('../supabaseClient'); // Import Supabase client
 const { v4: uuidv4 } = require('uuid'); // Import UUID library
 
+const MAX_FILE_SIZE = 3 * 1024 * 1024;
+
 const registerDrink = async (req, res) => {
     const {
         bar_category_name,
@@ -15,6 +17,21 @@ const registerDrink = async (req, res) => {
 
     // Generate a unique drink ID using UUID
     const drink_id = uuidv4();
+
+    // Validate image format and size
+    if (drink_photo) {
+        const matches = drink_photo.match(/^data:(image\/(png|jpeg|jpg));base64,/);
+        if (!matches) {
+            return res.status(400).json({ error: 'Invalid file format. Please upload PNG, JPEG, or JPG images.' });
+        }
+
+        // Check file size
+        const base64Str = drink_photo.split(',')[1];
+        const buffer = Buffer.from(base64Str, 'base64');
+        if (buffer.length > MAX_FILE_SIZE) {
+            return res.status(400).json({ error: 'File size should not exceed 3 MB.' });
+        }
+    }
 
     try {
         // Insert into the BAR_DRINK table

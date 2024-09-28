@@ -13,7 +13,8 @@ const DrinkManager = () => {
     const [drinks, setDrinks] = useState([]); 
     const [selectedDrink, setSelectedDrink] = useState(null); 
     const [searchTerm, setSearchTerm] = useState(''); 
-    const [guestPhoto, setGuestPhoto] = useState(null);
+    const [drinkPhoto, setDrinkPhoto] = useState(null);
+    const [drinkPhotoPreview, setDrinkPhotoPreview] = useState(null); 
     const [error, setError] = useState(''); 
     const [success, setSuccess] = useState(''); 
     const [isArchiving, setIsArchiving] = useState(false);
@@ -35,12 +36,6 @@ const DrinkManager = () => {
         setIsModalOpen(!isModalOpen);
     };
 
-    // Function to calculate the final price based on price and discount percentage
-    const calculateFinalPrice = (price, discount) => {
-        const discountAmount = price * (discount / 100);
-        return price - discountAmount;
-    };
-
     const getStatusColor = (status) => {
         switch (status) {
             case 'ACTIVE':
@@ -53,26 +48,21 @@ const DrinkManager = () => {
     };
 
     const handleDrinkClick = (drink) => {
-        setSelectedDrink(drink || null);
-        setGuestPhoto(drink ? drink.drink_photo : null);
+        setDrinkPhoto(null);
+        setDrinkPhotoPreview(null);
+        setSelectedDrink({ ...drink });
         setError(''); 
         setSuccess(''); 
     };
 
-    const handlePhotoChange = (event) => {
-        const file = event.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setGuestPhoto(reader.result);
-                setSelectedDrink((prev) => (prev ? { ...prev, drink_photo: reader.result } : null));
-            };
-            reader.readAsDataURL(file);
-        }
+      // Function to calculate the final price based on price and discount percentage
+      const calculateFinalPrice = (price, discount) => {
+        const discountAmount = price * (discount / 100);
+        return price - discountAmount;
     };
 
         // Handle input change in the detail view
-        const handleDetailChange = (e) => {
+     const handleDetailChange = (e) => {
             const { name, value } = e.target;
             setSelectedDrink((prev) => {
                 const updatedDrink = { ...prev, [name]: value };
@@ -152,8 +142,23 @@ const DrinkManager = () => {
     };
 
     const filteredDrinks = drinks.filter(drink =>
-        drink && drink.drink_name.toLowerCase().includes(searchTerm.toLowerCase())
+        drink && drink.drink_name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        drink.drink_status !== 'DELETE'
     );
+
+    const handlePhotoChange = (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setDrinkPhoto(reader.result); // Update photo state
+                setDrinkPhotoPreview(reader.result); // Update photo preview state
+                setSelectedDrink((prev) => ({ ...prev, drink_photo: reader.result })); // Update selected food object
+            };
+            reader.readAsDataURL(file); // Convert image to base64
+        }
+    };
+
 
     return (
         <section className='section-p1'>
@@ -275,24 +280,23 @@ const DrinkManager = () => {
 
                                     <div className="column is-one-half">
                                         <div className="staff-space">
-                                            {guestPhoto ? (
-                                                <div className="field">
-                                                    <figure className="image is-128x128">
-                                                        <img
-                                                            src={guestPhoto}
-                                                            alt="Drink Preview"
-                                                            style={{
-                                                                width: "128px",
-                                                                height: "128px"
-                                                            }}
-                                                        />
-                                                    </figure>
-                                                </div>
-                                            ) : (
-                                                <p>No photo available.</p>
+                                        {drinkPhotoPreview ? (
+                                                <img
+                                                    src={drinkPhotoPreview}
+                                                    alt={selectedDrink.drink_name}
+                                                    style={{ width: '150px', height: '150px', borderRadius: '8px' }}
+                                                />
+                                            ) : selectedDrink.drink_photo && (
+                                                <img
+                                                    src={selectedDrink.drink_photo}
+                                                    alt={selectedDrink.drink_name}
+                                                    style={{ width: '150px', height: '150px', borderRadius: '8px' }}
+                                                />
                                             )}
+                                           
                                             <div className='field'>
                                                 <label className="label">Drink Photo</label>
+                                                <p>Only 3 MB photos in file types JPEG, JPG, and PNG</p>
                                                 <div className="control">
                                                     <input className="input" type="file" accept="image/*" onChange={handlePhotoChange} />
                                                 </div>
