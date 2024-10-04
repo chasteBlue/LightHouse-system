@@ -15,9 +15,12 @@ const RoomReservationCalendar = () => {
       const response = await axios.get('http://localhost:3001/api/getRoomReservationsAll');
       const reservations = response.data.map(reservation => ({
         id: reservation.room_reservation_id,
-        title: `Room Reserved - Room ${reservation.room_number}`,
+        title: reservation.room 
+          ? `Room Reserved - Room ${reservation.room.room_number} (${reservation.guest.guest_fname} ${reservation.guest.guest_lname})`
+          : 'Room Reservation',  // Handle null room gracefully
         start: new Date(reservation.room_check_in_date),
         end: new Date(reservation.room_check_out_date),
+        status: reservation.reservation_status
       }));
       setEvents(reservations);
     } catch (error) {
@@ -29,6 +32,38 @@ const RoomReservationCalendar = () => {
     fetchRoomReservations(); // Fetch reservations when the component is mounted
   }, []);
 
+  // Function to apply custom event styling based on reservation status
+  const eventStyleGetter = (event) => {
+    let backgroundColor = '#007bff'; // Default blue for confirmed
+
+    switch (event.status) {
+      case 'CONFIRMED':
+        backgroundColor = '#007bff'; // Blue for confirmed
+        break;
+      case 'CANCELED':
+        backgroundColor = '#6c757d'; // Grey for canceled
+        break;
+      case 'COMPLETED':
+        backgroundColor = '#17a2b8'; // Light blue for completed
+        break;
+      case 'NO SHOW':
+        backgroundColor = '#6c757d'; // Dark grey for no show
+        break;
+      default:
+        backgroundColor = '#007bff'; // Default blue
+        break;
+    }
+
+    return {
+      style: {
+        backgroundColor,
+        color: 'white',
+        borderRadius: '5px',
+        padding: '5px',
+      },
+    };
+  };
+
   return (
     <div style={{ height: '500px', margin: '20px' }}>
       <Calendar
@@ -38,6 +73,7 @@ const RoomReservationCalendar = () => {
         endAccessor="end"
         defaultView="week"    
         style={{ height: 500 }}
+        eventPropGetter={eventStyleGetter}  // Apply custom styles to events
       />
     </div>
   );
