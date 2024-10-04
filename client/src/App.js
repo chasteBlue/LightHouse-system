@@ -32,6 +32,10 @@ import MConcierge from "./manager_pages/M_Concierge";
 import MLaundry from "./manager_pages/M_Laundry";
 import MVenue from "./manager_pages/M_Venue";
 import MFoodPackage from "./manager_pages/M_FoodPackage";
+import MReportSales from "./manager_pages/M_ReportSales";
+import MReportMenuOp from "./manager_pages/M_ReportMenuOp";
+import MReportForecasting from "./manager_pages/M_ReportForecasting";
+import MReportRoomOccupancy from "./manager_pages/M_ReportRoomOccupancy";
 
 import FDashboard from "./frontdesk_pages/F_Dashboard";
 import FHome from "./frontdesk_pages/F_Home";
@@ -52,6 +56,7 @@ import RIncomingOrder from "./restaurant_pages/R_IncomingOrder";
 import RProceedRestaurant from "./restaurant_pages/R_ProceedOrder";
 import RTableMain from "./restaurant_pages/R_TableMain";
 import RTablReservations from "./restaurant_pages/R_TableRevservation";
+import RTableRevCalendar from "./restaurant_pages/R_TableCalendar";
 
 import BHomeBar from "./bar_pages/B_Home";
 import BDashboard from "./bar_pages/B_Dashboard";
@@ -74,7 +79,7 @@ function App() {
         <Route path="/room_search/book_room_reservations" element={<GRoomReservation/>}/>
 
         <Route path="/reservations" element={<GReservations/>}/>
-        <Route path="/reservations/room_reservation_details" element={<GReservationsRoomDetails/>}/>
+        <Route path="/reservations/room_reservation_details/:room_reservation_id" element={<GReservationsRoomDetails/>}/>
         <Route path = "/virtual_tour" element ={<GVirtualTour/>}/>
 
 
@@ -104,6 +109,11 @@ function App() {
         <Route path = "/manager_laundry" element ={<MLaundry/>}/>
         <Route path = "/manager_venue" element ={<MVenue/>}/>
         <Route path = "/manager_food_package" element ={<MFoodPackage/>}/>
+        <Route path = "/manager_report_sales" element ={<MReportSales/>}/>
+        <Route path = "/manager_report_menu_optimization" element ={<MReportMenuOp/>}/>
+        <Route path = "/manager_report_room_occupancy_rate" element ={<MReportRoomOccupancy/>}/>
+        <Route path = "/manager_report_forecasting" element ={<MReportForecasting/>}/>
+
 
         <Route path = "/frontdesk_dashboard" element ={<FDashboard/>}/>
         <Route path = "/frontdesk_home" element ={<FHome/>}/>
@@ -124,6 +134,8 @@ function App() {
         <Route path ="/restaurant_order/proceed_order" element={<RProceedRestaurant/>}/>
         <Route path = "/restaurant_table_maintenance" element ={<RTableMain/>}/>
         <Route path = "/restaurant_table_reservations" element ={<RTablReservations/>}/>
+        <Route path = "/restaurant_table_reservations_calendar" element ={<RTableRevCalendar/>}/>
+
 
         <Route path = "/bar_home" element ={<BHomeBar/>}/>
         <Route path = "/bar_dashboard" element ={<BDashboard/>}/>

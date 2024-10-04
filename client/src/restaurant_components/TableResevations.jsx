@@ -1,294 +1,289 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 import '../App.css';
 import '../manager_components/components_m.css';
-import { IoSearchCircle, IoPeople, IoRestaurant } from 'react-icons/io5';
+import { IoPeople, IoRestaurant } from 'react-icons/io5';
+import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const TablReservations = () => {
-    const [activeAccordion, setActiveAccordion] = useState(null); // State to manage which accordion is open
-    const [selectedDate, setSelectedDate] = useState(''); // State to manage the selected date
-    const [tableStatuses, setTableStatuses] = useState({}); // State to manage table statuses
-    const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
-    const [selectedGuest, setSelectedGuest] = useState(null); // State to manage the selected guest for status change
-    const [newStatus, setNewStatus] = useState(''); // State to store the new status before saving
+  // Function to get today's date in YYYY-MM-DD format
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
 
-    // Example data for time slots with multiple guests
-    const timeSlots = [
-        {
-            time: '10:00 AM',
-            guests: [
-                { name: 'John Doe', people: 4, tableName: 'Table A', status: 'Completed' },
-                { name: 'Jane Doe', people: 2, tableName: 'Table B', status: 'Pending' }
-            ]
-        },
-        {
-            time: '11:00 AM',
-            guests: [
-                { name: 'Alice Johnson', people: 3, tableName: 'Table C', status: 'Canceled' }
-            ]
-        },
-        {
-            time: '12:00 PM',
-            guests: [
-                { name: 'Michael Brown', people: 5, tableName: 'Table D', status: 'Completed' },
-                { name: 'Sarah Connor', people: 3, tableName: 'Table E', status: 'No Show' }
-            ]
-        },
-        {
-            time: '1:00 PM',
-            guests: [
-                { name: 'David Wilson', people: 6, tableName: 'Table F', status: 'Pending' }
-            ]
-        },
-        {
-            time: '2:00 PM',
-            guests: [
-                { name: 'Paul Garcia', people: 8, tableName: 'Table G', status: 'Completed' },
-                { name: 'Sophia Lee', people: 2, tableName: 'Table H', status: 'Canceled' }
-            ]
-        },
-    ];
+  const [activeAccordion, setActiveAccordion] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(getTodayDate()); // Default to today's date
+  const [timeSlots, setTimeSlots] = useState([]);
+  const [tableStatuses, setTableStatuses] = useState({});
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedGuest, setSelectedGuest] = useState(null);
+  const [newStatus, setNewStatus] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [tables, setTables] = useState([]);
 
-    
-    const tables = [
-        { id: 1, chairs: 4, name: 'Table A' },
-        { id: 2, chairs: 4, name: 'Table B' },
-        { id: 3, chairs: 4, name: 'Table C' },
-        { id: 4, chairs: 6, name: 'Table D' },
-        { id: 5, chairs: 8, name: 'Table E' },
-        { id: 6, chairs: 6, name: 'Table F' },
-        { id: 7, chairs: 4, name: 'Table G' },
-        { id: 8, chairs: 4, name: 'Table H' },
-        { id: 9, chairs: 4, name: 'Table I' },
-    ];
+  const fetchTables = async () => {
+    try {
+      const response = await axios.get('http://localhost:3001/api/getTables');
+      setTables(response.data);
+    } catch (error) {
+      console.error('Error fetching tables:', error);
+    }
+  };
 
-    const handleAccordionClick = (index) => {
-        setActiveAccordion(activeAccordion === index ? null : index); // Toggle accordion state
+  const fetchReservations = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get('http://localhost:3001/api/getTableReservations', {
+        params: { table_reservation_date: selectedDate }, // Use selectedDate, which defaults to today
+      });
+      setTimeSlots(response.data || []); // Ensure response data is an array
+    } catch (error) {
+      console.error('Error fetching reservations:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        if (activeAccordion !== index) {
-            // Update table statuses based on the selected time slot
-            const newStatuses = {};
-            timeSlots[index].guests.forEach((guest) => {
-                newStatuses[guest.tableName] = guest.status;
-            });
-            setTableStatuses(newStatuses);
-        } else {
-            setTableStatuses({}); // Reset table statuses when accordion is closed
+  useEffect(() => {
+    fetchTables();
+    fetchReservations(); // Fetch today's reservations on component mount
+  }, []); // Only run once when the component mounts
+
+  useEffect(() => {
+    if (selectedDate) {
+      fetchReservations(); // Fetch reservations when the selected date changes
+    } else {
+      setTimeSlots([]);
+    }
+  }, [selectedDate]);
+
+  const handleAccordionClick = (index) => {
+    setActiveAccordion(activeAccordion === index ? null : index);
+
+    if (activeAccordion !== index) {
+      const newStatuses = {};
+
+      if (timeSlots[index] && Array.isArray(timeSlots[index].reservations)) {
+        timeSlots[index].reservations.forEach((reservation) => {
+          newStatuses[reservation.table.table_name] = reservation.reservation_status;
+        });
+      }
+
+      setTableStatuses(newStatuses);
+    } else {
+      setTableStatuses({});
+    }
+  };
+
+  const handleDateChange = (e) => {
+    setSelectedDate(e.target.value);
+    setTimeSlots([]);
+    setActiveAccordion(null);
+    setTableStatuses({});
+  };
+
+  const openModal = (reservation) => {
+    console.log('Selected Reservation:', reservation); // Log reservation data
+    setSelectedGuest(reservation);
+    setNewStatus(reservation.reservation_status);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setSelectedGuest(null);
+    setNewStatus('');
+  };
+
+  const handleStatusSelect = (status) => {
+    setNewStatus(status);
+  };
+
+  const saveStatusChange = async () => {
+    if (selectedGuest) {
+      console.log('Sending update for reservation:', selectedGuest.table_reservation_id);
+      console.log('New status:', newStatus);
+
+      try {
+        const response = await axios.put(
+          `http://localhost:3001/api/updateTableReservationStatus/${selectedGuest.table_reservation_id}`,
+          {
+            reservation_status: newStatus, // Pass the new status in the body
+          }
+        );
+
+        if (response.status === 200) {
+          selectedGuest.reservation_status = newStatus;
+          setTableStatuses((prevStatuses) => ({
+            ...prevStatuses,
+            [selectedGuest.table.table_name]: newStatus,
+          }));
         }
-    };
+      } catch (error) {
+        console.error('Error updating reservation status:', error);
+      }
 
-    const handleDateChange = (e) => {
-        setSelectedDate(e.target.value); // Update the selected date state
-    };
+      closeModal();
+    }
+  };
 
-    const getTableColor = (status) => {
-        switch (status) {
-            case 'Completed':
-                return 'has-background-success-light';
-            case 'Pending':
-                return 'has-background-warning-light';
-            case 'Canceled':
-                return 'has-background-danger-light';
-            case 'No Show':
-                return 'has-background-grey-light';
-            default:
-                return 'has-background-light';
-        }
-    };
+  const getTableColor = (status) => {
+    switch (status) {
+      case 'COMPLETED':
+        return 'has-background-success-light'; // Green for completed
+      case 'PENDING':
+        return 'has-background-warning-light'; // Yellow for pending
+      case 'CANCELED':
+        return 'has-background-danger-light'; // Red for canceled
+      case 'NO SHOW':
+        return 'has-background-grey-light';
+      default:
+        return 'has-background-light'; // Default light background for available tables
+    }
+  };
 
-    const getChairClasses = (chairs) => {
-        switch (chairs) {
-            case 4:
-                return ['top-left-chair', 'top-right-chair', 'bottom-left-chair', 'bottom-right-chair'];
-            case 6:
-                return ['top-left-chair', 'top-middle-chair', 'top-right-chair', 'bottom-left-chair', 'bottom-middle-chair', 'bottom-right-chair'];
-            case 8:
-                return ['top-left-chair', 'top-center-left-chair', 'top-center-right-chair', 'top-right-chair', 'bottom-left-chair', 'bottom-center-left-chair', 'bottom-center-right-chair', 'bottom-right-chair'];
-            default:
-                return [];
-        }
-    };
+  const getChairClasses = (seat_quantity) => {
+    switch (seat_quantity) {
+      case 4:
+        return ['top-left-chair', 'top-right-chair', 'bottom-left-chair', 'bottom-right-chair'];
+      case 6:
+        return ['top-left-chair', 'top-middle-chair', 'top-right-chair', 'bottom-left-chair', 'bottom-middle-chair', 'bottom-right-chair'];
+      case 8:
+        return ['top-left-chair', 'top-center-left-chair', 'top-center-right-chair', 'top-right-chair', 'bottom-left-chair', 'bottom-center-left-chair', 'bottom-center-right-chair', 'bottom-right-chair'];
+      default:
+        return [];
+    }
+  };
 
-    const openModal = (guest) => {
-        setSelectedGuest(guest);
-        setNewStatus(guest.status); // Set the initial status to the current status
-        setIsModalOpen(true);
-    };
+  return (
+    <section className='section-p1'>
+      <div className="columns" style={{ minHeight: "100vh" }}>
+        {/* Left Side: Search and Time Slot Accordion */}
+        <div className="column is-3">
+          <div className="column">
+            <h1 className='subtitle'><strong>Table Reservations</strong></h1>
+          </div>
+          <Link to="/restaurant_table_reservations_calendar"><button className='button is-blue'>Calendar View</button></Link>
 
-    const closeModal = () => {
-        setIsModalOpen(false);
-        setSelectedGuest(null);
-        setNewStatus('');
-    };
-
-    const handleStatusSelect = (status) => {
-        setNewStatus(status); // Set the new status
-    };
-
-    const saveStatusChange = () => {
-        if (selectedGuest) {
-            // Update the status of the selected guest
-            selectedGuest.status = newStatus;
-            setTableStatuses((prevStatuses) => ({
-                ...prevStatuses,
-                [selectedGuest.tableName]: newStatus
-            }));
-        }
-        closeModal();
-    };
-
-    return (
-        <section className='section-p1'>
-            <div className="columns" style={{ minHeight: "100vh" }}>
-                <div className="column is-3">
-                    <div className="column">
-                        <div className='columns is-vcentered tablet-column-layout'>
-                            <div className='column'>
-                                <h1 className='subtitle'>
-                                    <strong>Table Reservations</strong>
-                                </h1>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="column is-hidden-tablet-only custom-hide-tablet is-fullwidth" style={{ padding: '0', margin: '0' }}>
-                        <div className="field has-addons is-flex is-flex-direction-row is-fullwidth-mobile">
-                            <div className="control is-expanded is-fullwidth">
-                                <input className="input is-fullwidth-mobile" type="text" style={{ margin: '0' }} placeholder="Search..." />
-                            </div>
-                            <div className="control is-fullwidth">
-                                <button className="button is-blue is-fullwidth-mobile" style={{ height: '100%' }}>
-                                    <IoSearchCircle className="is-white" />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Date Input for Selecting Date */}
-                    <div className="field mt-4">
-                        <label className="label">Select Date</label>
-                        <div className="control">
-                            <input
-                                type="date"
-                                className="input"
-                                value={selectedDate}
-                                onChange={handleDateChange}
-                            />
-                        </div>
-                    </div>
-
-                    {/* Display Time Slots if Date is Selected */}
-                    {selectedDate && (
-                        <>
-                            <div>
-                                <h3 className="mt-4">Time Slots for {selectedDate}</h3>
-                            </div>
-
-                            {/* Accordion for Time Slots */}
-                            <div className="container mt-2">
-                                {timeSlots.map((slot, index) => (
-                                    <div key={index} className="box" style={{ padding: "1rem", margin: "0.5rem" }}>
-                                        {/* Time Slot as Accordion Header */}
-                                        <div
-                                            className="accordion-header"
-                                            onClick={() => handleAccordionClick(index)}
-                                            style={{ padding: '2px', fontWeight: 'bold', cursor: 'pointer' }}
-                                        >
-                                            {slot.time}
-                                        </div>
-
-                                        {/* Accordion Content for Multiple Guests */}
-                                        {activeAccordion === index && (
-                                            <div className="accordion-content mt-3">
-                                                {slot.guests.map((guest, guestIndex) => (
-                                                    <div key={guestIndex} className="box is-flex is-justify-content-space-between is-align-items-center">
-                                                        <div>
-                                                            <p><IoPeople /> {guest.name} - {guest.people} people</p>
-                                                            <p><IoRestaurant /> Table: {guest.tableName}</p>
-                                                        </div>
-                                                        <div>
-                                                            <button
-                                                                className={`button is-small ${guest.status === 'Completed' ? 'is-success' : guest.status === 'Canceled' ? 'is-danger' : guest.status === 'Pending' ? 'is-warning' : 'is-dark'}`}
-                                                                onClick={() => openModal(guest)}
-                                                            >
-                                                                {guest.status}
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                ))}
-                                            </div>
-                                        )}
-                                    </div>
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </div>
-
-                {/* Table Visualization */}
-                <div className="column" style={{ backgroundColor: "white" }}>
-                    <main className="section-p1">
-                        <div className='event-padding-style event-color-table' style={{backgroundColor:"#007"}}>
-                            <p className='subtitle has-text-white'> Restaurant Tables (3rd Floor - Open Area)</p>
-                            <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                                <div className="columns is-multiline section-p1">
-                                    {tables.map((table, index) => {
-                                        const chairClasses = getChairClasses(table.chairs);
-                                        const tableStatus = tableStatuses[table.name] || 'Available';
-
-                                        return (
-                                            <div className="column is-one-third" key={table.id}>
-                                                <p className="title is-6 has-text-centered"></p>
-                                                <div className={`table-container ${getTableColor(tableStatus)}`}>
-                                                    <div className="table-circle">
-                                                        <div className="column has-text-centered is-circle">
-                                                            <div style={{ padding: "0.5rem", backgroundColor: "white", borderRadius: "1rem", boxShadow: "3px 3px black" }}>
-                                                                Table {table.id}
-                                                                <p>({table.chairs} Chairs)</p>
-                                                                <p>{tableStatus}</p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div className="chairs-wrapper">
-                                                        {chairClasses.map((chairClass, i) => (
-                                                            <div key={i} className={`chair ${chairClass}`} />
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div>
-                        </div>
-                    </main>
-                </div>
+          {/* Date Input for Selecting Date */}
+          <div className="field mt-4">
+            <label className="label">Select Date</label>
+            <div className="control">
+              <input type="date" className="input" value={selectedDate} onChange={handleDateChange} />
             </div>
+          </div>
 
-            {/* Modal for Changing Status */}
-            {isModalOpen && (
-                <div className={`modal ${isModalOpen ? 'is-active' : ''}`}>
-                    <div className="modal-background" onClick={closeModal}></div>
-                    <div className="modal-content">
-                        <div className="box">
-                            <h3 className="title is-4">Change Status for {selectedGuest?.name}</h3>
-                            <div className="buttons">
-                                <button className={`button ${newStatus === 'Completed' ? 'is-success' : ''}`} onClick={() => handleStatusSelect('Completed')}>Completed</button>
-                                <button className={`button ${newStatus === 'Pending' ? 'is-warning' : ''}`} onClick={() => handleStatusSelect('Pending')}>Pending</button>
-                                <button className={`button ${newStatus === 'Canceled' ? 'is-danger' : ''}`} onClick={() => handleStatusSelect('Canceled')}>Canceled</button>
-                                <button className={`button ${newStatus === 'No Show' ? 'is-dark' : ''}`} onClick={() => handleStatusSelect('No Show')}>No Show</button>
-                            </div>
-                            <div className="buttons mt-4 is-right">
-                                <button className="button is-blue" onClick={saveStatusChange}>Save Changes</button>
-                                <button className="button is-inverted-blue" onClick={closeModal}>Cancel</button>
-                            </div>
+          {/* Accordion for Time Slots */}
+          {timeSlots.length > 0 && (
+            <div className="mt-4">
+              <h3 className ="m-1">Time Slots</h3>
+              {timeSlots.map((slot, index) => (
+                <div key={index} className="box p-1" style={{ marginBottom: '1rem' }}>
+                  <div
+                    className="accordion-header"
+                    onClick={() => handleAccordionClick(index)}
+                    style={{ padding: '1rem', cursor: 'pointer', fontWeight: 'bold' }}
+                  >
+                    {slot.time}
+                  </div>
+
+                  {/* Show guests only if the accordion is open */}
+                  {activeAccordion === index && slot.reservations && Array.isArray(slot.reservations) && (
+                    <div className="accordion-content mt-3">
+                      {slot.reservations.map((reservation, guestIndex) => (
+                        <div key={guestIndex} className="box is-flex is-justify-content-space-between is-align-items-center">
+                          <div>
+                            <p><IoPeople /> {reservation.guest.guest_fname} {reservation.guest.guest_lname} - {reservation.table_guest_quantity} people</p>
+                            <p><IoRestaurant /> Table: {reservation.table.table_name} ({reservation.table.seat_quantity} seats)</p>
+                          </div>
+                          <div>
+                            <button
+                              className={`button is-small ${reservation.reservation_status === 'COMPLETED' ? 'is-success' : reservation.reservation_status === 'CANCELED' ? 'is-danger' : reservation.reservation_status === 'PENDING' ? 'is-warning' : 'is-dark'}`}
+                              onClick={() => openModal(reservation)}
+                            >
+                              {reservation.reservation_status}
+                            </button>
+                          </div>
                         </div>
+                      ))}
                     </div>
-                    <button className="modal-close is-large" aria-label="close" onClick={closeModal}></button>
+                  )}
                 </div>
-            )}
-        </section>
-    );
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Right Side: Table Visualization */}
+        <div className="column" style={{ backgroundColor: "white" }}>
+          <main className="section-p1">
+            <div className='event-padding-style event-color-table' style={{ backgroundColor: "#007" }}>
+              <p className='subtitle has-text-white'> Restaurant Tables</p>
+              <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+                <div className="columns is-multiline section-p1">
+                  {tables.length > 0 ? (
+                    tables.map((table) => {
+                      const chairClasses = getChairClasses(table.seat_quantity);
+                      const tableStatus = tableStatuses[table.table_name] || 'Available';
+
+                      return (
+                        <div className="column is-one-third" key={table.table_id}>
+                          <div className="table-container">
+                            <div className={`table-circle ${getTableColor(tableStatus)}`}>
+                              <div className="column has-text-centered is-circle">
+                                <p className="is-4"><strong>{table.table_name}</strong></p>
+                                <p>({table.seat_quantity} Seats)</p>
+                                <p>Status: {tableStatus}</p>
+                              </div>
+                            </div>
+                            <div className="chairs-wrapper">
+                              {chairClasses.map((chairClass, i) => (
+                                <div key={i} className={`chair ${chairClass}`} />
+                              ))}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    <p>No tables available.</p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </main>
+        </div>
+      </div>
+
+      {/* Modal for Changing Status */}
+      {isModalOpen && (
+        <div className={`modal ${isModalOpen ? 'is-active' : ''}`}>
+          <div className="modal-background" onClick={closeModal}></div>
+          <div className="modal-content">
+            <div className="box">
+              <h3 className="title is-4">Change Status for {selectedGuest?.guest.guest_fname} {selectedGuest?.guest.guest_lname}</h3>
+              <div className="buttons">
+                <button className={`button ${newStatus === 'COMPLETED' ? 'is-success' : ''}`} onClick={() => handleStatusSelect('COMPLETED')}>Completed</button>
+                <button className={`button ${newStatus === 'PENDING' ? 'is-warning' : ''}`} onClick={() => handleStatusSelect('PENDING')}>Pending</button>
+                <button className={`button ${newStatus === 'CANCELED' ? 'is-danger' : ''}`} onClick={() => handleStatusSelect('CANCELED')}>Canceled</button>
+                <button className={`button ${newStatus === 'NO SHOW' ? 'is-dark' : ''}`} onClick={() => handleStatusSelect('NO SHOW')}>No Show</button>
+              </div>
+              <div className="buttons mt-4 is-right">
+                <button className="button is-blue" onClick={saveStatusChange}>Save Changes</button>
+                <button className="button is-inverted-blue" onClick={closeModal}>Cancel</button>
+              </div>
+            </div>
+          </div>
+          <button className="modal-close is-large" aria-label="close" onClick={closeModal}></button>
+        </div>
+      )}
+    </section>
+  );
 };
 
 export default TablReservations;

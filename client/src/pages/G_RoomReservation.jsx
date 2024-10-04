@@ -1,11 +1,15 @@
 import Layout from "../components/Layout";
 import RoomReservation from "../components/RoomReservation";
+import ProtectedRoute from "../auth/protectedRoute"; 
+
 
 const GRoomReservation = () => {
     return (
-        <Layout>
-            <RoomReservation/>
-        </Layout>
+        <ProtectedRoute allowedRoles={['guest']}>
+            <Layout>
+                <RoomReservation/>
+            </Layout>
+        </ProtectedRoute> 
       )
 }
 export default GRoomReservation;

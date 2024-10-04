@@ -9,7 +9,7 @@ const { updateOrderStatus } = require ('../functions/restaurantDesk/updateOrderS
 const { getFoodOrderList } = require('../functions/getFoodOrderList'); // Import the function to get food order list
 const { updateFoodItem } = require('../functions/update/updateFoodItem'); // Import the function to get food order list
 const { updateOrderArchive } = require ('../functions/restaurantDesk/updateOrderArchive');
-
+const {getFoodPhotos } = require('../functions/getFoodPhotos');
 //count for dashboard
 const { getCountFoodOrderList } = require ('../functions/restaurantDesk/getCountFoodOrderList');
 const router = express.Router();
@@ -45,7 +45,7 @@ router.put('/updateFoodItem/:food_id', updateFoodItem);
 // PUT request to update a food order status
 router.put('/updateOrderArchive/:food_order_id', updateOrderArchive);
 
-
+router.get('/getFoodPhotos',getFoodPhotos);
 //count
 // Route for retrieving all food items orders by list and count
 router.get('/getCountFoodOrderList', getCountFoodOrderList);

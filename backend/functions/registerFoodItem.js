@@ -31,7 +31,7 @@ const registerFoodItem = async (req, res) => {
         const base64Str = food_photo.split(',')[1];
         const buffer = Buffer.from(base64Str, 'base64');
         if (buffer.length > MAX_FILE_SIZE) {
-            return res.status(400).json({ error: 'File size should not exceed 5 MB.' });
+            return res.status(400).json({ error: 'File size should not exceed 3 MB.' });
         }
     }
 

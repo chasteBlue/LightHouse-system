@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { IoPerson } from 'react-icons/io5';
 import { ResponsiveBar } from '@nivo/bar';
 import axios from 'axios';
+import {jwtDecode} from 'jwt-decode'; // Import jwtDecode
 
 const DashboardManager = () => {
     const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -17,12 +18,25 @@ const DashboardManager = () => {
         conciergeDetailCount: 0,
         laundryDetailCount: 0,
         eventFoodPackageCount: 0,
-        eventCount: 0,
-        menuCount: 0
+        eventCount: 0
     });
     const [chartData, setChartData] = useState([]);
+    const [staffUsername, setStaffUsername] = useState('Manager'); // State to store staff username
 
     useEffect(() => {
+        // Fetch staff username from JWT token
+        const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
+        if (token) {
+            try {
+                const decoded = jwtDecode(token);
+                setStaffUsername(decoded.staff_username); // Extract and set staff username
+            } catch (error) {
+                console.error('Error decoding token:', error);
+                setStaffUsername('Manager');
+            }
+        }
+
+        // Fetch counts data
         const fetchCounts = async () => {
             try {
                 const response = await axios.get('http://localhost:3001/api/counts'); // Replace with your API endpoint
@@ -37,7 +51,6 @@ const DashboardManager = () => {
                     laundryDetailCount: data.laundryDetailCount || 0,
                     eventFoodPackageCount: data.eventFoodPackageCount || 0,
                     eventCount: data.eventCount || 0,
-                    menuCount: data.menuCount || 0
                 };
 
                 setCounts(validatedData);
@@ -51,7 +64,6 @@ const DashboardManager = () => {
                     { service: 'Concierge', quantity: validatedData.conciergeDetailCount },
                     { service: 'Venue', quantity: validatedData.eventCount },
                     { service: 'Food Package', quantity: validatedData.eventFoodPackageCount },
-                    { service: 'Menus', quantity: validatedData.menuCount }
                 ]);
             } catch (error) {
                 console.error('Error fetching counts:', error);
@@ -80,7 +92,7 @@ const DashboardManager = () => {
                 <div className="columns is-vcentered">
                     <div className="column is-half">
                         <div className="notification is-white">
-                            <h1 className="title is-4">Hello, Manager! -Name</h1>
+                            <h1 className="title is-4">Hello, {staffUsername}!</h1> {/* Updated to show staff username */}
                             <p className="subtitle">Welcome to the Manager Dashboard.</p>
                         </div>
                     </div>
@@ -94,7 +106,7 @@ const DashboardManager = () => {
             <div className='columns is-vcentered'>
                 <div className="column is-one-half">
                     <div className="columns is-multiline" style={{ margin: '2%' }}>
-                        <div className="column is-6">
+                    <div className="column is-6">
                             <Link to ="/manager_accounts">
                             <div className="box is-flex is-flex-direction-row is-flex-direction-column-mobile" style={{ padding: '1rem' }}>
                                 
@@ -224,7 +236,6 @@ const DashboardManager = () => {
                             </div>
                             </Link>
                         </div>
-
                     </div>
                 </div>
 

@@ -59,7 +59,7 @@ const AddRoomPhotos = ({ isOpen, toggleModal, roomId }) => {
         try {
             const response = await axios.post('http://localhost:3001/api/registerRoomPhotos', {
                 room_id: roomId, // Pass the current room ID
-                photos: photoDetails,
+                photos: photoDetails, // Send all photo details
             });
 
             if (response.status === 201) {
@@ -104,8 +104,8 @@ const AddRoomPhotos = ({ isOpen, toggleModal, roomId }) => {
                                                 onChange={(e) => handleInputChange(index, e)}
                                             >
                                                 <option value="">Select Room Slot</option>
-                                                <option value="main">Main</option>
-                                                <option value="extra">Extra</option>
+                                                <option value="MAIN">Main</option>
+                                                <option value="EXTRA">Extra</option>
                                             </select>
                                         </div>
                                     </div>
@@ -117,7 +117,7 @@ const AddRoomPhotos = ({ isOpen, toggleModal, roomId }) => {
                                     <div className="control">
                                         <input
                                             className="input"
-                                            type="text" // Change type to text for URL
+                                            type="text"
                                             name="room_photo_url"
                                             value={photo.room_photo_url}
                                             onChange={(e) => handleInputChange(index, e)}

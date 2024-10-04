@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid');
 const { supabase } = require('../supabaseClient');
 const admin = require('firebase-admin');
-const bcrypt = require('bcrypt'); // Import bcrypt for password hashing
+const bcrypt = require('bcrypt');
 
 // Correct path to the Firebase Admin SDK JSON file
 const serviceAccount = require('../config/lighthousehotel-firebase-adminsdk-vywmp-7e7396bb73.json');
@@ -10,24 +10,7 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 });
 
-// Middleware to verify Firebase token
-const verifyFirebaseToken = async (req, res, next) => {
-    const idToken = req.headers.authorization;
-
-    if (!idToken) {
-        return res.status(401).json({ error: 'Unauthorized, token required.' });
-    }
-
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(idToken);
-        req.user = decodedToken; 
-        next();
-    } catch (error) {
-        return res.status(401).json({ error: 'Invalid token.' });
-    }
-};
-
-// Register Guest Route with token verification
+// Register Guest Route with Firebase Authentication check
 const registerGuest = async (req, res) => {
     const {
         guest_fname,
@@ -39,8 +22,12 @@ const registerGuest = async (req, res) => {
         guest_phone_no,
         guest_gender,
         guest_photo,
-        guest_password // Adding password to the request body
+        guest_password,
+        firebase_uid // Expecting the Firebase UID from the frontend
     } = req.body;
+
+    console.log("Received firebase_uid:", firebase_uid);
+    console.log("Received guest_email:", guest_email);
 
     const guest_id = uuidv4(); // Generate unique guest ID
 
@@ -49,6 +36,19 @@ const registerGuest = async (req, res) => {
     }
 
     try {
+        // Verify the Firebase UID
+        if (!firebase_uid || firebase_uid.length > 128) {
+            return res.status(400).json({ error: "Invalid Firebase UID." });
+        }
+
+        // Log the user record fetched from Firebase
+        const userRecord = await admin.auth().getUser(firebase_uid);
+        console.log("Firebase user record:", userRecord);
+
+        if (!userRecord || userRecord.email !== guest_email) {
+            return res.status(400).json({ error: "Invalid Firebase UID or email mismatch." });
+        }
+
         // Hash the password before storing it
         const hashedPassword = await bcrypt.hash(guest_password, 10); // 10 is the salt rounds
 
@@ -66,18 +66,19 @@ const registerGuest = async (req, res) => {
                 guest_phone_no,
                 guest_gender,
                 guest_photo,
-                guest_password: hashedPassword 
+                guest_password: hashedPassword
             }]);
 
         if (error) {
             return res.status(400).json({ error: error.message });
         }
 
-        res.status(201).json({ message: "Guest registered successfully!", data });
+        // Only return the guest's email in the response
+        res.status(201).json({ message: "Guest registered successfully!", guest_email });
     } catch (err) {
         console.error('Registration error:', err);
         res.status(500).json({ error: "Internal Server Error" });
     }
 };
 
-module.exports = { registerGuest, verifyFirebaseToken };
+module.exports = { registerGuest };

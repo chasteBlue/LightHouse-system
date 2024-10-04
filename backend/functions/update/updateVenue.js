@@ -24,7 +24,7 @@ const updateVenue = async (req, res) => {
                 event_disc_percentage,
                 venue_max_pax
             })
-            .eq('event_venue_id', event_venue_id); // Match the event_venue_id to update
+            .eq('event_venue_id', event_venue_id); 
 
         if (error) {
             console.error('Error updating venue:', error.message);

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { jwtDecode } from 'jwt-decode'; // Correct named import
+import {jwtDecode} from 'jwt-decode'; // Correct named import
 import 'bulma/css/bulma.min.css';
 import SuccessMsg from '../messages/successMsg';
 import ErrorMsg from '../messages/errorMsg';
@@ -10,20 +10,21 @@ import '../App.css';
 function LoginStaff() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
-    const [isSuccess, setIsSuccess] = useState(false); 
-    const [isRedirecting, setIsRedirecting] = useState(false);
+    const [message, setMessage] = useState(''); // Message for error/success
+    const [isSuccess, setIsSuccess] = useState(false); // Boolean to track success state
+    const [isRedirecting, setIsRedirecting] = useState(false); // Boolean to track redirect state
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
         e.preventDefault();
-    
+
         try {
+            // Start the login process
             const response = await axios.post('http://localhost:3001/api/loginStaff', {
                 staff_username: username,
                 staff_password: password
             });
-    
+
             if (response.status === 200) {
                 setMessage('Login successful!');
                 setIsSuccess(true);
@@ -31,17 +32,17 @@ function LoginStaff() {
                 localStorage.setItem('token', token);
 
                 // Decode the token to get the staff_acc_role
-                const decodedToken = jwtDecode(token); // Correct usage
+                const decodedToken = jwtDecode(token);
                 const staffRole = decodedToken.staff_acc_role;
 
+                // Redirect based on the role after a short delay
                 setTimeout(() => {
                     setIsRedirecting(true);
                 }, 1000);
 
-                // Redirect to different pages based on the staff role
                 setTimeout(() => {
-                    setMessage('');
-
+                    setMessage('');  // Clear the message
+                    setIsRedirecting(false);  // Ensure redirection state is reset
                     switch (staffRole) {
                         case 'manager':
                             navigate('/manager_home');
@@ -56,18 +57,27 @@ function LoginStaff() {
                             navigate('/bar_home');
                             break;
                         default:
-                            navigate('/'); // Default redirection for any other role
+                            navigate('/'); // Default redirect
                             break;
                     }
                 }, 3000);
             }
         } catch (error) {
             console.error('Login error:', error);
-            setMessage('Failed to login. Please check your username and password.');
+
+            // Display error message and allow user to retry login
+            setMessage('Invalid username or password. Please try again.');
             setIsSuccess(false);
+            setIsRedirecting(false); // Ensure the login button is re-enabled
         }
     };
-    
+
+    // Handle changes to reset the error message when credentials are updated
+    const handleInputChange = (setter) => (e) => {
+        setter(e.target.value);
+        setMessage(''); // Clear the message on any input change
+    };
+
     return (
         <section>
             <div className="login-page">
@@ -86,7 +96,7 @@ function LoginStaff() {
                                             name="username"
                                             placeholder="Enter your username"
                                             value={username}
-                                            onChange={(e) => setUsername(e.target.value)}
+                                            onChange={handleInputChange(setUsername)} // Call handleInputChange
                                             required
                                         />
                                     </div>
@@ -102,7 +112,7 @@ function LoginStaff() {
                                             name="password"
                                             placeholder="Enter your password"
                                             value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            onChange={handleInputChange(setPassword)} // Call handleInputChange
                                             required
                                         />
                                     </div>
@@ -115,8 +125,12 @@ function LoginStaff() {
                                 </button>
                             </div>
 
-                            {message && isSuccess && <SuccessMsg message={message} />}
-                            {message && !isSuccess && <ErrorMsg message={message} />}
+                            {/* Always display the latest message based on the login outcome */}
+                            {message && (
+                                isSuccess ? 
+                                <SuccessMsg message={message} /> : 
+                                <ErrorMsg message={message} />
+                            )}
                         </form>
                     </div>
                 </div>

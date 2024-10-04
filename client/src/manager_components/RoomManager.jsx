@@ -14,7 +14,6 @@ const RoomManager = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isRoomPhotosModalOpen, setIsRoomPhotosModalOpen] = useState(false);
     const [isEditRoomPhotosModalOpen, setIsEditRoomPhotosModalOpen] = useState(false);
-
     const [currentRoomId, setCurrentRoomId] = useState(null);
     const [rooms, setRooms] = useState([]); // State to store room data
     const [selectedRoom, setSelectedRoom] = useState(null); // State for the selected room
@@ -30,7 +29,7 @@ const RoomManager = () => {
 
     const fetchRooms = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/getRooms');
+            const response = await axios.get('http://localhost:3001/api/getRoomsAll');
             setRooms(response.data.filter(room => room.room_status !== 'DELETE')); // Exclude INACTIVE rooms
         } catch (error) {
             console.error('Error fetching room data:', error);
@@ -48,8 +47,11 @@ const RoomManager = () => {
     };
 
     const toggleEditRoomPhotosModal = () => {
-        setIsEditRoomPhotosModalOpen(!isEditRoomPhotosModalOpen);
+        setCurrentRoomId(selectedRoom ? selectedRoom.room_id : null);
+        setIsEditRoomPhotosModalOpen(!isEditRoomPhotosModalOpen);  // Toggle the modal open/close
     };
+    
+    
 
     const getStatusColor = (status) => {
         switch (status) {
@@ -302,6 +304,7 @@ const RoomManager = () => {
                                                         <span>Edit Room Photos</span>
                                                     </button>
                                                 </div>
+
                                             </div>
 
 
@@ -502,7 +505,10 @@ const RoomManager = () => {
                 </div>
                 <AddRoomModal isOpen={isModalOpen} toggleModal={toggleModal} />
                 <AddRoomPhotos isOpen={isRoomPhotosModalOpen} toggleModal={toggleRoomPhotosModal}  roomId={currentRoomId}/>
-                <EditRoomPhotos isOpen={isEditRoomPhotosModalOpen} toggleModal={toggleEditRoomPhotosModal} />
+                {isEditRoomPhotosModalOpen && (
+                <EditRoomPhotos isOpen={isEditRoomPhotosModalOpen}  toggleModal={toggleEditRoomPhotosModal}  roomId={currentRoomId}  // Pass the current roomId to the modal
+                />
+            )}
             </div>
         </section>
     );

@@ -54,7 +54,7 @@ const loginStaff = async (req, res) => {
             },
             process.env.JWT_SECRET || 'your_jwt_secret', // Use environment variable for JWT secret
             {
-                expiresIn: '1h',
+                expiresIn: '5h',
             }
         );
 

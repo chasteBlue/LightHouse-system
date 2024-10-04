@@ -12,6 +12,7 @@ const drinkRoutes = require('./routes/drinkRoutes');
 const conciergeRoutes = require('./routes/conciergeRoutes');
 const laundryRoutes = require('./routes/laundryRoutes');
 const eventsRoutes = require('./routes/eventsRoutes');
+const barRoutes = require('./routes/barRoutes');
 const verifyTokenRoute = require('./routes/token/verifyToken');
 const restaurantRoutes = require ('./routes/restaurantRoutes');
 
@@ -57,6 +58,7 @@ app.use('/api', drinkRoutes);
 app.use('/api', laundryRoutes);
 app.use('/api', conciergeRoutes);
 app.use('/api', eventsRoutes);
+app.use('/api', barRoutes);
 
 app.use('/api', verifyTokenRoute);
 app.use('/api', restaurantRoutes);

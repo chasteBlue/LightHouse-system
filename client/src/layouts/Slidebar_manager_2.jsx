@@ -54,10 +54,10 @@ const SidebarManager = () => {
                     </Link>
                 </li>
                 <li>
-                    <a title='Manager Data Dashboard'>
+                    <Link to="/manager_dashboard_reports" title='Manager Data Dashboard'>
                     <IoPerson style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Dashboard'}
-                    </a>
+                    </Link>
                 </li>
             </ul>
 
@@ -66,28 +66,28 @@ const SidebarManager = () => {
             </p>
             <ul className="menu-list">
                 <li>
-                    <Link to="/manager_accounts" title="Sales">
+                    <Link to="/manager_report_sales" title="Sales">
                     <IoCash style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Sales'}
                     </Link>
                 </li>
 
                 <li>
-                    <Link to="/manager_accounts" title="Room Occupancy Rate">
+                    <Link to="/manager_report_room_occupancy_rate" title="Room Occupancy Rate">
                     <IoBed style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Room Occupancy Rate'}
                     </Link>
                 </li>
 
                 <li>
-                    <Link to="/manager_accounts" title="Menu Optimization">
+                    <Link to="/manager_report_menu_optimization" title="Menu Optimization">
                     <IoFastFood style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Menu Optimization'}
                     </Link>
                 </li>
 
                 <li>
-                    <Link to="/manager_accounts" title="Forecast">
+                    <Link to="/manager_report_forecasting" title="Forecast">
                     <IoCloud style={{ marginRight: isSidebarOpen ? '5px' : '0', textAlign: 'center' }} />
                     {isSidebarOpen && 'Forecast'}
                     </Link>

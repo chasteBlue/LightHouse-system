@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import 'bulma/css/bulma.min.css';
 import 'react-calendar/dist/Calendar.css'; // Import the default styles for the calendar
 import '../App.css';
@@ -15,7 +15,7 @@ const DashboardRestaurant2 = () => {
   const [foodItemCount, setFoodItemCount] = useState(0);
   const [incomingOrderCount, setIncomingOrderCount] = useState(0);
   const [allOrderCount, setAllOrderCount] = useState(0);
-  const [foodOrders, setFoodOrders] = useState([]);
+  const [pendingReservations, setPendingReservations] = useState([]);
   const [foodList, setFoodList] = useState([]);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
@@ -44,7 +44,6 @@ const DashboardRestaurant2 = () => {
   };
 
   useEffect(() => {
-    // Fetch current staff data from JWT token
     const token = localStorage.getItem('token'); // Assuming the token is stored in localStorage
     if (token) {
       try {
@@ -59,22 +58,18 @@ const DashboardRestaurant2 = () => {
       setStaffName('Staff'); 
     }
 
-    // Fetch data for the four boxes (replace with actual API calls)
-    setGuestCount(120); // Replace with actual data
-    setFoodItemCount(85); // Replace with actual data
-    setIncomingOrderCount(35); // Replace with actual data
-    setAllOrderCount(220); // Replace with actual data
-
-    // Fetch incoming orders
-    axios.get('http://localhost:3001/api/getFoodOrders') // Replace with actual API endpoint
-      .then(response => setFoodOrders(response.data))
-      .catch(error => console.error('Error fetching incoming orders:', error));
-
+    // Fetch all pending table reservations with guest details
+    axios.get('http://localhost:3001/api/getPendingTableReservations') // Adjust the endpoint to your backend setup
+      .then(response => {
+        setPendingReservations(response.data); // Set the fetched pending reservations
+      })
+      .catch(error => console.error('Error fetching pending reservations:', error));
+    
     // Fetch food list with order count
-    axios.get('http://localhost:3001/api/getCountFoodOrderList') // Replace with actual API endpoint
+    /*axios.get('http://localhost:3001/api/getCountFoodOrderList') // Adjust the endpoint as needed
       .then(response => setFoodList(response.data))
       .catch(error => console.error('Error fetching food list:', error));
-  }, []);
+  */}, []);
 
   return (
     <section className='section-p1'>
@@ -146,84 +141,77 @@ const DashboardRestaurant2 = () => {
             </div>
           </div>
 
-          {/* Incoming Orders List */}
+          {/* Pending Reservations List */}
           <div className="box">
-  <h2 className="subtitle is-5">Incoming Orders</h2>
-  <div className="column">
-    {foodOrders.map((order) => (
-      <div key={order.food_order_id} className="column"> {/* Adjust column size as needed */}
-        <div className="box">
-          {/* Order ID */}
-          <h3 className="subtitle is-6 has-text-centered">
-            Order ID: {order.food_order_id}
-          </h3>
-
-          {/* List of Food Items and Quantities */}
-          <div className="content">
-            {order.foodItems.map((item) => (
-              <div key={item.food_order_list_id} className="is-flex is-justify-content-space-between is-align-items-center" style={{ borderBottom: '1px solid #eaeaea', padding: '8px 0' }}>
-                <div className="has-text-weight-semibold">{item.food_name}</div>
-                <div>{item.f_order_qty} x</div>
-                <div>₱{item.f_order_subtotal.toFixed(2)}</div>
-              </div>
-            ))}
+            <h2 className="subtitle is-5">Pending Reservations</h2>
+            <div className="column">
+              {pendingReservations.length === 0 ? (
+                <p>No pending reservations.</p>
+              ) : (
+                pendingReservations.map((reservation) => (
+                  <div key={reservation.table_reservation_id} className="column">
+                    <div className="box">
+                      <h3 className="subtitle is-6 has-text-centered">
+                        Reservation ID: {reservation.table_reservation_id}
+                      </h3>
+                      <p><strong>Guest:</strong> {reservation.guest.guest_fname} {reservation.guest.guest_lname}</p>
+                      <p><strong>Table:</strong> {reservation.table.table_name} (Seats: {reservation.table.seat_quantity})</p>
+                      <p><strong>Status:</strong> {reservation.reservation_status}</p>
+                      <p><strong>Date:</strong> {reservation.table_reservation_date}</p>
+                    </div>
+                  </div>
+                ))
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    ))}
-  </div>
-</div>
-    </div>
 
         {/* Right Column */}
         <div className="column is-half">
           {/* Calendar Section */}
-          <div className="box has-text-centered">
+            <div className="box has-text-centered">
             <h2 className="subtitle is-5">{formatDateTime(currentDateTime)}</h2>
             <Calendar
-            
               onChange={setCurrentDate}
               value={currentDate}
               className="is-centered"
             />
           </div>
 
-        {/* Food List with Order Count */}
-        <div className="box">
-        <h2 className="subtitle is-5">Food Items with Order Count</h2>
-        <div className="table-container">
-            <table className="table is-fullwidth is-striped is-hoverable">
-            <thead>
-                <tr>
-                <th className="has-text-centered">Food Image</th>
-                <th className="has-text-centered">Food Name</th>
-                <th className="has-text-centered">Order Count</th>
-                </tr>
-            </thead>
-            <tbody>
-                {foodList.map((item) => (
-                <tr key={item.food_id}>
-                    <td className="has-text-centered">
-                    <figure className="image is-64x64" style={{ margin: 'auto' }}>
-                        {/* Add a default placeholder if food_photo is not available */}
-                        <img
-                        src={item.food_photo || 'https://via.placeholder.com/64'}
-                        alt={item.food_name}
-                        style={{ objectFit: 'cover', borderRadius: '8px' }}
-                        />
-                    </figure>
-                    </td>
-                    <td className="has-text-centered">{item.food_name}</td>
-                    <td className="has-text-centered has-text-weight-semibold">
-                    {item.order_count} orders
-                    </td>
-                </tr>
-                ))}
-            </tbody>
-            </table>
-        </div>
-        </div>
-
+          {/* Food List with Order Count */}
+          <div className="box">
+            <h2 className="subtitle is-5">Number of Reservations per Month</h2>
+            <div className="table-container">
+              <table className="table is-fullwidth is-striped is-hoverable">
+                <thead>
+                  <tr>
+                    <th className="has-text-centered">Food Image</th>
+                    <th className="has-text-centered">Food Name</th>
+                    <th className="has-text-centered">Order Count</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {foodList.map((item) => (
+                    <tr key={item.food_id}>
+                      <td className="has-text-centered">
+                        <figure className="image is-64x64" style={{ margin: 'auto' }}>
+                          <img
+                            src={item.food_photo || 'https://via.placeholder.com/64'}
+                            alt={item.food_name}
+                            style={{ objectFit: 'cover', borderRadius: '8px' }}
+                          />
+                        </figure>
+                      </td>
+                      <td className="has-text-centered">{item.food_name}</td>
+                      <td className="has-text-centered has-text-weight-semibold">
+                        {item.order_count} orders
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
     </section>

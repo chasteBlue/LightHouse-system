@@ -1,57 +1,51 @@
-const { supabase } = require('../supabaseClient'); // Import Supabase client
-const { v4: uuidv4 } = require('uuid'); // Import UUID library
+const { supabase } = require('../supabaseClient');
+const { v4: uuidv4 } = require('uuid');
 
 const registerRoomPhotos = async (req, res) => {
     const { room_id, photos } = req.body;
-    
-    if (!room_id) {
-        return res.status(400).json({ error: 'Room ID is required.' });
-    }
-
-    if (!photos || !Array.isArray(photos) || photos.length === 0) {
-        return res.status(400).json({ error: 'Photos data is required.' });
-    }
-
-    // Additional validation for photo properties
-    for (const photo of photos) {
-        if (!photo.room_slot || !photo.room_photo_url) {
-            return res.status(400).json({ error: 'Each photo must have a room_slot and a room_photo_url.' });
-        }
-    }
-
-    // Define valid room slot values
-    const validRoomSlots = ['MAIN', 'EXTRA'];
-
     try {
-        // Create an array of photo entries to be inserted
-        const photoEntries = photos.map((photo) => {
-            // Check if the provided room_slot is valid
-            if (!validRoomSlots.includes(photo.room_slot)) {
-                throw new Error(`Invalid room slot value: ${photo.room_slot}. Must be 'MAIN' or 'EXTRA'.`);
+        // Ensure room_id is valid
+        const { data: roomData, error: roomError } = await supabase
+            .from('ROOM')
+            .select('room_id')
+            .eq('room_id', room_id)
+            .single();
+
+        if (roomError || !roomData) {
+            return res.status(400).json({ error: 'Room does not exist.' });
+        }
+
+        // Prepare photo data for insertion
+        const photoRecords = photos.map((photo) => {
+            const fileIdMatch = photo.room_photo_url.match(/\/d\/(.*?)\//);
+            const fileId = fileIdMatch ? fileIdMatch[1] : null;
+
+            if (!fileId) {
+                throw new Error('Invalid Google Drive link.');
             }
 
+            const convertedUrl = `https://drive.google.com/thumbnail?id=${fileId}`;
             return {
-                room_photo_id: uuidv4(), // Generate a unique ID for each photo
-                room_id, // Use the provided room_id
-                room_slot: photo.room_slot.toUpperCase(), // Convert to uppercase to match ENUM
-                room_photo_url: photo.room_photo_url // Photo URL
+                room_photo_id: uuidv4(),
+                room_id: roomData.room_id,
+                room_slot: photo.room_slot,
+                room_photo_url: convertedUrl,
             };
         });
 
-        // Insert all photo entries into the ROOM_PHOTOS table
-        const { data: roomPhotosData, error: roomPhotosError } = await supabase
-            .from('ROOM_PHOTOS')
-            .insert(photoEntries);
+        // Insert all photo records at once
+        const { data, error } = await supabase
+            .from('ROOM_PHOTO_LIST')
+            .insert(photoRecords);
 
-        if (roomPhotosError) {
-            console.error('Error inserting room photos:', roomPhotosError.message);
-            return res.status(400).json({ error: roomPhotosError.message });
+        if (error) {
+            return res.status(400).json({ error: error.message });
         }
 
-        res.status(201).json({ message: "Room photos registered successfully!", roomPhotosData });
+        res.status(201).json({ message: 'Room photos added successfully!', data });
     } catch (err) {
-        console.error('Registration error:', err.message);
-        res.status(500).json({ error: err.message || "Internal Server Error" });
+        console.error('Error adding room photos:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 };
 

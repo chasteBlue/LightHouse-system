@@ -5,8 +5,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { TextField } from '@mui/material';
 import axios from 'axios';
 import {jwtDecode} from 'jwt-decode'; 
-import ErrorMsg from '../messages/errorMsg'; // Import Error Message Component
-import SuccessMsg from '../messages/successMsg'; // Import Success Message Component
+import ErrorMsg from '../messages/errorMsg'; 
+import SuccessMsg from '../messages/successMsg'; 
 
 const ProceedRestaurant = () => {
   const location = useLocation();

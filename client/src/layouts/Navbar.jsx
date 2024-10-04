@@ -1,15 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate for navigation
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'; // Import axios for API calls
+import {jwtDecode} from 'jwt-decode'; // Import jwt-decode for decoding the token
 import 'bulma/css/bulma.min.css';
 import logo from "../images/logo.png";
-import profilePic from '../images/guest_home/garden.jpg'; // Add your profile image here
+import defaultProfilePic from '../images/guest_home/garden.jpg'; // Default profile image
 import './layouts.css';
 import '../App.css';
 
 function Navbar() {
   const [isActive, setIsActive] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
-  const navigate = useNavigate(); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [guestPhoto, setGuestPhoto] = useState(defaultProfilePic); // State for guest photo
+  const [isGuest, setIsGuest] = useState(false); // Check if the user is a guest
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem('token'); // Get token from local storage
 
   // Toggle navbar in mobile view
   const toggleNavbar = () => {
@@ -17,14 +23,60 @@ function Navbar() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    setIsLoggedIn(!!token); 
-  }, []);
+    // Set logged-in state if token exists
+    if (token) {
+      setIsLoggedIn(true);
 
- 
+      try {
+        // Decode the token to check for guest_id
+        const decodedToken = jwtDecode(token);
+
+        // Check if the decoded token has a guest_id field
+        if (decodedToken.guest_id) {
+          setIsGuest(true); // Set guest state
+          localStorage.setItem('guest_id', decodedToken.guest_id); // Store guest_id in localStorage
+        } else {
+          setIsGuest(false);
+          localStorage.removeItem('guest_id'); // Ensure guest_id is removed if not a guest
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        setIsGuest(false);
+        localStorage.removeItem('guest_id'); // Remove guest_id if decoding fails
+      }
+    } else {
+      setIsLoggedIn(false);
+      setIsGuest(false);
+    }
+
+    // Fetch guest details if the user is a guest
+    const fetchGuestDetails = async () => {
+      if (token && isGuest) {
+        try {
+          const response = await axios.get('http://localhost:3001/api/getGuestDetails', {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+
+          const guestDetails = response.data;
+          if (guestDetails.guest_photo) {
+            setGuestPhoto(guestDetails.guest_photo);
+          }
+        } catch (error) {
+          console.error('Error fetching guest details:', error);
+        }
+      }
+    };
+
+    fetchGuestDetails();
+  }, [token, isGuest]);
+
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('guest_id'); // Remove guest_id when logging out
     setIsLoggedIn(false);
+    setIsGuest(false);
     navigate('/login');
   };
 
@@ -65,11 +117,11 @@ function Navbar() {
                   <Link to="/login" className="button is-light"><strong>Log in</strong></Link>
                 </div>
               </div>
-            ) : (
+            ) : isGuest ? (
               <div className="navbar-item has-dropdown is-hoverable">
                 <a className="navbar-link">
                   <figure className="image is-32x32">
-                    <img className="is-rounded" src={profilePic} alt="Profile" />
+                    <img className="is-rounded" src={guestPhoto || defaultProfilePic} alt="Profile" />
                   </figure>
                 </a>
                 <div className="navbar-dropdown is-right">
@@ -79,6 +131,10 @@ function Navbar() {
                     Log Out
                   </button>
                 </div>
+              </div>
+            ) : (
+              <div className="navbar-item">
+                {/* Additional options for non-guest users */}
               </div>
             )}
           </div>
@@ -104,10 +160,10 @@ function Navbar() {
                   <Link to="/login" className="button is-light"><strong>Log in</strong></Link>
                 </div>
               </div>
-            ) : (
-              <div >
+            ) : isGuest ? (
+              <div>
                 <figure className="image is-64x64 m-0">
-                  <img className="is-rounded" src={profilePic} alt="Profile" />
+                  <img className="is-rounded" src={guestPhoto || defaultProfilePic} alt="Profile" />
                 </figure>
                 <div className='sidebar-item'>
                   <Link to="/profile_guest" className="sidebar-item">Profile</Link>
@@ -116,6 +172,9 @@ function Navbar() {
                     Log Out
                   </button>
                 </div>
+              </div>
+            ) : (
+              <div className="sidebar-item">
               </div>
             )}
           </div>

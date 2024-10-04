@@ -2,33 +2,82 @@ import React, { useState, useEffect } from 'react';
 import 'bulma/css/bulma.min.css';
 import './pages.css';
 import '../App.css';
-import bar from '../images/guest_home/restaurant.jpg';
+import { useLocation, useNavigate } from 'react-router-dom';
 import AddTableReservation from '../guest_modals/AddTableReservation';
 import Breadcrumbs from '../layouts/Breadcrumbs';
 import axios from 'axios';
 
-function Restaurant_Second() {
+function Resturant_Second() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const [selectedTable, setSelectedTable] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [tables, setTables] = useState([]);
+  const [availableTables, setAvailableTables] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const toggleModal = () => {
-    setIsModalOpen(!isModalOpen);
-  };
+  // Retrieve table_guest_quantity from localStorage
+  const table_guest_quantity = parseInt(localStorage.getItem('table_guest_quantity'), 10) || 0;
 
+  // Check if the guest is logged in by checking guest_id in localStorage
   useEffect(() => {
-    const fetchTables = async () => {
-      try {
-        const response = await axios.get('http://localhost:3001/api/getTable');
-        setTables(response.data);
-      } catch (error) {
-        console.error('Error fetching tables:', error);
-      }
-    };
-
-    fetchTables();
+    const guestId = localStorage.getItem('guest_id');
+    if (guestId) {
+      setIsLoggedIn(true); // User is logged in
+    } else {
+      setIsLoggedIn(false); // User is not logged in
+    }
   }, []);
 
+  // Function to fetch tables and their reservation statuses
+  const fetchAvailableTables = async () => {
+    setLoading(true);
+    const table_reservation_date = localStorage.getItem('table_reservation_date');
+    const table_time = localStorage.getItem('table_reservation_time');
+
+    try {
+      const response = await axios.get('http://localhost:3001/api/getTableReservations2', {
+        params: {
+          table_reservation_date,
+          table_time,
+        },
+      });
+      setAvailableTables(response.data); // Load all tables with their statuses
+    } catch (error) {
+      console.error('Error fetching available tables:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Fetch tables on mount or when relevant data changes
+  useEffect(() => {
+    fetchAvailableTables();
+  }, [location]);
+
+  // Toggle the modal state
+  const toggleModal = () => {
+    if (!isLoggedIn) {
+      // If the guest is not logged in, redirect to login
+      navigate('/login', {
+        state: { from: location.pathname },
+      });
+    } else {
+      setIsModalOpen(!isModalOpen); // Proceed with the modal if logged in
+    }
+  };
+
+  // Handle table selection
+  const handleTableSelection = (table) => {
+    if (table.status === 'AVAILABLE') {
+      setSelectedTable(table.table_id);
+      // Save selected table details to localStorage
+      localStorage.setItem('selected_table_id', table.table_id);
+      localStorage.setItem('selected_table_name', table.table_name);
+    }
+  };
+
+  // Function to assign chair classes based on seat quantity
   const getChairClasses = (seat_quantity) => {
     switch (seat_quantity) {
       case 4:
@@ -38,29 +87,33 @@ function Restaurant_Second() {
       case 8:
         return [
           'top-left-chair', 'top-center-left-chair', 'top-center-right-chair', 'top-right-chair',
-          'bottom-left-chair', 'bottom-center-left-chair', 'bottom-center-right-chair', 'bottom-right-chair'
+          'bottom-left-chair', 'bottom-center-left-chair', 'bottom-center-right-chair', 'bottom-right-chair',
         ];
       default:
         return [];
     }
   };
 
+  // Logic to style and disable reserved or mismatching tables
+  const getButtonColorClass = (table) => {
+    if (selectedTable === table.table_id) {
+      return 'is-selected'; // Highlight selected table
+    }
+    if (['PENDING', 'CONFIRMED', 'RESERVED'].includes(table.status)) {
+      return 'is-reserved'; // Dark Blue for reserved tables
+    }
+    return 'is-available'; // Light Blue for available tables
+  };
+
   const breadcrumbItems = [
     { label: 'Home', link: '/' },
-    { label: 'Restaurant Date Reservation', link: '/restaurant_filtering' },
-    { label: 'Restaurant Booking' }
+    { label: 'Restaurant Date Reservation', link: '/resturant_filtering' },
+    { label: 'Restaurant Booking' },
   ];
 
   return (
-    <section className='section-m1'>
+    <section className="section-m1">
       <div>
-        {/* Hero Section */}
-        <div className="hero-body" style={{ backgroundImage: `url(${bar})`, margin: '2%' }}>
-          <div className="container has-text-centered" style={{ padding: '5%' }}>
-            <h1 className="title has-text-white">Restaurant Table Reservation</h1>
-          </div>
-        </div>
-
         {/* Breadcrumb Section */}
         <div>
           <Breadcrumbs items={breadcrumbItems} />
@@ -68,42 +121,47 @@ function Restaurant_Second() {
 
         {/* Table Reservation Section */}
         <div className="container event-bg-style" style={{ marginBottom: '3%' }}>
-          <p className='subtitle has-text-white'>LightHouse Point Hotel (Captain Galley's) - 3rd Floor</p>
-          <div className='columns is-vcentered is-multiline event-padding-style'>
+          <p className="subtitle has-text-white">LightHouse Point Hotel (Captain Galley's) - 3rd Floor</p>
+          <div className="columns is-vcentered is-multiline event-padding-style">
+            <div className="event-padding-style event-color-table column is-full-desktop">
+              <p className="subtitle has-text-white">Restaurant Tables (3rd Floor - Open Area)</p>
+              <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+                {loading ? (
+                  <p>Loading available tables...</p>
+                ) : (
+                  <div className="columns is-multiline section-p1">
+                    {availableTables.map((table) => {
+                      const chairClasses = getChairClasses(table.seat_quantity);
 
-            <div className='event-padding-style event-color-table column is-full-mobile is-half-tablet is-half-desktop'>
-              <p className='subtitle has-text-white'> Restaurant Tables (3rd Floor - Open Area)</p>
-              <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-                <div className="columns is-multiline section-p1">
-                  {tables.map((table) => {
-                    const chairClasses = getChairClasses(table.seat_quantity);
-
-                    return (
-                      <div className="column is-full-mobile is-one-third-tablet is-one-quarter-desktop" key={table.table_id}>
-                        <div className="table-container">
-                          <div className="table-circle">
-                            <button
-                              className={`button is-blue is-above-button ${selectedTable === table.table_id ? 'is-selected' : ''}`}
-                              onClick={() => setSelectedTable(table.table_id)}
-                              style={{ fontSize: '0.8rem', padding: '10px' }} // Smaller font and padding for smaller screens
-                            >
-                              <div className="column has-text-centered is-circle">
-                                <p className="is-5"><strong>{table.table_name}</strong></p>
-                                <p>({table.seat_quantity} Seats)</p>
-                                <p>Status: {table.table_status === 'AVAILABLE' ? 'Available' : 'Reserved'}</p>
-                              </div>
-                            </button>
-                          </div>
-                          <div className="chairs-wrapper">
-                            {chairClasses.map((chairClass, i) => (
-                              <div key={i} className={`chair ${chairClass}`} />
-                            ))}
+                      return (
+                        <div className="column is-full-mobile is-half-tablet is-one-third-desktop" key={table.table_id}>
+                          <div className="table-container">
+                            <div className="table-circle">
+                              <button
+                                className={`button ${getButtonColorClass(table)}`} // Apply button styling
+                                onClick={() => handleTableSelection(table)}
+                                disabled={table.seat_quantity !== table_guest_quantity} // Disable tables with different seat quantities
+                              >
+                                <div className="column has-text-centered is-circle">
+                                  <p className="is-4">
+                                    <strong>{table.table_name}</strong>
+                                  </p>
+                                  <p>({table.seat_quantity} Seats)</p>
+                                  <p>{table.status}</p>
+                                </div>
+                              </button>
+                            </div>
+                            <div className="chairs-wrapper">
+                              {chairClasses.map((chairClass, i) => (
+                                <div key={i} className={`chair ${chairClass}`} />
+                              ))}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -111,42 +169,16 @@ function Restaurant_Second() {
           {/* Reservation Button */}
           <div className="buttons is-centered">
             <button className="button is-blue search-reservation" type="submit" onClick={toggleModal} disabled={!selectedTable}>
-              PROCEED TO RESERVATION
+              {isLoggedIn ? 'PROCEED TO RESERVATION' : 'SIGN IN TO RESERVE'}
             </button>
           </div>
         </div>
       </div>
 
       {/* Modal for Table Reservation */}
-      <AddTableReservation isOpen={isModalOpen} toggleModal={toggleModal} selectedTable={selectedTable} />
-
-      {/* Custom CSS for Responsive Design */}
-      <style jsx>{`
-        /* Smaller font sizes for mobile */
-        @media (max-width: 768px) {
-          .table-circle .button {
-            font-size: 0.7rem;
-            padding: 8px;
-          }
-          .table-container {
-            transform: scale(0.9); /* Scale down the table container */
-          }
-        }
-
-        /* Further scaling for very small screens */
-        @media (max-width: 480px) {
-          .table-container {
-            transform: scale(0.8); /* Scale down the table container even more */
-          }
-          .table-circle .button {
-            font-size: 0.6rem; /* Reduce button font size */
-            padding: 5px; /* Reduce padding */
-          }
-        }
-      `}</style>
-
+      {isLoggedIn && <AddTableReservation isOpen={isModalOpen} toggleModal={toggleModal} selectedTable={selectedTable} />}
     </section>
   );
 }
 
-export default Restaurant_Second;
+export default Resturant_Second;

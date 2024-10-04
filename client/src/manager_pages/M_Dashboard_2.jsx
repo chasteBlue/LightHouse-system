@@ -1,11 +1,11 @@
 import ManagerLayout2 from "../layouts/ManagerLayout2";
-import Home from "../components/Home";
+import DashboardManager2 from "../manager_components/DashboardManager2";
 import ProtectedRoute from "../auth/protectedRoute";
 const MDashboard2 = () => {
     return (
         <ProtectedRoute allowedRoles={['manager']}>
             <ManagerLayout2>
-                <Home/> 
+                <DashboardManager2/> 
             </ManagerLayout2>
         </ProtectedRoute>
       )

@@ -5,7 +5,7 @@ import ProtectedRoute from "../auth/protectedRoute";
 
 const GReservations = () => {
     return (
-        <ProtectedRoute> {/* Protect the GReservations component */}
+        <ProtectedRoute allowedRoles={['guest']}> 
             <Layout>
                 <Reservations />
             </Layout>

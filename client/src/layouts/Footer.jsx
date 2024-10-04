@@ -30,9 +30,8 @@ const Footer = () => {
 
         <div className="footer-col">
           <h4>Follow Us</h4>
-          <a href="https://www.facebook.com" className="footer-link"><FaFacebook /> Facebook</a>
-          <a href="https://www.instagram.com" className="footer-link"><FaInstagram /> Instagram</a>
-          <a href="https://www.youtube.com" className="footer-link"><FaYoutube /> YouTube</a>
+          <a href="https://www.facebook.com/LighthousePointHotelDumaguete" className="footer-link"><FaFacebook /> Facebook</a>
+          <a href="https://l.messenger.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2Flighthousepoint_dgte%2F&h=AT072NRmLc9VkFhSXsJEVI1hdeEXJM2eBq2h3VA0hRF98L8Ez3kdjELILP9FP_M90d8wls6BO6R6AnVgOGWbqw55835kEHibA32DwnmJRbuXwlP6Z_1hwyS0hMR4C8P_MzMidw" className="footer-link"><FaInstagram /> Instagram</a>
         </div>
       </div>
       <div className="footer-copyright">

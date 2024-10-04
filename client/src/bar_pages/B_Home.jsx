@@ -1,10 +1,13 @@
 import BarLayout from "../layouts/Bar_Layout";
 import HomeBar from "../bar_components/HomeBar";
+import ProtectedRoute from "../auth/protectedRoute";
 const BHomeBar = () => {
     return (
-        <BarLayout>
-            <HomeBar/>      
-        </BarLayout>
+        <ProtectedRoute allowedRoles={['barDesk']}>
+            <BarLayout>
+                <HomeBar/>      
+            </BarLayout>
+        </ProtectedRoute>
       )
 }
 export default BHomeBar;

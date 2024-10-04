@@ -258,4 +258,30 @@ h6 {
 }
 
 /*BREADCRUMBS--------------------------------------------------------------*/
+/*RESTAURANT BUTTONS--------------------------------------------------------------------*/
 
+/* Button Styles */
+.is-disabled {
+  background-color: #757575 !important; /* Grey for disabled */
+  color: #ffffff !important;
+  cursor: not-allowed !important;
+}
+
+.is-available {
+  background-color: #C7F5FF !important; /* Light Blue for available */
+  color: #000000 !important; /* Dark text for contrast */
+  cursor: pointer !important;
+}
+
+.is-reserved {
+  background-color: #010069 !important; /* Dark Blue for reserved */
+  color: #ffffff !important;
+}
+
+.is-selected {
+  background-color: #FFC107 !important; /* Yellow for selected */
+  border: 2px solid #FFEB3B !important; /* Yellow border for selected */
+  color: #000000 !important; /* Ensure text is visible */
+}
+
+/*RESTAURANT BUTTONS--------------------------------------------------------------------*/

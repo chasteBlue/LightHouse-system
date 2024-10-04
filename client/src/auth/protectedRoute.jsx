@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react'; 
 import { useNavigate } from 'react-router-dom';
 import {jwtDecode} from 'jwt-decode'; // Corrected import statement
 import Error401 from '../messages/ErrorPages/401';
@@ -22,19 +22,24 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
         const decodedToken = jwtDecode(token);
         const { staff_acc_role, guest_id, staff_id } = decodedToken;
 
+        // Handle guest access
         if (guest_id) {
-          setIsVerified(false);
-          setRedirectPath('/guest_home'); // Redirect to guest home if guest_id exists
+          if (allowedRoles.includes('guest')) {
+            setIsVerified(true); // Allow access for guest if 'guest' is in allowedRoles
+          } else {
+            setIsUnauthorized(true); // Mark unauthorized for guest if not allowed
+            setIsVerified(false);
+          }
         } else if (staff_id) {
           if (allowedRoles.includes(staff_acc_role)) {
-            setIsVerified(true); // Allow access if role is allowed
+            setIsVerified(true); // Allow access if staff role is allowed
           } else {
             setIsUnauthorized(true); // Set unauthorized access state
             setIsVerified(false);
           }
         } else {
           setIsVerified(false);
-          setRedirectPath('/login'); // If no valid id, redirect to login
+          setRedirectPath('/staff_login'); // If no valid id, redirect to login
         }
       } catch (error) {
         console.error('Invalid token:', error);

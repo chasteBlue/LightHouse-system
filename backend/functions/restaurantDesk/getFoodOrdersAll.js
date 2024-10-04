@@ -78,7 +78,7 @@ const getFoodOrdersAll = async (req, res) => {
       }
 
       guestDetails = checkInData;
-
+``
       // Fetch room details
       const roomReservationIds = checkInData.map(checkIn => checkIn.room_reservation_id);
       const { data: roomData, error: roomError } = await supabase

@@ -11,12 +11,10 @@ function Navbar_manager() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Toggle the navbar menu in mobile view
   const toggleNavbar = () => {
     setIsActive(!isActive);
   };
 
-  // Handle logout function
   const handleLogout = () => {
     localStorage.removeItem('token'); 
     navigate('/staff_login'); 

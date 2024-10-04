@@ -19,8 +19,7 @@ const AllOrdersRestaurant = () => {
   const [archiveOrderId, setArchiveOrderId] = useState(null); // State to store the order ID to be archived
   const [archiveSuccess, setArchiveSuccess] = useState(''); // State for archiving success message
   const [archiveError, setArchiveError] = useState(''); // State for archiving error message
-  const [generalError, setGeneralError] = useState(''); // State for general error message
-
+ 
   // Fetch orders from backend excluding 'DELETE' status
   useEffect(() => {
     const fetchOrders = async () => {

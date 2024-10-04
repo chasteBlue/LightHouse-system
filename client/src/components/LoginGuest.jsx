@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 import { Link, useNavigate } from 'react-router-dom';
 import 'bulma/css/bulma.min.css';
 import SuccessMsg from '../messages/successMsg';
@@ -13,6 +13,17 @@ function LoginGuest() {
     const [isSuccess, setIsSuccess] = useState(false); // Track message type
     const [isRedirecting, setIsRedirecting] = useState(false);
     const navigate = useNavigate();
+
+    // Reset message when email or password changes
+    const handleEmailChange = (e) => {
+        setEmail(e.target.value);
+        setMessage(''); // Clear message on input change
+    };
+
+    const handlePasswordChange = (e) => {
+        setPassword(e.target.value);
+        setMessage(''); // Clear message on input change
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -62,7 +73,7 @@ function LoginGuest() {
                                             name="email"
                                             placeholder="Enter your email"
                                             value={email}
-                                            onChange={(e) => setEmail(e.target.value)}
+                                            onChange={handleEmailChange}
                                             required
                                         />
                                     </div>
@@ -78,7 +89,7 @@ function LoginGuest() {
                                             name="password"
                                             placeholder="Enter your password"
                                             value={password}
-                                            onChange={(e) => setPassword(e.target.value)}
+                                            onChange={handlePasswordChange}
                                             required
                                         />
                                     </div>

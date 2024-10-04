@@ -15,6 +15,7 @@ const Profile = () => {
     guest_address: '',
     guest_country: '',
   });
+
   const [guestPhoto, setGuestPhoto] = useState(null);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
@@ -22,17 +23,18 @@ const Profile = () => {
   useEffect(() => {
     const fetchGuestDetails = async () => {
       try {
-        const token = localStorage.getItem('token'); // Get token from local storage
+        const token = localStorage.getItem('token'); 
         if (!token) {
           setError('User not logged in');
           return;
         }
         const response = await axios.get('http://localhost:3001/api/getGuestDetails', {
-          headers: { Authorization: `Bearer ${token}` }, // Include token in the headers
+          headers: { Authorization: `Bearer ${token}` }, 
         });
 
         if (response.data) {
-          setGuest(response.data); // Assuming response.data is the guest object
+          setGuest(response.data); 
+          setGuestPhoto(response.data.guest_photo || null);
         }
       } catch (err) {
         setError('Failed to fetch guest details');
@@ -42,20 +44,21 @@ const Profile = () => {
     fetchGuestDetails();
   }, []);
 
-  // Handle input change for guest data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setGuest({ ...guest, [name]: value });
   };
 
-  // Handle photo change
+
+
   const handlePhotoChange = (event) => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setGuestPhoto(reader.result);
-        setGuest({ ...guest, guest_photo: reader.result });
+        const newPhoto = reader.result;
+        setGuestPhoto(newPhoto);
+        setGuest({ ...guest, guest_photo: newPhoto });
       };
       reader.readAsDataURL(file);
     }
@@ -198,20 +201,6 @@ const Profile = () => {
                 </div>
 
                 <div className="field">
-                  <label className="label">Username</label>
-                  <div className="control">
-                    <input
-                      className="input"
-                      type="text"
-                      name="guest_username"
-                      value={guest.guest_username}
-                      onChange={handleChange}
-                      placeholder="Enter username"
-                    />
-                  </div>
-                </div>
-
-                <div className="field">
                   <label className="label">Gender</label>
                   <div className="control">
                     <div className="select select-gender">
@@ -228,25 +217,26 @@ const Profile = () => {
             </div>
 
             {/* Right Column - Guest Photo and Preview */}
-            <div className="column is-4 is-offset-1">
-            <h2 className="title">Guest Photo</h2>
-            {guestPhoto && (
+            <div className="column is-4 is-offset-1" style={{backgroundColor:"#0090cc", padding:"1rem", borderRadius:"20%"}}>
+             
+              {guestPhoto && (
                 <div className="field">
-                <figure className="image is-128x128">
-                    <img src={guestPhoto} alt="Guest Preview" />
-                </figure>
+                  <figure className="image is-300x300">
+                    <img className="is-rounded" src={guestPhoto} alt="Guest Preview" />
+                  </figure>
                 </div>
-            )}
-            <div className="field">
+              )} 
+              <h2 className="title">Guest Photo</h2>
+              <div className="field">
                 <div className="control">
-                <input
+                  <input
                     className="input"
                     type="file"
                     accept="image/*"
                     onChange={handlePhotoChange}
-                />
+                  />
                 </div>
-            </div>
+              </div>
             </div>
             </div>
                 {/* Save Changes Button */}
